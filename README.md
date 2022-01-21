@@ -136,4 +136,10 @@ sns 연동 가입
 	- 사실상 sns
 
 ## ERD
+- 2022.01.21 db 일부 수정
+- 수정 내용 : 컬럼 이름 변경(통일), 중복 삭제, FK 추가  
+- 변경 전  
 ![springdb](https://user-images.githubusercontent.com/87436495/150328430-bf0783b7-b791-406b-b0e9-879cfca1ab90.png)
+
+- 변경 후  
+![db](https://user-images.githubusercontent.com/91529033/150495603-a300e48c-a9ca-4013-b259-905fd7a1f7e5.png)
