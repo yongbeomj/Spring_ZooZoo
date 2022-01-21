@@ -1,0 +1,28 @@
+plugins {
+        id 'org.springframework.boot' version '2.6.2'
+        id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+        id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+        mavenCentral()
+}
+
+dependencies { // 의존성 [라이브러리 추가 하는 공간 ]
+        implementation 'org.springframework.boot:spring-boot-starter-web' // 3.  스프링부트 제공
+        testImplementation 'org.springframework.boot:spring-boot-starter-test' // 3. 스프링부트 테스트
+        compileOnly 'org.projectlombok:lombok' // 4. 롬북 라이브러리 제공
+        annotationProcessor 'org.projectlombok:lombok' // 4. 롬북 연결 라이브러리 제공
+        implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // 타임리프
+        // implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA사용
+        // runtimeOnly 'mysql:mysql-connector-java' // DB연동
+        developmentOnly 'org.springframework.boot:spring-boot-devtools' // 자동빌드 라이브러리
+}
+
+test {
+        useJUnitPlatform()
+}
