@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div th:replace = "Header.html :: header"></div>
+<div class = "container">
+  <div class = "row">
+    <div class = "col-md-6">
+      <img th:src = "@{/IMG/2.jpg}" style="width: 100%;">
+    </div>
+    <div class = "col-md-6" style="margin-top: 150px;">
+      <div class = "row">
+        <div class = "col-md-6 offset-md-3">
+          <h2 class = "text-center">Login</h2>
+          ID : <input type = "text" class = "form-control mt-2">
+          PW : <input type = "password" class = "form-control mt-2">
+          NAME : <input type = "text" class = "form-control mt-2">
+          PHONE : <input type = "text" class = "form-control mt-2">
+          ADDRESS : <input type = "text" class = "form-control mt-2">
+          BIRTH<input type = "text" class = "form-control mt-2">
+        </div>
+        <div class = "col-md-6 offset-md-3">
+          <div class = "row d-flex justify-content-between">
+            <div class = "col-md-6 p-1">
+              <button class = "btn btn-outline-primary" style="width: 100%;">Login</button>
+            </div>
+            <div class = "col-md-6 p-1">
+              <button class = "btn btn-outline-primary" style="width: 100%;">Login</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
