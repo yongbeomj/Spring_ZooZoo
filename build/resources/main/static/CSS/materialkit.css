@@ -22067,7 +22067,7 @@ body.dark-version {
 
 .form-switch .form-check-input:checked {
   /*border-color: #42424a;
-  background-color: #42424a; 수정함 단색으로*/
+  background-color: #42424a;*/
   border-color: #ff7f50;
   background-color: #ff7f50;
 }
