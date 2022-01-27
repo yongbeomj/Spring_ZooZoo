@@ -27,7 +27,7 @@ public class MemberController {
         if(session.getAttribute("loginDTO") != null) {
             return "LogMain";
         } else {
-            return "Main";
+            return "Board/meetings";
         }
     }
     // 로그인화면으로
