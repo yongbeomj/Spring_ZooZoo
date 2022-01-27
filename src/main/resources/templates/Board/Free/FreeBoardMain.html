@@ -1,180 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
+
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--     Fonts and icons     -->
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-    <!-- Nucleo Icons -->
-    <link th:href="@{/CSS/nucleoicons.css}" rel="stylesheet" />
-    <link th:href="@{/CSS/nucleosvg.css}" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <!-- Material Icons -->
+    <meta name="description" content="">
+    <meta name="author" content="Template Mo">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <!-- CSS Files -->
+
+    <title>Education - List of Meetings</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+
+    <!-- Additional CSS Files -->
+    <link th:href="@{/assets/css/fontawesome.css}" rel="stylesheet" />
+    <link th:href="@{/assets/css/templatemo-edu-meeting.css}" rel="stylesheet" />
+    <link th:href="@{/assets/css/owl.css}" rel="stylesheet" />
+    <link th:href="@{/assets/css/lightbox.css}" rel="stylesheet" />
     <link id="pagestyle" th:href="@{/CSS/materialkit.css?v=3.0.0}" rel="stylesheet" />
+    <!--
+
+    TemplateMo 569 Edu Meeting
+
+    https://templatemo.com/tm-569-edu-meeting
+
+    -->
 </head>
-<body style=" background: coral;">
-    <div th:replace = "Header.html :: header"></div>
-    <div class="container-fluid">
 
-        <section>
-            <div class="container">
-                <div class = "row">
-                    <div class = "col-md-3">
-                        <a th:href = "@{/LossBoardlist}"><h4 class = "text-center">유기</h4></a>
+<body style="  background-color: #ff7f50;">
+
+<div th:replace="Header.html :: header"></div>
+
+<section class="meetings-page" id="meetings">
+    <div class="container">
+        <div class = "row">
+            <div class = "col-md-3">
+                <a th:href = "@{/LossBoardlist}"><h4 class = "text-center">유기</h4></a>
+            </div>
+            <div class = "col-md-3">
+                <a th:href = "@{/ShareBoardList}"><h4 class = "text-center">분양</h4></a>
+            </div>
+            <div class = "col-md-3">
+                <a th:href = "@{/hospitalboard}"><h4 class = "text-center">병원</h4></a>
+            </div>
+            <div class = "col-md-3">
+                <a th:href = "@{/freeboard}"><h4 class = "text-center">자유</h4></a>
+            </div>
+        </div>
+        <hr><br>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="d-flex justify-content-end">
+                        <a href="javascript:;">
+                            <button type="submit" class="btn btn-lg bg-gradient-dark mb-0">
+                                <div class="d-flex align-items-center">
+                                    <i class="material-icons me-2" aria-hidden="true">edit</i>
+                                    글쓰기
+                                </div>
+                            </button>
+                        </a>
                     </div>
-                    <div class = "col-md-3">
-                        <a th:href = "@{/ShareBoardList}"><h4 class = "text-center">분양</h4></a>
-                    </div>
-                    <div class = "col-md-3">
-                        <a th:href = "@{/hospitalboard}"><h4 class = "text-center">병원</h4></a>
-                    </div>
-                    <div class = "col-md-3">
-                        <a th:href = "@{/freeboard}"><h4 class = "text-center">자유</h4></a>
-                    </div>
-                </div>
-                <hr><br>
-                <!--자유게시판 메인 내용들-->
-                <div class="d-flex justify-content-end">
-                    <a href="javascript:;">
-                        <button type="submit" class="btn btn-lg bg-gradient-dark mb-0">
-                        <div class="d-flex align-items-center">
-                            <i class="material-icons me-2" aria-hidden="true">edit</i>
-                            글쓰기
-                        </div>
-                        </button>
-                    </a>
-                </div>
-                <div class="row justify-space-between py-2">
-                    <!--카드 div-->
-                    <div class="col-4 mx-auto" >
-                        <div class="card card-plain card-blog mt-4" style="background:white; border-radius:10px;">
-                            <div class="card-image border-radius-lg position-relative">
-                                <a href="javascript:;">
-                                    <!--카드 이미지-->
-                                    <div class="blur-shadow-image text-center mt-3">
-                                        <a th:href="@{/Board/Free/FreeBoardView}" ><img class="img border-radius-lg move-on-hover "th:src="@{/assets/images/meeting-01.jpg}"></a>
+                    <div class="col-lg-12">
+                        <div class="row grid">
+
+                            <div class="col-lg-4 templatemo-item-col all soon">
+                                <div class="meeting-item">
+                                    <div class="thumb">
+                                        <div class="price">
+                                            <span>$14.00</span>
+                                        </div>
+                                        <a th:href="@{/Board/Free/FreeBoardView}"><img th:src="@{/assets/images/meeting-01.jpg}" alt=""></a>
                                     </div>
-                                </a>
-                            </div>
-                            <div class="card-body px-4">
-                                <h5>
-                                    <a th:href="@{/Board/Free/FreeBoardView}" class="text-dark font-weight-bold" style="text-decoration:none;">MateLabs mixes machine learning with IFTTT</a>
-                                </h5>
-                                <p class="text-dark">
-                                    If you’ve ever wanted to train a machine learning model
-                                    and integrate it with IFTTT, you now can with ...
-                                </p>
-                                <a th:href="@{/Board/Free/FreeBoardView}" class="text-danger icon-move-right" style="text-decoration:none;">read more
-                                    <i class="fas fa-arrow-right text-sm" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--카드 div-->
-                    <div class="col-4 mx-auto" >
-                        <div class="card card-plain card-blog mt-4" style="background:white; border-radius:10px;">
-                            <div class="card-image border-radius-lg position-relative">
-                                <a href="javascript:;">
-                                    <!--카드 이미지-->
-                                    <div class="blur-shadow-image text-center mt-3">
-                                        <img class="img border-radius-lg move-on-hover " th:src="@{/assets/images/meeting-01.jpg}">
+                                    <div class="down-content">
+                                        <div class="date">
+                                            <h6>Nov <span>12</span></h6>
+                                        </div>
+                                        <a href="meeting-details.html"><h4>New Lecturers Meeting</h4></a>
+                                        <p>Morbi in libero blandit lectus<br>cursus ullamcorper.</p>
                                     </div>
-                                </a>
-                            </div>
-                            <div class="card-body px-4">
-                                <h5>
-                                    <a href="javascript:;" class="text-dark font-weight-bold" style="text-decoration:none;">MateLabs mixes machine learning with IFTTT</a>
-                                </h5>
-                                <p class="text-dark">
-                                    If you’ve ever wanted to train a machine learning model
-                                    and integrate it with IFTTT, you now can with ...
-                                </p>
-                                <a href="javascript:;" class="text-danger icon-move-right" style="text-decoration:none;">read more
-                                    <i class="fas fa-arrow-right text-sm" aria-hidden="true"></i>
-                                </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!--카드 div-->
-                    <div class="col-4 mx-auto" >
-                        <div class="card card-plain card-blog mt-4" style="background:white; border-radius:10px;">
-                            <div class="card-image border-radius-lg position-relative">
-                                <a href="javascript:;">
-                                    <!--카드 이미지-->
-                                    <div class="blur-shadow-image text-center mt-3">
-                                        <img class="img border-radius-lg move-on-hover " th:src="@{/assets/images/meeting-01.jpg}">
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="card-body px-4">
-                                <h5>
-                                    <a href="javascript:;" class="text-dark font-weight-bold" style="text-decoration:none;">MateLabs mixes machine learning with IFTTT</a>
-                                </h5>
-                                <p class="text-dark">
-                                    If you’ve ever wanted to train a machine learning model
-                                    and integrate it with IFTTT, you now can with ...
-                                </p>
-                                <a href="javascript:;" class="text-danger icon-move-right" style="text-decoration:none;">read more
-                                    <i class="fas fa-arrow-right text-sm" aria-hidden="true"></i>
-                                </a>
-                            </div>
+                    <div class="col-lg-12">
+                        <div class="pagination">
+                            <ul>
+                                <li><a href="#">1</a></li>
+                                <li class="active"><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <!--자유게시판 메인 끝-->
-        <!--페이징 시작-->
-        <section class="py-7">
-            <div class="container">
-                <div class="row justify-space-between py-2">
-                    <div class="col-lg-4 mx-auto">
-                        <ul class="pagination pagination-primary m-4">
-                            <li class="page-item">
-                                <a class="page-link" href="javascript:;" aria-label="Previous">
-                                    <span aria-hidden="true"><i class="material-icons" aria-hidden="true">chevron_left</i></span>
-                                </a>
-                            </li>
-                            <li class="page-item active">
-                                <a class="page-link" href="javascript:;">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="javascript:;">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="javascript:;">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="javascript:;">4</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="javascript:;">5</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="javascript:;" aria-label="Next">
-                                    <span aria-hidden="true"><i class="material-icons" aria-hidden="true">chevron_right</i></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--페이징 끝-->
+        </div>
     </div>
-    <div th:replace = "Footer.html :: footer"></div>
+    <div th:replace="Footer.html :: footer"></div>
+</section>
 
-    <!--   Core JS Files   -->
-    <script th:src="@{/JS/core/popper.min.js}" type="text/javascript"></script>
-    <script th:src="@{/JS/core/bootstrap.min.js}" type="text/javascript"></script>
-    <script th:src="@{/JS/plugins/perfect-scrollbar.min.js}"></script>
-    <!--  Plugin for Parallax, full documentation here: https://github.com/wagerfield/parallax  -->
-    <script th:src="@{/JS/plugins/parallax.min.js}"></script>
-    <!-- Control Center for Material UI Kit: parallax effects, scripts for the example pages etc -->
-    <!--  Google Maps Plugin    -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTfWur0PDbZWPr7Pmq8K3jiDp0_xUziI"></script>
-    <script th:src="@{/JS/material-kit.min.js?v=3.0.0}" type="text/javascript"></script>
+
+
+<!-- Scripts -->
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}" type="text/javascript"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js}" type="text/javascript"></script>
+<script th:src="@{/assets/js/isotope.min.js}" type="text/javascript"></script>
+<script th:src="@{/assets/js/owl-carousel.js}" type="text/javascript"></script>
+<script th:src="@{/assets/js/lightbox.js}" type="text/javascript"></script>
+<script th:src="@{/assets/js/tabs.js}" type="text/javascript"></script>
+<script th:src="@{/assets/js/isotope.js}" type="text/javascript"></script>
+<script th:src="@{/assets/js/video.js}" type="text/javascript"></script>
+<script th:src="@{/assets/js/slick-slider.js}" type="text/javascript"></script>
+<script th:src="@{/assets/js/custom.js}" type="text/javascript"></script>
+<script th:src="@{/JS/material-kit.min.js?v=3.0.0}" type="text/javascript"></script>
+
+
+<script>
+        //according to loftblog tut
+        $('.nav li:first').addClass('active');
+
+        var showSection = function showSection(section, isAnimate) {
+          var
+          direction = section.replace(/#/, ''),
+          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
+          reqSectionPos = reqSection.offset().top - 0;
+
+          if (isAnimate) {
+            $('body, html').animate({
+              scrollTop: reqSectionPos },
+            800);
+          } else {
+            $('body, html').scrollTop(reqSectionPos);
+          }
+
+        };
+
+        var checkSection = function checkSection() {
+          $('.section').each(function () {
+            var
+            $this = $(this),
+            topEdge = $this.offset().top - 80,
+            bottomEdge = topEdge + $this.height(),
+            wScroll = $(window).scrollTop();
+            if (topEdge < wScroll && bottomEdge > wScroll) {
+              var
+              currentId = $this.data('section'),
+              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
+              reqLink.closest('li').addClass('active').
+              siblings().removeClass('active');
+            }
+          });
+        };
+
+        $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
+          e.preventDefault();
+          showSection($(this).attr('href'), true);
+        });
+
+        $(window).scroll(function () {
+          checkSection();
+        });
+
+
+</script>
 </body>
+
+
+</body>
+
 </html>
