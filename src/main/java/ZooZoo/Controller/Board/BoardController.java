@@ -8,24 +8,23 @@ public class BoardController {
     // 분양게시판으로
     @GetMapping("/ShareBoardList")
     public String goToShareBoardList() {
-        return "Board/ShareBoardList";
+        return "Board/Share/ShareBoardList";
     }
 
     // 자유게시판으로
     @GetMapping("/freeboard")
     public String GotoFreeBoard(){
-        return "Board/FreeBoardMain";
+        return "Board/Free/FreeBoardMain";
     }
 
     // 유기게시판으로
     @GetMapping("/LossBoardlist")
     public String goToLossBoardList() {
-        return "Board/LossBoardlist";
+        return "Board/Loss/LossBoardlist";
     }
 
     // 상세페이지로
-    @GetMapping("/Board/BoardView")
-    public String goToBoardView() {
-        return "Board/BoardView";
-    }
+    @GetMapping("/Board/Loss/LossBoardView")public String goToLossBoardView() {return "Board/Loss/LossBoardView";}
+    @GetMapping("/Board/Share/ShareBoardView")public String goToShareBoardView() {return "Board/Share/ShareBoardView";}
+    @GetMapping("/Board/Free/FreeBoardView")public String goToFreeBoardView() {return "Board/Free/FreeBoardView";}
 }

@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class AnimalHospitalController {
     @GetMapping("/hospitalboard")
     public String hospitalboard(){
-        return "Hospital/HospitalBoard";
+        return "Board/Hospital/HospitalBoard";
     }
 
     @GetMapping("/hospitalmap")
     public String hospitalmap(){
 
-        return "Hospital/HospitalMap";
+        return "Board/Hospital/HospitalMap";
     }
 }
