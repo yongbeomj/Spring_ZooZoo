@@ -25,9 +25,6 @@ public class MemberController {
     public String goToMain(Model model) {
         HttpSession session = request.getSession();
         if(session.getAttribute("loginDTO") != null) {
-            MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginDTO");
-            System.out.println("memberDTOmemberDTOmemberDTOmemberDTOmemberDTOmemberDTOmemberDTOmemberDTOmemberDTOmemberDTOmemberDTOmemberDTOmemberDTOmemberDTO" + memberDTO);
-            model.addAttribute("memberDTO", memberDTO);
             return "LogMain";
         } else {
             return "Main";

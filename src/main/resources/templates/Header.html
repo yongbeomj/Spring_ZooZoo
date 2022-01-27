@@ -37,10 +37,10 @@
             </a>
         </div>
         <div class="p-2 bd-highlight">
-            <a id="headtag" th:href = "@{/Member/Login}">
+            <a id="headtag" th:href = "@{/Member/Login}" th:if = "${session.loginDTO == null}">
                 로그인
             </a>
-            <a id="headtag" th:href = "@{/Member/Login}">
+            <a id="headtag" th:href = "@{/Member/Login}" th:unless = "${session.loginDTO == null}">
                 내정보
             </a>
         </div>

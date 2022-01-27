@@ -6,6 +6,23 @@
 </head>
 <body class="sign-in-basic" style=" background: coral;" >
     <div th:replace = "Header.html :: header"></div>
-    asdasd
+    <div class = "container-fluid">
+        <div class ="container">
+            <div class = "row">
+                <div class = "col-md-3">
+                    <a th:href = "@{#}"><h4 class = "text-center">유기</h4></a>
+                </div>
+                <div class = "col-md-3">
+                    <a th:href = "@{#}"><h4 class = "text-center">분양</h4></a>
+                </div>
+                <div class = "col-md-3">
+                    <a th:href = "@{/hospitalboard}"><h4 class = "text-center">병원</h4></a>
+                </div>
+                <div class = "col-md-3">
+                    <a><h4 class = "text-center">자유</h4></a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
