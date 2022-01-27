@@ -17,7 +17,7 @@
 <body style=" background: coral;">
     <div th:replace = "Header.html :: header"></div>
     <div class="container-fluid">
-        <!--게시판 메인 내용들-->
+
         <section class="py-4" >
             <div class="container">
                 <div class = "row">
@@ -35,21 +35,24 @@
                     </div>
                 </div>
                 <hr><br>
+                <!--자유게시판 메인 내용들-->
                 <div class="row justify-space-between py-2">
-                    <div class="col-4 mx-auto">
-                        <div class="card card-plain card-blog mt-4">
+                    <!--카드 div-->
+                    <div class="col-4 mx-auto" >
+                        <div class="card card-plain card-blog mt-4" style="background:white; border-radius:10px;">
                             <div class="card-image border-radius-lg position-relative">
                                 <a href="javascript:;">
-                                    <div class="blur-shadow-image">
-                                        <img class="img border-radius-lg move-on-hover" th:src="@{/IMG/2.jpg}">
+                                    <!--카드 이미지-->
+                                    <div class="blur-shadow-image text-center mt-3">
+                                        <img class="img border-radius-lg move-on-hover " th:src="@{/assets/images/meeting-01.jpg}">
                                     </div>
                                 </a>
                             </div>
-                            <div class="card-body px-0">
+                            <div class="card-body px-4">
                                 <h5>
-                                    <a href="javascript:;" class="text-white font-weight-bold" style="text-decoration:none;">MateLabs mixes machine learning with IFTTT</a>
+                                    <a href="javascript:;" class="text-dark font-weight-bold" style="text-decoration:none;">MateLabs mixes machine learning with IFTTT</a>
                                 </h5>
-                                <p class="text-white">
+                                <p class="text-dark">
                                     If you’ve ever wanted to train a machine learning model
                                     and integrate it with IFTTT, you now can with ...
                                 </p>
@@ -59,20 +62,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4 mx-auto">
-                        <div class="card card-plain card-blog mt-4">
+                    <!--카드 div-->
+                    <div class="col-4 mx-auto" >
+                        <div class="card card-plain card-blog mt-4" style="background:white; border-radius:10px;">
                             <div class="card-image border-radius-lg position-relative">
                                 <a href="javascript:;">
-                                    <div class="blur-shadow-image">
-                                        <img class="img border-radius-lg move-on-hover" th:src="@{/IMG/2.jpg}">
+                                    <!--카드 이미지-->
+                                    <div class="blur-shadow-image text-center mt-3">
+                                        <img class="img border-radius-lg move-on-hover " th:src="@{/assets/images/meeting-01.jpg}">
                                     </div>
                                 </a>
                             </div>
-                            <div class="card-body px-0">
+                            <div class="card-body px-4">
                                 <h5>
-                                    <a href="javascript:;" class="text-white font-weight-bold" style="text-decoration:none;">MateLabs mixes machine learning with IFTTT</a>
+                                    <a href="javascript:;" class="text-dark font-weight-bold" style="text-decoration:none;">MateLabs mixes machine learning with IFTTT</a>
                                 </h5>
-                                <p class="text-white">
+                                <p class="text-dark">
                                     If you’ve ever wanted to train a machine learning model
                                     and integrate it with IFTTT, you now can with ...
                                 </p>
@@ -82,20 +87,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4 mx-auto">
-                        <div class="card card-plain card-blog mt-4">
+                    <!--카드 div-->
+                    <div class="col-4 mx-auto" >
+                        <div class="card card-plain card-blog mt-4" style="background:white; border-radius:10px;">
                             <div class="card-image border-radius-lg position-relative">
                                 <a href="javascript:;">
-                                    <div class="blur-shadow-image">
-                                        <img class="img border-radius-lg move-on-hover" th:src="@{/IMG/2.jpg}">
+                                    <!--카드 이미지-->
+                                    <div class="blur-shadow-image text-center mt-3">
+                                        <img class="img border-radius-lg move-on-hover " th:src="@{/assets/images/meeting-01.jpg}">
                                     </div>
                                 </a>
                             </div>
-                            <div class="card-body px-0">
+                            <div class="card-body px-4">
                                 <h5>
-                                    <a href="javascript:;" class="text-white font-weight-bold" style="text-decoration:none;">MateLabs mixes machine learning with IFTTT</a>
+                                    <a href="javascript:;" class="text-dark font-weight-bold" style="text-decoration:none;">MateLabs mixes machine learning with IFTTT</a>
                                 </h5>
-                                <p class="text-white">
+                                <p class="text-dark">
                                     If you’ve ever wanted to train a machine learning model
                                     and integrate it with IFTTT, you now can with ...
                                 </p>
@@ -108,6 +115,7 @@
                 </div>
             </div>
         </section>
+        <!--자유게시판 메인 끝-->
 
     </div>
 
