@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class MemberController {
@@ -21,7 +22,16 @@ public class MemberController {
 
     // 시작 - 메인화면
     @GetMapping("/")
-    public String goToMain() {return "Main";}
+    public String goToMain(Model model) {
+        HttpSession session = request.getSession();
+        if(session.getAttribute("loginDTO") != null) {
+            MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginDTO");
+            model.addAttribute("memberDTO", memberDTO);
+            return "LogMain";
+        } else {
+            return "Main";
+        }
+    }
     // 로그인화면으로
     @GetMapping("/Member/Login")
     public String goToLogin() {return "Member/Login";}
