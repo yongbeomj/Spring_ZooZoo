@@ -1,0 +1,55 @@
+
+.container-fluid{
+    background: coral;
+}
+
+/**{*/
+/*    border: solid 1px black;*/
+/*}*/
+
+#head_1{
+    height: 5.9028vh;
+}
+#foot_1{
+    height: 100px;
+}
+#headtag{
+    font-size: 1.15rem;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#headtag:hover{
+    border-bottom: 2px white solid;
+    transition: all ease 0.5s 0s;
+}
+
+#bgimg {
+    width: 77vw;
+    height: 98vh;
+    background-repeat: no-repeat;
+    display: block;
+    position: absolute;
+    left:23vw;
+    top:2vh;
+}
+
+#header {
+    width: 98vw;
+    padding: 15px;
+    position: relative;
+    left: -23vw;
+    right: 0;
+    top: -30px;
+    bottom: 0;
+}
+
+#footer{
+    width: 98vw;
+    position: relative;
+    left: -22vw;
+    right: 0;
+    top: 63vh;
+    bottom: 0;
+}
