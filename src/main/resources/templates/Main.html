@@ -1,11 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link th:href="@{/CSS/MainCSS.css}" rel="stylesheet">
 </head>
-<body>
-    <div><a th:href = "@{/Member/Login}"><button>로그인</button></a></div>
-    <div><a th:href = "@{/Member/SignUp}"><button>회원가입</button></a></div>
+<!-- 배경색 -->
+<body style="background-color: #ff7f50;">
+<!-- 배경 이미지 -->
+<div id="bgimg" style="background-image: url('./IMG/logofoot.svg');">
+    <!-- 내용 -->
+    <div id="header">
+        <div th:replace="Header.html :: header"></div>
+    </div>
+    <div id="footer" style="vertical-align: bottom;">
+        <div th:replace="Footer.html :: footer"></div>
+    </div>
+</div>
+
+
+</div>
+
 </body>
 </html>

@@ -1,4 +1,4 @@
-package ZooZoo.Domain.Entity;
+package ZooZoo.Domain.Entity.Member;
 
 import lombok.*;
 

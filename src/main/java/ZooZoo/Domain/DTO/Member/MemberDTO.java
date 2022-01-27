@@ -1,6 +1,6 @@
-package ZooZoo.Domain.DTO;
+package ZooZoo.Domain.DTO.Member;
 
-import ZooZoo.Domain.Entity.MemberEntity;
+import ZooZoo.Domain.Entity.Member.MemberEntity;
 import lombok.*;
 
 @Getter @Setter @ToString @Builder
