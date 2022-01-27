@@ -10,4 +10,10 @@ public class AnimalHospitalController {
     public String hospitalboard(){
         return "Hospital/HospitalBoard";
     }
+
+    @GetMapping("/hospitalmap")
+    public String hospitalmap(){
+
+        return "Hospital/HospitalMap";
+    }
 }
