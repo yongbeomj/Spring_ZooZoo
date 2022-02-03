@@ -1,6 +1,8 @@
 package ZooZoo.Controller.Board;
 
+import ZooZoo.Domain.DTO.Board.BoardDTO;
 import ZooZoo.Domain.DTO.Board.ShareDTO;
+import ZooZoo.Service.Free.FreeBoardService;
 import ZooZoo.Service.Share.ShareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +15,8 @@ import java.util.ArrayList;
 public class BoardController {
 	@Autowired
 	ShareService shareService;
-
+    @Autowired
+    FreeBoardService freeBoardService;
     // 분양게시판으로
     @GetMapping("/ShareBoardList")
     public String goToShareBoardList(Model model) {
@@ -37,7 +40,10 @@ public class BoardController {
 
     // 자유게시판으로
     @GetMapping("/freeboard")
-    public String GotoFreeBoard(){
+    public String GotoFreeBoard(Model model){
+        ArrayList<BoardDTO> boardDTOs = freeBoardService.GetAll();
+        System.out.println("@@@@@@ boardDtos : "+ boardDTOs);
+        model.addAttribute("freeboard", boardDTOs);
         return "Board/Free/FreeBoardMain";
     }
 

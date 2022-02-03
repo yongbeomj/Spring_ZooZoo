@@ -13,9 +13,10 @@ public class CategoryDTO {
     private int cano;
     private String caname;
 
-    public CategoryEntity categoryEntity(){
+    public CategoryEntity toCategoryEntity(){
         return CategoryEntity.builder()
                 .caname(this.caname)
                 .build();
     }
+
 }

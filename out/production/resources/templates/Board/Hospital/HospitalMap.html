@@ -2,6 +2,31 @@
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
 
 <head>
+    <style>
+        .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+        .wrap * {padding: 0;margin: 0;}
+        .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+        .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+        .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+        .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+        .info .close:hover {cursor: pointer;}
+        .info .body {position: relative;overflow: hidden;}
+        .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+        .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+        .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+        .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+        .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+        .info .link {color: #5085BB;}
+        /*로드맵 구현 준비중 */
+        #container {overflow:hidden;height:85vh;position:relative;}
+        #btnRoadview,  #btnMap {position:absolute;top:5px;left:5px;padding:7px 12px;font-size:14px;border: 1px solid #dbdbdb;background-color: #fff;border-radius: 2px;box-shadow: 0 1px 1px rgba(0,0,0,.04);z-index:1;cursor:pointer;}
+        #btnRoadview:hover,  #btnMap:hover{background-color: #fcfcfc;border: 1px solid #c1c1c1;}
+        #container.view_map #mapWrapper {z-index: 10;}
+        #container.view_map #btnMap {display: none;}
+        #container.view_roadview #mapWrapper {z-index: 0;}
+        #container.view_roadview #btnRoadview {display: none;}
+    </style>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!--     Fonts and icons     -->
@@ -20,26 +45,38 @@
 </head>
 <body style=" background: coral;">
 <div th:replace = "Header.html :: header"></div>
-<script th:src = "@{/JS/Api/animalhospital.js}"></script>
 
 <!-- End Navbar -->
 <div class ="container-fluid">
-    <div class ="" style ="border: solid 1px black; height: 85vh">
+    <div type ="hidden" name = "lat" id = "lat" th:val="${hospitalDto.getLat()}"></div>
+    <p class="text-xs font-weight-bold mb-0" th:text ="${hospitalDto.getLat()}"></p>
+    <div type ="hidden" name = "logt" id = "logt" th:val ="${hospitalDto.getLogt()}"></div>
 
 
+    <div id="container" class="view_map">
+        <div id="mapWrapper" style ="border: solid 1px black; height: 85vh">
+            <div id="map" style="width:100%;height:100%"></div> <!-- 지도를 표시할 div 입니다 -->
+            <input type="button" id="btnRoadview" onclick="toggleMap(false)" title="로드뷰 보기" value="로드뷰">
+        </div>
+        <div id="rvWrapper" style ="border: solid 1px black; height: 85vh">
+            <div id="roadview" style="height:100%"></div> <!-- 로드뷰를 표시할 div 입니다 -->
+            <input type="button" id="btnMap" onclick="toggleMap(true)" title="지도 보기" value="지도">
+        </div>
     </div>
+    <!--&lt;!&ndash;지도 구역 &ndash;&gt;
+    <div id ="map" class ="" style ="border: solid 1px black; height: 85vh">
+
+    </div>-->
     <div class="container my-auto">
         <!-- 사이드바 -->
         <div class="sidebar">
-            <a href="javascript:void(0)" data-toggle="sidebar"> </a> <!-- 사이드바 닫기 -->
+            <a href="javascript:void(0)" data-toggle="sidebar"> ◁--</a> <!-- 사이드바 닫기 -->
             <div id="contents"> <!-- 사이드바 내용물 -->
 
             </div>
         </div>
 
         <a href="javascript:void(0)" data-toggle="sidebar" id="sidebartoggle">사이드바</a>
-
-        <script th:src = "@{/JS/simple-sidebar.js}"></script>
     </div>
 </div>
 
@@ -47,10 +84,13 @@
 
 
 
+<script th:src = "@{/JS/simple-sidebar.js}"></script>
+<!-- 카카오 맵 API 활성화 인증 스크립트-->
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ac01b72f9ceab29a8b43644fc69366d6&libraries=clusterer"></script>
 
-
-
-
+<!--개발자 js-->
+<script th:src="@{/JS/Board/Hospital/HospitalBoard.js}" ></script>
+<script th:src="@{/JS/Board/Hospital/Hospitalmap.js}" ></script>
 
 <!--   Core JS Files   -->
 <script th:src="@{/JS/core/popper.min.js}" type="text/javascript"></script>

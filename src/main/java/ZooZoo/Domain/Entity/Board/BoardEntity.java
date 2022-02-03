@@ -1,10 +1,13 @@
 package ZooZoo.Domain.Entity.Board;
 
+import ZooZoo.Domain.Entity.Category.CategoryEntity;
 import ZooZoo.Domain.Entity.DateEntity;
 import ZooZoo.Domain.Entity.Member.MemberEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -13,16 +16,17 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="board")
+@ToString (exclude = {"memberEntity","categoryEntity" ,"boardImgEntities"})
 public class BoardEntity extends DateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bno;
 
-    @Column
+    @Column (name="btitle")
     private String btitle;
-    @Column
+    @Column (name="bcontents", columnDefinition = "LONGTEXT")
     private String bcontents;
-    @Column
+    @Column (name="bview")
     private int bview;
 
     //회원 번호 fk
@@ -31,5 +35,11 @@ public class BoardEntity extends DateEntity {
     private MemberEntity memberEntity;
 
     //카테고리 fk??????
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cano")
+    private CategoryEntity categoryEntity;
 
+    //게시판 이미지
+    @OneToMany(mappedBy="boardEntity", cascade = CascadeType.ALL)
+    private List<BoardImgEntity> boardImgEntities = new ArrayList<>();
 }

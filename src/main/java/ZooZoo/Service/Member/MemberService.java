@@ -48,7 +48,7 @@ public class MemberService {
         List<MemberEntity> memberEntityList = memberRepository.findAll();
         for(MemberEntity memberEntity : memberEntityList) {
             if(memberEntity.getMid().equals(mid) && memberEntity.getMpw().equals(mpw)) {
-                MemberDTO memberDTO = MemberDTO.builder().mid(memberEntity.getMid()).mpw(memberEntity.getMpw()).build();
+                MemberDTO memberDTO = MemberDTO.builder().mid(memberEntity.getMid()).mpw(memberEntity.getMpw()).mno(memberEntity.getMno()).build();
                 HttpSession session = request.getSession();
                 session.setAttribute("loginDTO", memberDTO);
                 return true;

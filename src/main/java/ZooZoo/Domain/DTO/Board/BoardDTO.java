@@ -4,6 +4,9 @@ import ZooZoo.Domain.DTO.Category.CategoryDTO;
 import ZooZoo.Domain.Entity.Board.BoardEntity;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -16,7 +19,8 @@ public class BoardDTO {
     private String bcontents;
     private int bview;
     private String bcreateddate;
-    private String bfile;
+    private List <String> bfile;
+    private String bwriter;
     //카테고리는??
     CategoryDTO categoryDTO = new CategoryDTO();
 
@@ -27,5 +31,6 @@ public class BoardDTO {
                 .bview(this.bview)
                 .build();
     }
+
 
 }
