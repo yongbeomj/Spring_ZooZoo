@@ -25,17 +25,17 @@ public class ShareService {
             JSONArray arr = (JSONArray) object.get("row"); // row(key)의 값(value) 가져와 배열에 넣기
 //            System.out.println(arr);
             ArrayList<String> address = new ArrayList<>();
-	    ArrayList<String> name = new ArrayList<>();
-	    ArrayList<String> info = new ArrayList<>();
+            ArrayList<String> name = new ArrayList<>();
+            ArrayList<String> info = new ArrayList<>();
             for(int i = 0 ; i < arr.size(); i++) {
                 if(arr.get(i) != null) {
                     JSONObject obj = (JSONObject) arr.get(i); // 오브젝트에 i번째 데이터 넣기
-			JSONObject obj1 = (JSONObject)arr.get(i);
+                    JSONObject obj1 = (JSONObject)arr.get(i);
                     // 오브젝트에 있는 값중 REFINE_ROADNM_ADDR(key)의 값(value)을 가져와 배열에 넣기
-			address.add((String) obj.get("REFINE_ROADNM_ADDR"));
-			name.add((String) obj1.get("BIZPLC_NM"));
-			info.add((i + 1) + ":" + address.get(i) + ":" + name.get(i));
-		}
+                    address.add((String) obj.get("REFINE_ROADNM_ADDR"));
+                    name.add((String) obj1.get("BIZPLC_NM"));
+                    info.add((i + 1) + ":" + address.get(i) + ":" + name.get(i));
+                }
             }
 	    return info;
         } catch (Exception e) {

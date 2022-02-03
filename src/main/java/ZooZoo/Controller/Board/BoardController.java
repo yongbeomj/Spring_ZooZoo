@@ -20,6 +20,7 @@ public class BoardController {
     // 분양게시판으로
     @GetMapping("/ShareBoardList")
     public String goToShareBoardList(Model model) {
+
 	    ShareDTO shareDTO = new ShareDTO();
 	    ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
 	    ArrayList<String> petshop = shareService.Share();
