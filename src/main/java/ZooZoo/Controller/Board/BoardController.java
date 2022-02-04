@@ -1,14 +1,18 @@
 package ZooZoo.Controller.Board;
 
 import ZooZoo.Domain.DTO.Board.BoardDTO;
+import ZooZoo.Domain.DTO.Board.LossDTO;
 import ZooZoo.Domain.DTO.Board.ShareDTO;
 import ZooZoo.Service.Free.FreeBoardService;
+import ZooZoo.Service.Loss.LossService;
 import ZooZoo.Service.Share.ShareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 
 @Controller
@@ -17,10 +21,14 @@ public class BoardController {
 	ShareService shareService;
     @Autowired
     FreeBoardService freeBoardService;
+    @Autowired
+    HttpServletRequest request;
+    @Autowired
+    LossService lossService;
+
     // 분양게시판으로
     @GetMapping("/ShareBoardList")
     public String goToShareBoardList(Model model) {
-
 	    ShareDTO shareDTO = new ShareDTO();
 	    ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
 	    ArrayList<String> petshop = shareService.Share();
@@ -28,6 +36,10 @@ public class BoardController {
 	    ArrayList<String> twoStep = new ArrayList<>();
 	    ArrayList<String> threeStep = new ArrayList<>();
 	    String[] s = new String[petshop.size()];
+        int totalSize = petshop.size();
+//        HttpSession session = request.getSession();
+//        session.setAttribute("page", totalSize);
+//        System.out.println("totalSize : " + totalSize);
 	    for(int i = 0; i < petshop.size(); i++) {
 		    s[i] = petshop.get(i);
 		    oneStep.add(s[i].split(":")[0]);
@@ -50,7 +62,10 @@ public class BoardController {
 
     // 유기게시판으로
     @GetMapping("/LossBoardlist")
-    public String goToLossBoardList() {
+    public String goToLossBoardList(Model model) {
+
+        ArrayList<LossDTO> lossDTOS = lossService.Losslist();
+        model.addAttribute("lossDTOS",lossDTOS);
         return "Board/Loss/LossBoardlist";
     }
 

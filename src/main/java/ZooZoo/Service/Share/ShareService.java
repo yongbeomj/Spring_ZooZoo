@@ -25,7 +25,7 @@ public class ShareService {
                 JSONArray jsonArray = (JSONArray) jsonObject.get("AnimalSale"); // 오브젝트에 있는 데이터 배열에 넣기
                 JSONObject object = (JSONObject) jsonArray.get(1); // head, row가 있는데 이 중 1번째(row)만 오브젝트에 넣기
                 JSONArray arr = (JSONArray) object.get("row"); // row(key)의 값(value) 가져와 배열에 넣기
-                System.out.println(arr.size());
+//                System.out.println(arr.size());
                 ArrayList<String> address = new ArrayList<>();
                 ArrayList<String> name = new ArrayList<>();
                 ArrayList<String> info = new ArrayList<>();
@@ -38,7 +38,7 @@ public class ShareService {
                         name.add((String) obj1.get("BIZPLC_NM"));
                         if(qq == 1) {
                             info.add((i + 1) + ":" + address.get(i) + ":" + name.get(i));
-                            System.out.println(info.size());
+//                            System.out.println(info.size());
                         } else {
                             info.add((total.size() + 1) + ":" + address.get(i) + ":" + name.get(i));
                         }
@@ -52,4 +52,9 @@ public class ShareService {
 	    return null;
         }
     }
+
+    // 페이징
+//    public String paging() {
+//
+//    }
 }
