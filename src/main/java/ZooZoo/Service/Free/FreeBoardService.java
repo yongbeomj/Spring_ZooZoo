@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -42,25 +43,29 @@ public class FreeBoardService {
         ArrayList<BoardDTO> result = new ArrayList<>();
         System.out.println("사이즈 : " +boardEntities.size());
         for(BoardEntity temp : boardEntities){
+
+            //날짜 변환 MMM -> 2월
+            String month = temp.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MMM-dd"));
+            System.out.println("@@@@@"+temp.getBno()+ "번째 날짜 : " + month);
+
             //엔티티 -> dto
-            //이미지가 없을때를 생각해야하는데 잘 모르겠다. 도와줘요!!
-            //그리고 bimg를 따로 빼오려니 안된다. get(index)이 문제
-            System.out.println("이미지엔티티 : " +temp.getBoardImgEntities());
+            //System.out.println("이미지엔티티 : " +temp.getBoardImgEntities());
             BoardImgDTO boardImgDTO = new BoardImgDTO();
+            System.out.println(boardImgDTO.getBimg());
             BoardDTO boardDTO = BoardDTO.builder()
                     .bno(temp.getBno())
                     .btitle(temp.getBtitle())
                     .bcontents(temp.getBcontents())
                     .bview(temp.getBview())
                     .bfile(  new ArrayList<>() )
-                    .bcreateddate(temp.getCreatedDate().toString())
+                    .bcreateddate(month)
 
                     .bwriter(temp.getMemberEntity().getMid())
                     .build();
 
             if(temp.getBoardImgEntities() != null) {
                 for (BoardImgEntity temp2 : temp.getBoardImgEntities()) {
-                    System.out.println("aaaaaa ; " +temp2.getBimg());
+                    //System.out.println("aaaaaa ; " +temp2.getBimg());
                     boardDTO.getBfile().add( temp2.getBimg() );
                 }
             }
@@ -111,6 +116,7 @@ public class FreeBoardService {
                 UUID uuid = UUID.randomUUID();
                 uuidfile = uuid.toString()+"_"+temp.getOriginalFilename().replaceAll("_","-");
                 //String filepath = "C:\\Users\\JHD\\IdeaProjects\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\"+uuidfile;
+                //String filepath = "C:\\Users\\504\\IdeaProjects\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\"+uuidfile;
                 String filepath = "C:\\Users\\505\\IdeaProjects\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\"+uuidfile;
                 try {
                     temp.transferTo(new File(filepath));
