@@ -12,13 +12,13 @@
     <title>Education - List of Meetings</title>
 
     <!-- Bootstrap core CSS -->
-    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
 
     <!-- Additional CSS Files -->
-    <link th:href="@{/assets/css/fontawesome.css}" rel="stylesheet" />
-    <link th:href="@{/assets/css/templatemo-edu-meeting.css}" rel="stylesheet" />
-    <link th:href="@{/assets/css/owl.css}" rel="stylesheet" />
-    <link th:href="@{/assets/css/lightbox.css}" rel="stylesheet" />
+    <link th:href="@{/assets/css/fontawesome.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/templatemo-edu-meeting.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/owl.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/lightbox.css}" rel="stylesheet"/>
     <!--
 
     TemplateMo 569 Edu Meeting
@@ -34,62 +34,56 @@
 
 <section class="meetings-page" id="meetings">
     <div class="container">
-        <div class = "row">
-            <div class = "col-md-3">
-                <a th:href = "@{/LossBoardlist}"><h4 class = "text-center">유기</h4></a>
+        <div class="row">
+            <div class="col-md-3">
+                <a th:href="@{/LossBoardlist}"><h4 class="text-center">유기</h4></a>
             </div>
-            <div class = "col-md-3">
-                <a th:href = "@{/ShareBoardList}"><h4 class = "text-center">분양</h4></a>
+            <div class="col-md-3">
+                <a th:href="@{/ShareBoardList}"><h4 class="text-center">분양</h4></a>
             </div>
-            <div class = "col-md-3">
-                <a th:href = "@{/hospitalboard}"><h4 class = "text-center">병원</h4></a>
+            <div class="col-md-3">
+                <a th:href="@{/hospitalboard}"><h4 class="text-center">병원</h4></a>
             </div>
-            <div class = "col-md-3">
-                <a th:href = "@{/freeboard}"><h4 class = "text-center">자유</h4></a>
+            <div class="col-md-3">
+                <a th:href="@{/freeboard}"><h4 class="text-center">자유</h4></a>
             </div>
         </div>
-        <hr><br>
+        <hr>
+        <br>
         <div class="row">
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="row grid">
-                            <div class="col-lg-4 templatemo-item-col all soon">
-                                <div class="meeting-item">
-                                    <div class="thumb">
-                                        <div class="price">
-                                            <span>$14.00</span>
-                                        </div>
-                                        <a th:href="@{/Board/Loss/LossBoardView}"><img th:src="@{/assets/images/meeting-01.jpg}" alt=""></a>
-                                    </div>
-                                    <div class="down-content">
-                                        <div class="date">
-                                            <h6>Nov <span>12</span></h6>
-                                        </div>
-                                        <a href="meeting-details.html"><h4>New Lecturers Meeting</h4></a>
-                                        <p>Morbi in libero blandit lectus<br>cursus ullamcorper.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="col-lg-3 templatemo-item-col" th:each="lossDTO : ${lossDTOS}">
+                <div class="meeting-item">
+                    <div class="thumb">
+                        <a th:href="@{/Board/Loss/LossBoardView}">
+                            <img th:src="${lossDTO.filename}" alt="">
+                        </a>
                     </div>
-                    <div class="col-lg-12">
-                        <div class="pagination">
-                            <ul>
-                                <li><a href="#">1</a></li>
-                                <li class="active"><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                            </ul>
-                        </div>
+                    <div class="down-content">
+                        <a href="meeting-details.html">
+                            <h4 th:text="${lossDTO.kindCd}">품종</h4><br>
+                        </a>
+                        접수일 : <span th:text="${lossDTO.happenDt}"></span><br>
+                        나이 : <span th:text="${lossDTO.age}"></span><br>
+                        몸무게 : <span th:text="${lossDTO.weight}"></span><br>
+                        성별 : <span th:text="${lossDTO.sexCd}"></span><br>
+                        보호지역 : <span th:text="${lossDTO.orgNm}"></span>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="pagination">
+                <ul>
+                    <li><a href="#">1</a></li>
+                    <li class="active"><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                </ul>
             </div>
         </div>
     </div>
     <div th:replace="Footer.html :: footer"></div>
 </section>
-
 
 
 <!-- Scripts -->

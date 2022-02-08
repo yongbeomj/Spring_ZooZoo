@@ -1,10 +1,15 @@
 package ZooZoo.Service.Share;
 
 import ZooZoo.Domain.DTO.Board.ShareDTO;
+import ZooZoo.Domain.DTO.Pagination;
+import ZooZoo.Domain.Entity.Board.BoardRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ConcurrentModel;
+import org.springframework.ui.Model;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,6 +18,9 @@ import java.util.ArrayList;
 
 @Service
 public class ShareService {
+    @Autowired
+    BoardRepository boardRepository;
+
     public ArrayList<String> Share() {
         try {
             ArrayList<String> total = new ArrayList<>();
@@ -29,6 +37,7 @@ public class ShareService {
                 ArrayList<String> address = new ArrayList<>();
                 ArrayList<String> name = new ArrayList<>();
                 ArrayList<String> info = new ArrayList<>();
+//                System.out.println(arr);
                 for (int i = 0; i < arr.size(); i++) {
                     if (arr.get(i) != null) {
                         JSONObject obj = (JSONObject) arr.get(i); // 오브젝트에 i번째 데이터 넣기
@@ -53,8 +62,5 @@ public class ShareService {
         }
     }
 
-    // 페이징
-//    public String paging() {
-//
-//    }
+
 }

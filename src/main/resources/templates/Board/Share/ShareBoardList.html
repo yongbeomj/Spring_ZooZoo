@@ -53,10 +53,43 @@
                 <th class = "col-md-1 text-center">번호</th><th class = "col-md-5 text-center">가게명</th><th class = "col-md-5 text-center">주소</th><th class = "col-md-1 text-center">비고</th>
             </tr>
             <tr class = "row" th:each = "share : ${share}">
-                <td class = "col-md-1 text-center" th:text = "${share.shareno}"></td><td class = "col-md-5 text-center" th:text = "${share.sharename}"></td><td class = "col-md-5 text-center" th:text = "${share.shareaddress}"></td>
+                <td class = "col-md-1 text-center" th:text = "${share.shareno}"></td><td class = "col-md-5 text-center"><a th:text = "${share.sharename}" th:href = "@{'/ShareBoardView/' + ${share.shareno} + ${share}}"></a></td><td class = "col-md-5 text-center" th:text = "${share.shareaddress}"></td>
             </tr>
         </table>
     </div>
+    <br>
+    <!--paging button-->
+    <nav aria-label="Page navigation example" class = "d-flex justify-content-center">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" th:href="@{/ShareBoardList?page=1}" aria-label="Previous">
+                    <span aria-hidden="true"><<</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pagination.prevBlock})}" aria-label="Previous">
+                    <span aria-hidden="true"><</span>
+                </a>
+            </li>
+            <th:block  th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+                <li class="page-item"
+                    th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
+                    th:each="pageButton : ${#numbers.sequence(start, end)}">
+                    <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pageButton})}" th:text=${pageButton}></a>
+                </li>
+            </th:block>
+            <li class="page-item">
+                <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pagination.nextBlock})}" aria-label="Next">
+                    <span aria-hidden="true">></span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pagination.totalPageCnt})}" aria-label="Previous">
+                    <span aria-hidden="true">>></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
     <div th:replace = "Footer.html :: footer"></div>
 </body>
 </html>
