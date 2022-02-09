@@ -50,34 +50,81 @@
         </div>
         <hr>
         <br>
+
         <div class="row">
-            <div class="col-lg-3 templatemo-item-col" th:each="lossDTO : ${lossDTOS}">
+            <div class="col-lg-3 templatemo-item-col" th:each="lossDTO : ${parsesPage}">
                 <div class="meeting-item">
                     <div class="thumb">
-                        <a th:href="@{/Board/Loss/LossBoardView}">
-                            <img th:src="${lossDTO.filename}" alt="">
+                        <a th:href="@{ '/Board/Loss/LossBoardView/' + ${lossDTO.ABDM_IDNTFY_NO} } ">
+                            <img th:src="${lossDTO.IMAGE_COURS}" alt="" style="height:300px;">
                         </a>
                     </div>
                     <div class="down-content">
                         <a href="meeting-details.html">
-                            <h4 th:text="${lossDTO.kindCd}">품종</h4><br>
+                            <h4 th:text="${lossDTO.SPECIES_NM}">품종</h4><br>
                         </a>
-                        접수일 : <span th:text="${lossDTO.happenDt}"></span><br>
-                        나이 : <span th:text="${lossDTO.age}"></span><br>
-                        몸무게 : <span th:text="${lossDTO.weight}"></span><br>
-                        성별 : <span th:text="${lossDTO.sexCd}"></span><br>
-                        보호지역 : <span th:text="${lossDTO.orgNm}"></span>
+                        <table class="table">
+                            <tr>
+                                <td width="40%">접수일자</td>
+                                <td th:text="${lossDTO.RECEPT_DE}"></td>
+                            </tr>
+                            <tr>
+                                <td>나이</td>
+                                <td th:text="${lossDTO.AGE_INFO}"></td>
+                            </tr>
+                            <tr>
+                                <td>성별</td>
+                                <td th:text="${lossDTO.SEX_NM}"></td>
+                            </tr>
+                            <tr>
+                                <td>상태</td>
+                                <td th:text="${lossDTO.STATE_NM}"></td>
+                            </tr>
+                            <tr>
+                                <td>공고기간</td>
+                                <td><span th:text="${lossDTO.PBLANC_BEGIN_DE}"></span> ~ <span
+                                        th:text="${lossDTO.PBLANC_END_DE}"></span></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- pagination -->
         <div class="col-lg-12">
             <div class="pagination">
                 <ul>
-                    <li><a href="#">1</a></li>
-                    <li class="active"><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{/LossBoardlist?page=1}" aria-label="Previous" style="border-radius: 10px;">
+                            <span aria-hidden="true"> << </span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{/LossBoardlist?page={page} (page = ${pagination.prevBlock})}"
+                           aria-label="Previous">
+                            <span aria-hidden="true"> < </span>
+                        </a>
+                    </li>
+                    <th:block th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+                        <li class="page-item"
+                            th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
+                            th:each="pageButton : ${#numbers.sequence(start, end)}">
+                            <a class="page-link" th:href="@{/LossBoardlist?page={page} (page = ${pageButton})}"
+                               th:text=${pageButton}></a>
+                        </li>
+                    </th:block>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{/LossBoardlist?page={page} (page = ${pagination.nextBlock})}"
+                           aria-label="Next">
+                            <span aria-hidden="true"> > </span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" th:href="@{/LossBoardlist?page={page} (page = ${pagination.totalPageCnt})}"
+                           aria-label="Next" style="border-radius: 10px;">
+                            <span aria-hidden="true"> >> </span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -145,6 +192,10 @@
         $(window).scroll(function () {
           checkSection();
         });
+
+
+
+
 
 
 </script>

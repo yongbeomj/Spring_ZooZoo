@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,6 +61,25 @@ public class BoardController {
                 j++;
 	        }
         }
+
+        ArrayList<String> selectArr1 = new ArrayList<>();
+        ArrayList<String> selectArr = new ArrayList<>();
+        for(int i = 0; i < petshop.size()-1; i++) {
+            selectArr1.add(petshop.get(i).split(":")[1]);
+            // System.out.println(":::::" + selectArr1.get(i).split("경기도")[0] + " : " + i);
+            if(selectArr1.get(i).equals("null")) {
+                selectArr.add("정보없음");
+            } else {
+                if(selectArr1.get(i).split("경기도")[0].contains("인천광역시")) {
+                    selectArr.add("인천");
+                } else if(selectArr1.get(i).split("경기도")[0].contains("충청남도")) {
+                    selectArr.add("충남");
+                } else {
+                    selectArr.add(selectArr1.get(i).split(" ")[1]);
+                }
+            }
+        }
+        model.addAttribute("select", selectArr);
         model.addAttribute("pagination", paging);
 	    model.addAttribute("share", shareDTOS);
 	    return "Board/Share/ShareBoardList";
@@ -75,15 +95,26 @@ public class BoardController {
 
     // 유기게시판으로
     @GetMapping("/LossBoardlist")
-    public String goToLossBoardList(Model model) {
+    public String goToLossBoardList(Model model, @RequestParam(defaultValue = "1") int page) {
 
-        ArrayList<LossDTO> lossDTOS = lossService.Losslist();
-        model.addAttribute("lossDTOS",lossDTOS);
+        ArrayList<LossDTO> parses = lossService.Losslist(); // 전체 게시물
+        ArrayList<LossDTO> parsesPage = lossService.parsenum(parses, page); // 페이징
+
+        Pagination pagination = new Pagination(parses.size(), page);
+
+        model.addAttribute("parsesPage",parsesPage);
+        model.addAttribute("pagination",pagination);
         return "Board/Loss/LossBoardlist";
     }
 
+
     // 상세페이지로
-    @GetMapping("/Board/Loss/LossBoardView")public String goToLossBoardView() {return "Board/Loss/LossBoardView";}
+    @GetMapping("/Board/Loss/LossBoardView/{ABDM_IDNTFY_NO}")
+    public String goToLossBoardView(Model model, @PathVariable("ABDM_IDNTFY_NO") String ABDM_IDNTFY_NO) {
+        ArrayList<LossDTO> lossDTOS = lossService.getlossboard(ABDM_IDNTFY_NO);
+        model.addAttribute("lossDTOS",lossDTOS);
+        return "Board/Loss/LossBoardView";
+    }
     @GetMapping("/Board/Free/FreeBoardView")public String goToFreeBoardView() {return "Board/Free/FreeBoardView";}
 
     @GetMapping("/ShareBoardView/{shareno}")

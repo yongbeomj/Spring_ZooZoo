@@ -48,9 +48,15 @@
     </div>
 <hr><br>
     <div class = "container">
+            <select>
+                <option>시/도</option>
+                <div th:each = "select : ${select}">
+                    <option th:text = "${select}">시/도</option>
+                </div>
+            </select>
         <table class = "table">
             <tr class = "row">
-                <th class = "col-md-1 text-center">번호</th><th class = "col-md-5 text-center">가게명</th><th class = "col-md-5 text-center">주소</th><th class = "col-md-1 text-center">비고</th>
+                <th class = "col-md-1 text-center">번호</th><th class = "col-md-5 text-center">가게명</th><th class = "col-md-5 text-center">주소</th>
             </tr>
             <tr class = "row" th:each = "share : ${share}">
                 <td class = "col-md-1 text-center" th:text = "${share.shareno}"></td><td class = "col-md-5 text-center"><a th:text = "${share.sharename}" th:href = "@{'/ShareBoardView/' + ${share.shareno} + ${share}}"></a></td><td class = "col-md-5 text-center" th:text = "${share.shareaddress}"></td>

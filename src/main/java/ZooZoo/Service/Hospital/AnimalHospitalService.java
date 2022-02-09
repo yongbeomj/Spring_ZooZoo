@@ -1,9 +1,11 @@
 package ZooZoo.Service.Hospital;
 
 import ZooZoo.Controller.Hospital.HospitalDto;
+import ZooZoo.Domain.DTO.Pagination;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -13,7 +15,6 @@ import java.util.ArrayList;
 
 @Service
 public class AnimalHospitalService {
-
 
     // 총 토탈 값 가져오는 함수
     public int getapitotal(){
@@ -60,7 +61,6 @@ public class AnimalHospitalService {
                 JSONObject jsonObject3 = (JSONObject) jsonArray.get(1);
                 rowArray = (JSONArray)jsonObject3.get("row");
                 arr.addAll(rowArray);
-
             }
             return arr;
         }catch(Exception e){
@@ -68,7 +68,73 @@ public class AnimalHospitalService {
         }
     }
 
-    // 내가 원하는 값 파싱하기
+    // 검색 알고리즘 테스트 값 뽑아내기
+    public ArrayList<HospitalDto> parseapisearch(JSONArray jsonArray, String keyword, String search){
+        JSONObject jsonObject = new JSONObject();
+        ArrayList<HospitalDto> parse = new ArrayList<>();
+        ArrayList<HospitalDto> parse2 = new ArrayList<>();
+        try{
+            for(int i = 0; i<jsonArray.size(); i++){
+                jsonObject = (JSONObject)jsonArray.get(i);
+                HospitalDto hospitalDto = new HospitalDto(
+                        (String)jsonObject.get("BIZPLC_NM"), // 병원 이름
+                        (String)jsonObject.get("REFINE_ROADNM_ADDR"), // 주소
+                        (String)jsonObject.get("BSN_STATE_NM"),// 영업 상태명
+                        (String)jsonObject.get("LOCPLC_FACLT_TELNO"), // 전화번호
+                        (String)jsonObject.get("REFINE_WGS84_LOGT"), // 위도
+                        (String)jsonObject.get("REFINE_WGS84_LAT"), // 경도
+                        (String)jsonObject.get("SIGUN_NM"), // 시 정보
+                        (String)jsonObject.get("SIGUN_CD") // 시 정보코드
+                );
+                parse.add(hospitalDto);
+            }
+            if(keyword != null || search != null){
+                if(keyword.equals("병원") ){
+                    for(int i = 0; i<parse.size(); i++){ // 해당 크기만큼의 사이즈를 가지고와서
+                        if(parse.get(i).getBizplcnm().matches("(.*)"+search+"(.*)")){ // 값이 일치한다면
+                            HospitalDto hospitalDto = new HospitalDto(
+                                    parse.get(i).getBizplcnm(), // 병원 이름
+                                    parse.get(i).getRefineroadnmaddr(), // 주소
+                                    parse.get(i).getBsnstatenm(),// 영업 상태명
+                                    parse.get(i).getLocplcfaclttelno(), // 전화번호
+                                    parse.get(i).getLogt(), // 위도
+                                    parse.get(i).getLat(), // 경도
+                                    parse.get(i).getSigunnm(), // 시 정보
+                                    parse.get(i).getSiguncd() // 시 정보코드
+                            );
+                            parse2.add(hospitalDto);
+                        }
+                    }
+                }
+                if(keyword.equals("주소")){
+                    for(int i = 0; i<parse.size(); i++){ // 해당 크기만큼의 사이즈를 가지고와서
+                        if(parse.get(i).getRefineroadnmaddr().matches("(.*)"+search+"(.*)")){ // 값이 일치한다면
+                            HospitalDto hospitalDto = new HospitalDto(
+                                    parse.get(i).getBizplcnm(), // 병원 이름
+                                    parse.get(i).getRefineroadnmaddr(), // 주소
+                                    parse.get(i).getBsnstatenm(),// 영업 상태명
+                                    parse.get(i).getLocplcfaclttelno(), // 전화번호
+                                    parse.get(i).getLogt(), // 위도
+                                    parse.get(i).getLat(), // 경도
+                                    parse.get(i).getSigunnm(), // 시 정보
+                                    parse.get(i).getSiguncd() // 시 정보코드
+                            );
+                            parse2.add(hospitalDto);
+                        }
+                    }
+                }
+
+                return parse2;
+            }
+
+            return parse;
+        }catch (Exception e){
+
+        } return parse;
+    }
+
+
+    // 내가 원하는 값 파싱해서 다 가져오기
     public ArrayList<HospitalDto> parseapi(JSONArray jsonArray){
         JSONObject jsonObject = new JSONObject();
         ArrayList<HospitalDto> parse = new ArrayList<>();
@@ -92,6 +158,38 @@ public class AnimalHospitalService {
 
         } return parse;
     }
+
+    // 페이징 처리 값 가져와서
+    public ArrayList<HospitalDto> parsenum(ArrayList<HospitalDto> parses, int page){
+        ArrayList<HospitalDto> parsepage = new ArrayList<>();
+        Pagination pagination = new Pagination();
+        /*시작 페이지 값을 가져온다*/
+        /*int page */
+        /*화면에 뿌릴 페이지 사이즈 가져오기 */
+        int pagesize = pagination.getPageSize();
+
+        // 끝 페이지
+        int maxPage = page * pagesize;
+
+        // 시작페이지
+        int minPage = (maxPage-pagesize)+1;  // maxPage - maxpage-pagesize   1000 -
+
+        // 전체 리스트의 사이즈의 갯수보다 maxPage가 크다면 maxPage를 parses.size()값을 줘서 값을 맞추는것임
+        if(maxPage > parses.size()){
+            maxPage = parses.size();
+            /*minPage = */
+        }
+//        System.out.println("시작 페이지 입니다." + minPage);
+//        System.out.println("마지막 페이지 입니다." + maxPage);
+
+        for(int i = minPage-1; i<maxPage; i++){
+            parsepage.add(parses.get(i));
+//            System.out.println(i);
+        }
+
+        return parsepage;
+    }
+
 
 
 
