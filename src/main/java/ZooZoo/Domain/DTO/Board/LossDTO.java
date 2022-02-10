@@ -20,6 +20,7 @@ public class LossDTO {
     private String PBLANC_BEGIN_DE; //공고시작일자
     private String PBLANC_END_DE; //공고종료일자
     private String SPECIES_NM; //품종
+    private String details; //세부종류
     private String COLOR_NM; //색상
     private String AGE_INFO; //나이
     private String BDWGH_INFO; //체중
@@ -30,6 +31,7 @@ public class LossDTO {
     private String SHTER_TELNO; //보호소전화번호
     private String PROTECT_PLC; //보호장소
     private String REFINE_ROADNM_ADDR; //보호소도로명주소
+    private String city; //시군구
     private String REFINE_LOTNO_ADDR; //보호소지번주소
     private String REFINE_ZIP_CD; //보호소우편번호
     private String JURISD_INST_NM; //관할기관
