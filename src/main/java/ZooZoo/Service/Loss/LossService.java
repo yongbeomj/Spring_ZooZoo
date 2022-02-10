@@ -19,56 +19,6 @@ import java.util.HashMap;
 @Service
 public class LossService {
 
-    // 필터링(조회) 리스트
-    public ArrayList<LossDTO> losslist(String sex, String kind, String city) {
-        ArrayList<LossDTO> totLosslist = totlosslist();
-        ArrayList<LossDTO> actLosslist = new ArrayList<>();
-        ArrayList<LossDTO> getlist = new ArrayList<>();
-
-        for(int i = 0; i < totLosslist.size(); i++){
-            if (totLosslist.get(i).getSTATE_NM().contains("보호중")) {
-                actLosslist.add(totLosslist.get(i));
-            }
-        }
-
-
-
-
-        try {
-            if ((sex == null && kind == null && city == null) || (sex.equals("total") && kind.equals("total") && city.equals("total"))) {
-                return actLosslist; // 초기화면 (검색 없음)
-            }
-            for (int i = 0; i < actLosslist.size(); i++) {
-                // 전체 조건 검색
-                if (sex != null && kind != null && city != null && actLosslist.get(i).getSEX_NM().equals(sex) && actLosslist.get(i).getSPECIES_NM().equals(kind) && actLosslist.get(i).getCity().equals(city)) {
-                    getlist.add(actLosslist.get(i));
-                    // 성별만 total
-                } else if ((sex == null || sex.equals("total")) && kind != null && actLosslist.get(i).getSPECIES_NM().equals(kind) && city != null && actLosslist.get(i).getCity().equals(city)) {
-                    getlist.add(actLosslist.get(i));
-                    // 종류만 total
-                } else if ((kind == null || kind.equals("total")) && sex != null && actLosslist.get(i).getSEX_NM().equals(sex) && city != null && actLosslist.get(i).getCity().equals(city)) {
-                    getlist.add(actLosslist.get(i));
-                    // 시군구만 total
-                } else if ((city == null || city.equals("total")) && sex != null && actLosslist.get(i).getSEX_NM().equals(sex) && kind != null && actLosslist.get(i).getSPECIES_NM().equals(kind)) {
-                    getlist.add(actLosslist.get(i));
-                    // 종류, 시군구 total / 성별만 검색
-                } else if (((kind == null && city == null) || (kind.equals("total") && city.equals("total"))) && sex != null && actLosslist.get(i).getSEX_NM().equals(sex)) {
-                    getlist.add(actLosslist.get(i));
-                    // 성별, 시군구 total / 종류만 검색
-                } else if (((sex == null && city == null) || (sex.equals("total") && city.equals("total"))) && kind != null && actLosslist.get(i).getSPECIES_NM().equals(kind)) {
-                    getlist.add(actLosslist.get(i));
-                    // 성별, 종류 total / 시군구만 검색
-                } else if (((sex == null && kind == null) || (sex.equals("total") && kind.equals("total"))) && city != null && actLosslist.get(i).getCity().equals(city)) {
-                    getlist.add(actLosslist.get(i));
-                }
-            }
-            return getlist;
-
-        } catch (Exception e) {
-        }
-        return null;
-    }
-
     // 전체 리스트 (API 데이터 호출)
     public ArrayList<LossDTO> totlosslist() {
 
@@ -195,6 +145,65 @@ public class LossService {
         }
     }
 
+    // 필터링(조회) 리스트
+    public ArrayList<LossDTO> losslist(String sex, String kind, String city) {
+        ArrayList<LossDTO> totLosslist = totlosslist();
+        ArrayList<LossDTO> actLosslist = new ArrayList<>();
+        ArrayList<LossDTO> getlist = new ArrayList<>();
+
+        for(int i = 0; i < totLosslist.size(); i++){
+            if (totLosslist.get(i).getSTATE_NM().contains("보호중")) {
+                actLosslist.add(totLosslist.get(i));
+            }
+        }
+
+        try {
+            if ((sex == null && kind == null && city == null) || (sex.equals("total") && kind.equals("total") && city.equals("total"))) {
+                return actLosslist; // 초기화면 (검색 없음)
+            }
+            for (int i = 0; i < actLosslist.size(); i++) {
+                // 전체 조건 검색
+                if (sex != null && kind != null && city != null && actLosslist.get(i).getSEX_NM().equals(sex) && actLosslist.get(i).getSPECIES_NM().equals(kind) && actLosslist.get(i).getCity().equals(city)) {
+                    getlist.add(actLosslist.get(i));
+                    // 성별만 total
+                } else if ((sex == null || sex.equals("total")) && kind != null && actLosslist.get(i).getSPECIES_NM().equals(kind) && city != null && actLosslist.get(i).getCity().equals(city)) {
+                    getlist.add(actLosslist.get(i));
+                    // 종류만 total
+                } else if ((kind == null || kind.equals("total")) && sex != null && actLosslist.get(i).getSEX_NM().equals(sex) && city != null && actLosslist.get(i).getCity().equals(city)) {
+                    getlist.add(actLosslist.get(i));
+                    // 시군구만 total
+                } else if ((city == null || city.equals("total")) && sex != null && actLosslist.get(i).getSEX_NM().equals(sex) && kind != null && actLosslist.get(i).getSPECIES_NM().equals(kind)) {
+                    getlist.add(actLosslist.get(i));
+                    // 종류, 시군구 total / 성별만 검색
+                } else if (((kind == null && city == null) || (kind.equals("total") && city.equals("total"))) && sex != null && actLosslist.get(i).getSEX_NM().equals(sex)) {
+                    getlist.add(actLosslist.get(i));
+                    // 성별, 시군구 total / 종류만 검색
+                } else if (((sex == null && city == null) || (sex.equals("total") && city.equals("total"))) && kind != null && actLosslist.get(i).getSPECIES_NM().equals(kind)) {
+                    getlist.add(actLosslist.get(i));
+                    // 성별, 종류 total / 시군구만 검색
+                } else if (((sex == null && kind == null) || (sex.equals("total") && kind.equals("total"))) && city != null && actLosslist.get(i).getCity().equals(city)) {
+                    getlist.add(actLosslist.get(i));
+                }
+            }
+            return getlist;
+
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    // 상세페이지
+    public ArrayList<LossDTO> getlossboard(String ABDM_IDNTFY_NO) {
+        ArrayList<LossDTO> totLosslist = totlosslist();
+        ArrayList<LossDTO> getlossDTOS = new ArrayList<>();
+        for (int i = 0; i < totLosslist.size(); i++) {
+            if (totLosslist.get(i).getABDM_IDNTFY_NO().equals(ABDM_IDNTFY_NO)) {
+                getlossDTOS.add(totLosslist.get(i));
+            }
+        }
+        return getlossDTOS;
+    }
+
     // 페이징 처리
     public ArrayList<LossDTO> parsenum(ArrayList<LossDTO> parses, int page) {
         ArrayList<LossDTO> parsepage = new ArrayList<>();
@@ -222,17 +231,7 @@ public class LossService {
         return parsepage;
     }
 
-    // 상세페이지
-    public ArrayList<LossDTO> getlossboard(String ABDM_IDNTFY_NO) {
-        ArrayList<LossDTO> totLosslist = totlosslist();
-        ArrayList<LossDTO> getlossDTOS = new ArrayList<>();
-        for (int i = 0; i < totLosslist.size(); i++) {
-            if (totLosslist.get(i).getABDM_IDNTFY_NO().equals(ABDM_IDNTFY_NO)) {
-                getlossDTOS.add(totLosslist.get(i));
-            }
-        }
-        return getlossDTOS;
-    }
+
 
 
 }
