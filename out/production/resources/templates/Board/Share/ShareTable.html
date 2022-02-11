@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<body>
+    <table class = "table">
+        <tr class = "row">
+            <th class = "col-md-1 text-center">번호</th><th class = "col-md-5 text-center">가게명</th><th class = "col-md-5 text-center">주소</th>
+        </tr>
+        <tr class = "row" th:each = "share : ${share}" id = "tt">
+            <td class = "col-md-1 text-center" th:text = "${share.shareno}"></td><td class = "col-md-5 text-center"><a th:text = "${share.sharename}" th:href = "@{'/ShareBoardView/' + ${share.shareno} + ${share}}"></a></td><td class = "col-md-5 text-center" th:text = "${share.shareaddress}"></td>
+        </tr>
+    </table>
+</body>
