@@ -40,7 +40,7 @@
         </div>
     </div>
     <hr><br>
-    <div class = "container">
+    <div class = "container" id = "tab">
         <select id = "selectBoxTest" onchange="changeSelection()">
             <option value = "시/도">시/도</option>
             <div th:each = " select : ${select}">
@@ -59,7 +59,7 @@
     </div>
     <br>
     <!--paging button-->
-    <nav aria-label="Page navigation example" class = "d-flex justify-content-center">
+    <nav id = "pp" aria-label="Page navigation example" class = "d-flex justify-content-center">
         <ul class="pagination">
             <li class="page-item">
                 <a class="page-link" th:href="@{/ShareBoardList?page=1}" aria-label="Previous">

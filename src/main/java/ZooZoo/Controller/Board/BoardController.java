@@ -37,51 +37,53 @@ public class BoardController {
 //     분양게시판으로
     @GetMapping("/ShareBoardList")
     public String goToShareBoardList(Model model, @RequestParam(defaultValue = "1") int page  ) {
+//        HttpSession session = request.getSession();
+//        session.setAttribute("option", null);
 
-            ShareDTO shareDTO = new ShareDTO();
-            ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
-            ArrayList<String> petshop = shareService.Share(null);
-            ArrayList<String> oneStep = new ArrayList<>();
-            ArrayList<String> twoStep = new ArrayList<>();
-            ArrayList<String> threeStep = new ArrayList<>();
-            String[] s = new String[petshop.size()];
-            int totalSize = petshop.size();
-            Pagination paging = new Pagination(totalSize, page);
-            int j = 0;
-            if (page != 80) {
-                for (int i = (page - 1) * 100; i < paging.getPageSize() * page; i++) {
-                    s[i] = petshop.get(i);
-                    oneStep.add(s[i].split(":")[0]);
-                    twoStep.add(s[i].split(":")[1]);
-                    threeStep.add(s[i].split(":")[2]);
-                    shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j)));
-                    j++;
-                }
-            } else {
-                for (int i = (page - 1) * 100; i < totalSize; i++) {
-                    s[i] = petshop.get(i);
-                    oneStep.add(s[i].split(":")[0]);
-                    twoStep.add(s[i].split(":")[1]);
-                    threeStep.add(s[i].split(":")[2]);
-                    shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j)));
-                    j++;
-                }
+        ShareDTO shareDTO = new ShareDTO();
+        ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
+        ArrayList<String> petshop = shareService.Share(null);
+        ArrayList<String> oneStep = new ArrayList<>();
+        ArrayList<String> twoStep = new ArrayList<>();
+        ArrayList<String> threeStep = new ArrayList<>();
+        String[] s = new String[petshop.size()];
+        int totalSize = petshop.size();
+        Pagination paging = new Pagination(totalSize, page);
+        int j = 0;
+        if (page != 80) {
+            for (int i = (page - 1) * 100; i < paging.getPageSize() * page; i++) {
+                s[i] = petshop.get(i);
+                oneStep.add(s[i].split(":")[0]);
+                twoStep.add(s[i].split(":")[1]);
+                threeStep.add(s[i].split(":")[2]);
+                shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j)));
+                j++;
             }
-
-            String[] select = {
-                    "김포시", "파주시", "고양시", "양주시", "동두천시", "포천시", "가평군",
-                    "남양주시", "양평군", "여주시", "이천시", "광주시", "하남시", "성남시",
-                    "용인시", "안성시", "오산시", "평택시", "화성시", "수원시", "안산시",
-                    "의왕시", "과천시", "군포시", "시흥시", "광명시", "부천시"
-            };
-            ArrayList<String> selectArr = new ArrayList<>();
-            for (int i = 0; i < select.length; i++) {
-                selectArr.add(select[i]);
+        } else {
+            for (int i = (page - 1) * 100; i < totalSize; i++) {
+                s[i] = petshop.get(i);
+                oneStep.add(s[i].split(":")[0]);
+                twoStep.add(s[i].split(":")[1]);
+                threeStep.add(s[i].split(":")[2]);
+                shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j)));
+                j++;
             }
+        }
 
-            model.addAttribute("select", selectArr);
-            model.addAttribute("pagination", paging);
-            model.addAttribute("share", shareDTOS);
+        String[] select = {
+                "김포시", "파주시", "고양시", "양주시", "동두천시", "포천시", "가평군",
+                "남양주시", "양평군", "여주시", "이천시", "광주시", "하남시", "성남시",
+                "용인시", "안성시", "오산시", "평택시", "화성시", "수원시", "안산시",
+                "의왕시", "과천시", "군포시", "시흥시", "광명시", "부천시"
+        };
+        ArrayList<String> selectArr = new ArrayList<>();
+        for (int i = 0; i < select.length; i++) {
+            selectArr.add(select[i]);
+        }
+
+        model.addAttribute("select", selectArr);
+        model.addAttribute("pagination", paging);
+        model.addAttribute("share", shareDTOS);
 
         return "Board/Share/ShareBoardList";
     }
@@ -92,8 +94,8 @@ public class BoardController {
    @GetMapping("/ShareBoardListController")
     public String ShareBoardListController(Model model, @RequestParam(defaultValue = "1") int page ,
                                            @RequestParam("option") String option ) {
-        boolean sw = false;
-
+        HttpSession session = request.getSession();
+        session.setAttribute("option", option);
         if(option == null || option.contains("시/도")) { // 처음 페이지 열 때
             ShareDTO shareDTO = new ShareDTO();
             ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
@@ -139,13 +141,9 @@ public class BoardController {
             model.addAttribute("select", selectArr);
             model.addAttribute("pagination", paging);
             model.addAttribute("share", shareDTOS);
-//            if(sw) {
-//                return "1";
-//            } else {
-//                return "2";
-//            }
             return "Board/Share/ShareTable";
         } else { // 카테고리 선택되면
+            session.setAttribute("option", option);
             ShareDTO shareDTO = new ShareDTO();
             ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
             ArrayList<String> petshop = shareService.Share(option);
@@ -192,11 +190,6 @@ public class BoardController {
             model.addAttribute("select", selectArr);
             model.addAttribute("pagination", paging);
             model.addAttribute("share", shareDTOS);
-//            if(sw) {
-//                return "1";
-//            } else {
-//                return "2";
-//            }
             return "Board/Share/ShareTable";
         }
     }

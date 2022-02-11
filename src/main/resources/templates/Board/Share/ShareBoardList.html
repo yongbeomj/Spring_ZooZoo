@@ -40,7 +40,7 @@
         </div>
     </div>
     <hr><br>
-    <div class = "container">
+    <div class = "container" id = "tab">
         <select id = "selectBoxTest" onchange="changeSelection()">
             <option value = "시/도">시/도</option>
             <div th:each = " select : ${select}">
@@ -48,7 +48,7 @@
                 <option th:if = "${session.option  !=  select} "  th:text = "${select}" th:value = "${select}" th:name = "sel" th:id = "selectA"></option>
             </div>
         </select>
-        <table class = "table" id = "tab">
+        <table class = "table">
             <tr class = "row">
                 <th class = "col-md-1 text-center">번호</th><th class = "col-md-5 text-center">가게명</th><th class = "col-md-5 text-center">주소</th>
             </tr>
@@ -59,7 +59,7 @@
     </div>
     <br>
     <!--paging button-->
-    <nav aria-label="Page navigation example" class = "d-flex justify-content-center">
+    <nav id = "pp" aria-label="Page navigation example" class = "d-flex justify-content-center">
         <ul class="pagination">
             <li class="page-item">
                 <a class="page-link" th:href="@{/ShareBoardList?page=1}" aria-label="Previous">

@@ -13,9 +13,9 @@ function changeSelection(){
         url : "/ShareBoardListController",
         data : {"option" : optionVal},
         success : function(result) {
-            
-            $("#tab").html( result );
-
+            $("#pp").html("");
+            $("#tab").html("");
+            $("#tab").html(result);
         }
     });
 }
