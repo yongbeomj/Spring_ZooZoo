@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<body>
-<div class = "container" id = "tab">
-    <select id = "selectBoxTest" onchange="changeSelection()">
-        <option value = "시/도">시/도</option>
-        <div th:each = " select : ${select}">
-            <option th:if = "${session.option  ==  select} " selected th:text = "${select}" th:value = "${select}" th:name = "sel" th:id = "selectA"></option>
-            <option th:if = "${session.option  !=  select} "  th:text = "${select}" th:value = "${select}" th:name = "sel" th:id = "selectA"></option>
-        </div>
-    </select>
+<div class = "container">
     <table class = "table">
         <tr class = "row">
             <th class = "col-md-1 text-center">번호</th><th class = "col-md-5 text-center">가게명</th><th class = "col-md-5 text-center">주소</th>
@@ -18,16 +8,17 @@
         </tr>
     </table>
 </div>
+<br>
 <!--paging button-->
 <nav id = "pp" aria-label="Page navigation example" class = "d-flex justify-content-center">
     <ul class="pagination">
         <li class="page-item">
-            <a class="page-link" th:href="@{/ShareBoardList?page=1}" aria-label="Previous">
+            <a class="page-link" th:href="@{/ShareBoardListController?page=1}" aria-label="Previous">
                 <span aria-hidden="true"><<</span>
             </a>
         </li>
         <li class="page-item">
-            <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pagination.prevBlock})}" aria-label="Previous">
+            <a class="page-link" th:href="@{/ShareBoardListController?page={page} (page = ${pagination.prevBlock})}" aria-label="Previous">
                 <span aria-hidden="true"><</span>
             </a>
         </li>
@@ -35,19 +26,18 @@
             <li class="page-item"
                 th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
                 th:each="pageButton : ${#numbers.sequence(start, end)}">
-                <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pageButton})}" th:text=${pageButton}></a>
+                <a class="page-link" th:href="@{/ShareBoardListController?page={page} (page = ${pageButton})}" th:text=${pageButton}></a>
             </li>
         </th:block>
         <li class="page-item">
-            <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pagination.nextBlock})}" aria-label="Next">
+            <a class="page-link" th:href="@{/ShareBoardListController?page={page} (page = ${pagination.nextBlock})}" aria-label="Next">
                 <span aria-hidden="true">></span>
             </a>
         </li>
         <li class="page-item">
-            <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pagination.totalPageCnt})}" aria-label="Previous">
+            <a class="page-link" th:href="@{/ShareBoardListController?page={page} (page = ${pagination.totalPageCnt})}" aria-label="Previous">
                 <span aria-hidden="true">>></span>
             </a>
         </li>
     </ul>
 </nav>
-</body>

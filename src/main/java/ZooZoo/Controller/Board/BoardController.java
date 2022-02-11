@@ -25,8 +25,8 @@ import java.util.Collections;
 
 @Controller
 public class BoardController {
-	@Autowired
-	ShareService shareService;
+    @Autowired
+    ShareService shareService;
     @Autowired
     FreeBoardService freeBoardService;
     @Autowired
@@ -34,12 +34,13 @@ public class BoardController {
     @Autowired
     LossService lossService;
 
-//     분양게시판으로
+    //     분양게시판으로
     @GetMapping("/ShareBoardList")
-    public String goToShareBoardList(Model model, @RequestParam(defaultValue = "1") int page  ) {
+    public String goToShareBoardList(Model model, @RequestParam(defaultValue = "1") int page) {
 //        HttpSession session = request.getSession();
 //        session.setAttribute("option", null);
 
+        System.out.println("3");
         ShareDTO shareDTO = new ShareDTO();
         ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
         ArrayList<String> petshop = shareService.Share(null);
@@ -89,14 +90,23 @@ public class BoardController {
     }
 
 
-   // @GetMapping("/ShareBoardList")
+    // @GetMapping("/ShareBoardList")
 //    @ResponseBody
-   @GetMapping("/ShareBoardListController")
-    public String ShareBoardListController(Model model, @RequestParam(defaultValue = "1") int page ,
-                                           @RequestParam("option") String option ) {
+    @GetMapping("/ShareBoardListController")
+    public String ShareBoardListController(Model model, @RequestParam(defaultValue = "1") int page) {
+        String option = request.getParameter("option");
+        System.out.println("Option : " + option);
         HttpSession session = request.getSession();
-        session.setAttribute("option", option);
-        if(option == null || option.contains("시/도")) { // 처음 페이지 열 때
+        if (option != null) {
+            String op = option;
+            session.setAttribute("option", op);
+        }else{
+            option = (String) session.getAttribute("option");
+        }
+
+        System.out.println("option : " + option);
+        if(option == null || option.equals("null") || option.equals(null)) { // 처음 페이지 열 때
+            System.out.println("1");
             ShareDTO shareDTO = new ShareDTO();
             ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
             ArrayList<String> petshop = shareService.Share(option);
@@ -143,11 +153,10 @@ public class BoardController {
             model.addAttribute("share", shareDTOS);
             return "Board/Share/ShareTable";
         } else { // 카테고리 선택되면
-            session.setAttribute("option", option);
+            System.out.println("2");
             ShareDTO shareDTO = new ShareDTO();
             ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
             ArrayList<String> petshop = shareService.Share(option);
-//            System.out.println(petshop.size());
             ArrayList<String> oneStep = new ArrayList<>();
             ArrayList<String> twoStep = new ArrayList<>();
             ArrayList<String> threeStep = new ArrayList<>();
@@ -196,7 +205,7 @@ public class BoardController {
 
     // 자유게시판으로
     @GetMapping("/freeboard")
-    public String GotoFreeBoard(Model model){
+    public String GotoFreeBoard(Model model) {
         ArrayList<BoardDTO> boardDTOs = freeBoardService.GetAll();
         model.addAttribute("freeboard", boardDTOs);
         return "Board/Free/FreeBoardMain";
@@ -236,19 +245,29 @@ public class BoardController {
     @GetMapping("/Board/Loss/LossBoardView/{ABDM_IDNTFY_NO}")
     public String goToLossBoardView(Model model, @PathVariable("ABDM_IDNTFY_NO") String ABDM_IDNTFY_NO) {
         ArrayList<LossDTO> lossDTOS = lossService.getlossboard(ABDM_IDNTFY_NO);
-        model.addAttribute("lossDTOS",lossDTOS);
+        model.addAttribute("lossDTOS", lossDTOS);
         return "Board/Loss/LossBoardView";
     }
-    @GetMapping("/Board/Free/FreeBoardView")public String goToFreeBoardView() {return "Board/Free/FreeBoardView";}
+
+    @GetMapping("/Board/Free/FreeBoardView")
+    public String goToFreeBoardView() {
+        return "Board/Free/FreeBoardView";
+    }
 
     @GetMapping("/ShareBoardView/{shareno}")
     public String SBView(ShareDTO shareDTO, Model model) {
-        String no = shareDTO.getShareno(); String sno = no.split(",")[0]; String s_no = sno.split("=")[1];
-        String name = no.split(",")[1]; String sname = name.split("=")[1];
-        String address = no.split(",")[2]; String saddress = address.split("=")[1];
+        String no = shareDTO.getShareno();
+        String sno = no.split(",")[0];
+        String s_no = sno.split("=")[1];
+        String name = no.split(",")[1];
+        String sname = name.split("=")[1];
+        String address = no.split(",")[2];
+        String saddress = address.split("=")[1];
 
         ShareDTO dto = new ShareDTO();
-        dto.setShareno(s_no); dto.setSharename(sname); dto.setShareaddress(saddress);
+        dto.setShareno(s_no);
+        dto.setSharename(sname);
+        dto.setShareaddress(saddress);
         model.addAttribute("shareDTO", dto);
         return "Board/Share/ShareBoardView";
     }
