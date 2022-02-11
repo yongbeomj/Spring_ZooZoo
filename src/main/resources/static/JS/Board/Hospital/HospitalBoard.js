@@ -58,5 +58,42 @@ mapOption = {
 
 // 지도를 생성한다
 var map = new kakao.maps.Map(mapContainer, mapOption);*/
+function keyevent(){
+    stat = $("#h_status").val();
+    stat2 = $("#h_keyword").val();
+    stat3 = $("#h_search").val();
 
+    $.ajax({
+        url : "/hospitaltable"+"?status="+stat+"&keyword="+stat2+"&search="+stat3,
+        success: function(data) {
+            $("#research").html("");
+            $("#research").html(data);
+        }
+    })
+}
 
+function hospitalstatus(){
+    stat = $("#h_status").val();
+    stat2 = $("#h_keyword").val();
+    stat3 = $("#h_search").val();
+    $.ajax({
+        url : "/hospitaltable"+"?status="+stat+"&keyword="+stat2+"&search="+stat3,
+        success: function(data) {
+            $("#research").html("");
+            $("#research").html(data);
+        }
+    })
+
+}
+
+function hospitalpage(pages){
+
+    $.ajax({
+        url : "/hospitalpaging"+"?page="+pages,
+        success: function(data) {
+            $("#research").html("");
+            $("#research").html(data);
+        }
+    })
+
+}

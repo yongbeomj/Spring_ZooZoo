@@ -6,8 +6,8 @@
     position: fixed;
     top: 0;
     bottom: 0;
-    right: 0;          /* 왼쪽사이드 left   , 오른쪽사이드바 right */
-    margin-right: -400px;  /* 사이드바가 숨겨지는 가로길이 */
+    left: 0;          /* 왼쪽사이드 left   , 오른쪽사이드바 right */
+    margin-left: -400px;  /* 사이드바가 숨겨지는 가로길이 */
     width: 400px;         /* 사이드바 가로길이 */
     overflow-y: auto;
     overflow-x: hidden;
@@ -17,7 +17,7 @@
     transition: all 0.5s ease;
 }
 .sidebar.toggled {
-    margin-right: 0;   /* 왼쪽사이드 left   , 오른쪽사이드바 right */
+    margin-left: 0;   /* 왼쪽사이드 left   , 오른쪽사이드바 right */
 }
 
 /* ----------------------------------------------------
@@ -83,4 +83,26 @@
     text-decoration: none;
     color: #fff;
     background: black;
+}
+
+.Shadow .toggle {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    width: 22px;
+    height: 54px;
+    font-size: 0;
+    line-height: 0;
+    background: url(//t1.daumcdn.net/localimg/localimages/07/2018/pc/shadow/img_navi.png) no-repeat 0 0;
+    text-indent: -9999px;
+    cursor: pointer;
+    margin-left: 0px;  /* 사이드바가 숨겨지는 가로길이 */
+    left: 0;          /* 왼쪽사이드 left   , 오른쪽사이드바 right */
+    -webkit-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    z-index: 999;
 }

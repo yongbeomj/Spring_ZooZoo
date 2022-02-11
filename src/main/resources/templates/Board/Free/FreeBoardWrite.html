@@ -31,6 +31,8 @@
     <!-- summernote 한글 버전 cdn -->
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
     <!-- CSS Files -->
+
+    <div th:replace="BoardWriteHeader.html :: freeboardheader"></div>
     <section class="py-lg-5">
         <div class="container">
             <div class="row">
@@ -85,9 +87,12 @@
                                 </div>
                             </div>
                             <div class="col-lg-7">
-                                <form class="p-3" id="freeboardform" enctype="multipart/form-data">
+                                <form class="p-3" id="fileForm" name="fileForm" enctype="multipart/form-data" method="post">
                                     <div class="card-header px-4 py-sm-5 py-3">
-                                        <h2>글을 작성해주세요!</h2>
+                                        <div class="row">
+                                            <div>
+                                            <h2>글을 작성해주세요!</h2>
+                                        </div>
                                         <p class="lead"> 자유게시판 글쓰기</p>
                                     </div>
                                     <div class="card-body pt-1">
@@ -104,18 +109,23 @@
                                                     <textarea class="form-control" name="freebcontents" id="freebcontents" rows="6"></textarea>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12 pe-2 mb-3">
-                                                <div class="input-group input-group-static mb-4">
-                                                    <label>첨부파일</label>
-                                                    <input type="file" name="freebfile" multiple="multiple" class="form-control" placeholder="첨부파일">
+                                            <div class="input-group input-group-static mb-4">
+                                                <label>첨부파일</label>
+                                                <div id="fileDrop" class="filebox">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-6 text-end ms-auto">
-                                                <button type="button" class="btn btn-primary bg-gradient-primary mb-0" onclick="boardwrite()">글쓰기</button>
-                                            </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <a th:href="@{/freeboard}">
+                                                <button type="button" class="btn btn bg-gradient-dark w-auto me-2">목록으로</button>
+                                            </a>
                                         </div>
+                                        <div class="col-md-6 text-end ms-auto">
+                                            <button type="button" id="save" class="btn btn-primary bg-gradient-primary mb-0">글쓰기</button>
+                                        </div>
+                                    </div>
                                     </div>
                                 </form>
                             </div>

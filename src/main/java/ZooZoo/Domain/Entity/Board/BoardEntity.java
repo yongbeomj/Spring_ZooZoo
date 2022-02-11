@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="board")
-@ToString (exclude = {"memberEntity","categoryEntity" ,"boardImgEntities"})
+@ToString (exclude={"memberEntity","categoryEntity","boardImgEntities"})
 public class BoardEntity extends DateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class BoardEntity extends DateEntity {
     private MemberEntity memberEntity;
 
     //카테고리 fk??????
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "cano")
     private CategoryEntity categoryEntity;
 

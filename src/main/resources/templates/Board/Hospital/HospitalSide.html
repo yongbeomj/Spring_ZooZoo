@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--위도,경도, 병원이름, 병원주소, 병원상태, 병원 전화번호, 시 정보, 시 코드,-->
+<!--getLogt, getLat, getBizplcnm, getRefineroadnmaddr, getBsnstatenm, getLocplcfaclttelno, getSigunnm, getSiguncd-->
+    <!--DB ID : 사업자명(병원이름 앞글자) - 인허가일자 - 위도+경도(소수점 제거)  -->
+    <div type ="hidden" name="encoding" id="encoding" th:val="${encode}"></div>
+    <div class ="container">
+
+        <div>날씨 넣기</div>
+        <div class = "d-flex justify-content-center" >
+            <h3 th:text= "${hospitalDto.getBizplcnm}"></h3>&nbsp;
+            <span class="" th:text="${hospitalDto.getBsnstatenm}"></span>
+        </div>
+        <br>
+        <div class ="d-flex justify-content-center">
+            <div>*점 평균</div>&nbsp;&nbsp;<div>리뷰 개수</div>
+        </div>
+        <br>
+        <div class ="d-flex justify-content-center">
+            시 정보 : <span class="badge bg-success badge-sm" th:text="${hospitalDto.getSigunnm}"></span>
+        </div>
+        <br>
+        <div class ="container" style="">
+            <div class ="row" style="border:solid 1px black">
+                <div class="col-md-6" style="text-align: center">
+                    <button style="background-color: white; border: white;" onclick="homeclick()">
+                        <span style="font-weight: bold">홈</span>
+                    </button>
+                </div>
+                <div class="col-md-6" style="text-align: center">
+                    <button style="background-color: white; border: white;" onclick="reviewclick()">
+                        <span style="font-weight: bold">리뷰</span>
+                    </button>
+                </div>
+
+            </div>
+            <!--<div style ="border: solid 1px black;" class ="d-flex justify-content-start"  th:text="${hospitalDto.getLocplcfaclttelno}" ></div>
+            <div style ="border: solid 1px black;" class ="d-flex justify-content-start" th:text="${hospitalDto.getRefineroadnmaddr}" ></div>
+            <div style ="border: solid 1px black;" class ="d-flex justify-content-start" th:text="${hospitalDto.getBsnstatenm}"></div>-->
+        </div>
+    </div>
+</body>
+</html>

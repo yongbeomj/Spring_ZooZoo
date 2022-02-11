@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name="category")
-@ToString (exclude={"boardEntities","categoryEntity2"})
+@ToString (exclude="boardEntities")
 @Builder
 @Getter
 @Setter
@@ -25,7 +25,7 @@ public class CategoryEntity {
     @OneToMany(mappedBy = "categoryEntity", cascade = CascadeType.ALL)
     private List<BoardEntity> boardEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "categoryEntity2", cascade = CascadeType.ALL)
-    private List<BoardImgEntity> boardImgEntities = new ArrayList<>();
+   /* @OneToMany(mappedBy = "categoryEntity2", cascade = CascadeType.ALL)
+    private List<BoardImgEntity> boardImgEntities = new ArrayList<>();*/
 
 }

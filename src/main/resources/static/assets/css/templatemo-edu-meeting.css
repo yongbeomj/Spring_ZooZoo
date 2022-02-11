@@ -990,7 +990,7 @@ section.upcoming-meetings .categories .main-button-red a {
   font-size: 13px;
   text-transform: uppercase;
   font-weight: 600;
-  color: #a12c2f;
+  color: #ff7f50;
 }
 
 .meeting-item .down-content .date span {
@@ -1007,9 +1007,9 @@ section.upcoming-meetings .categories .main-button-red a {
   display: inline-block;
   margin-bottom: 15px;
 }
-
+/*게시판 리스트 내용(bcontents) 간격 조절 css*/
 .meeting-item .down-content p {
-  margin-left: 50px;
+  margin-left: 30px;
   color: #1f272b;
   font-size: 14px;
 }

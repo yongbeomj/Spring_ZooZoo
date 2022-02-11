@@ -32,14 +32,27 @@ public class AnimalHospitalController {
         /* 검색 서비스 */
         String keyword = request.getParameter("keyword");
         String search = request.getParameter("search");
+        String status = request.getParameter("status");
+
         HttpSession session = request.getSession();
 
-        if( keyword!=null || search!=null ){
+        if( keyword!=null || search!=null || status != null){
             session.setAttribute("keyword" , keyword);
             session.setAttribute("search" , search);
+            session.setAttribute("status" , status);
         }else{
+            if(keyword==null){
+                keyword = "";
+            }
+            if(search==null){
+                search = "";
+            }
+            if(status==null){
+                status = "";
+            }
             keyword =  (String) session.getAttribute("keyword");
-            search =   (String)  session.getAttribute("search");
+            search =   (String) session.getAttribute("search");
+            status =  (String) session.getAttribute("status");
         }
 
         JSONArray jsonArray = new JSONArray();
@@ -52,9 +65,19 @@ public class AnimalHospitalController {
 
         jsonArray = animalHospitalService.getapi(totalList); // 총 개수를 받아서 출력할 페이지
         /// 검색 테스트 start ///
-        parses = animalHospitalService.parseapisearch(jsonArray, keyword, search);
+        if(keyword==null){
+            keyword = "";
+        }
+        if(search==null){
+            search = "";
+        }
+        if(status==null){
+            status = "";
+        }
+
+        parses = animalHospitalService.parseapisearch(jsonArray, keyword, search, status);
         /// 검색 테스트 end ///
-       /* parses = animalHospitalService.parseapi(jsonArray); // 모든 게시물 출력*/
+        /* parses = animalHospitalService.parseapi(jsonArray); // 모든 게시물 출력*/
         parsePage = animalHospitalService.parsenum(parses, page);
 
         Pagination pagination = new Pagination(parses.size(), page); // 전달 값을 토탈 개수를 전달해야됨
@@ -106,9 +129,140 @@ public class AnimalHospitalController {
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         jsonArray = animalHospitalService.getapi(animalHospitalService.getapitotal());
-
         return jsonArray.toString();
     }
 
+    // 사이드 바 맵에 전달해야되는 값
+    @GetMapping("/getmapside")
+    public String getmapside(Model model){
+        model.addAttribute("hospitalDto", hospitalDto);
 
+        /*char ch = '최';
+        int code = (int)ch;
+        String encode = Integer.toHexString(code);
+        System.out.println(encode);*/
+
+        char encoding = hospitalDto.getBizplcnm().charAt(0);
+        int code = (int)encoding;
+        String encode = Integer.toHexString(code);
+        System.out.println(encode);
+        model.addAttribute("encode", encode);
+        return "/Board/Hospital/HospitalSide";
+    }
+
+    @GetMapping("/getmapsidehome")
+    public String getmapsidehome(Model model){
+        model.addAttribute("hospitalDto", hospitalDto);
+
+        return "/Board/Hospital/HospitalSideHome";
+    }
+
+    @GetMapping("/getmapsidereview")
+    public String getmapsidereview(Model model){
+
+        return "/Board/Hospital/HospitalSideReview";
+    }
+
+    @GetMapping("/hospitaltable")
+    public String gethospitaltable(Model model,
+                                   @RequestParam(defaultValue = "1") int page){
+        /* 검색 서비스 */
+        String keyword = request.getParameter("keyword");
+        String search = request.getParameter("search");
+        String status = request.getParameter("status");
+
+        HttpSession session = request.getSession();
+
+        if( keyword!=null || search!=null || status != null){
+            session.setAttribute("keyword" , keyword);
+            session.setAttribute("search" , search);
+            session.setAttribute("status" , status);
+        }else{
+            if(keyword==null){
+                keyword = "";
+            }
+            if(search==null){
+                search = "";
+            }
+            if(status==null){
+                status = "";
+            }
+            keyword =  (String) session.getAttribute("keyword");
+            search =   (String) session.getAttribute("search");
+            status =  (String) session.getAttribute("status");
+        }
+
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+
+        ArrayList<HospitalDto> parses = new ArrayList<>();
+        ArrayList<HospitalDto> parsePage = new ArrayList<>();
+
+        int totalList = animalHospitalService.getapitotal(); // 총 토탈 게시물 개수
+
+        jsonArray = animalHospitalService.getapi(totalList); // 총 개수를 받아서 출력할 페이지
+        /// 검색 테스트 start ///
+        if(keyword==null){
+            keyword = "";
+        }
+        if(search==null){
+            search = "";
+        }
+        if(status==null){
+            status = "";
+        }
+
+        parses = animalHospitalService.parseapisearch(jsonArray, keyword, search, status);
+        /// 검색 테스트 end ///
+        /* parses = animalHospitalService.parseapi(jsonArray); // 모든 게시물 출력*/
+        parsePage = animalHospitalService.parsenum(parses, page);
+
+        Pagination pagination = new Pagination(parses.size(), page); // 전달 값을 토탈 개수를 전달해야됨
+        model.addAttribute("parses",parsePage);
+        model.addAttribute("pagination", pagination);
+
+        return "/Board/Hospital/HospitalTable";
+    }
+
+    @GetMapping("/hospitalpaging")
+    public String gethospitalpaging(Model model,
+                                   @RequestParam(defaultValue = "1") int page){
+        /* 검색 서비스 */
+        String keyword = request.getParameter("keyword");
+        String search = request.getParameter("search");
+        String status = request.getParameter("status");
+
+        HttpSession session = request.getSession();
+
+        if( keyword!=null || search!=null || status != null){
+            session.setAttribute("keyword" , keyword);
+            session.setAttribute("search" , search);
+            session.setAttribute("status" , status);
+        }else{
+            keyword =  (String) session.getAttribute("keyword");
+            search =   (String)  session.getAttribute("search");
+            status =  (String)  session.getAttribute("status");
+        }
+
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+
+        ArrayList<HospitalDto> parses = new ArrayList<>();
+        ArrayList<HospitalDto> parsePage = new ArrayList<>();
+
+        int totalList = animalHospitalService.getapitotal(); // 총 토탈 게시물 개수
+
+        jsonArray = animalHospitalService.getapi(totalList); // 총 개수를 받아서 출력할 페이지
+        /// 검색 테스트 start ///
+        parses = animalHospitalService.parseapisearch(jsonArray, keyword, search, status);
+        /// 검색 테스트 end ///
+        /* parses = animalHospitalService.parseapi(jsonArray); // 모든 게시물 출력*/
+        parsePage = animalHospitalService.parsenum(parses, page);
+
+        Pagination pagination = new Pagination(parses.size(), page); // 전달 값을 토탈 개수를 전달해야됨
+        model.addAttribute("parses",parsePage);
+        model.addAttribute("pagination", pagination);
+
+        return "/Board/Hospital/HospitalTable";
+    }
 }

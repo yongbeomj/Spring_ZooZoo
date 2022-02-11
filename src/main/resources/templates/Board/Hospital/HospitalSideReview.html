@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <div class ="container" style="">
+        <div class="card mb-2">
+            <div class="card-header bg-light">
+                <i class="fa fa-comment fa"></i> REPLY
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <button type="button" class="btn btn-dark mt-3" onclick="homeclick()">리뷰등록</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--개발자 js-->
+    <script th:src="@{/JS/Board/Hospital/HospitalBoard.js}" ></script>
+    <script th:src="@{/JS/Board/Hospital/Hospitalmap.js}" ></script>
+</body>
+</html>

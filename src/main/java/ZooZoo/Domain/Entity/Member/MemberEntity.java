@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity @Table(name = "member")
-@Getter @Setter @ToString @Builder
+@Getter @Setter @ToString (exclude="boardEntities") @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class MemberEntity extends DateEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

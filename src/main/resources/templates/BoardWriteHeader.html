@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" th:fragment = "freeboardheader">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href = "@{/CSS/MainCSS.css}" rel="stylesheet">
+</head>
+<body>
+<script
+<script th:src = "@{/JS/Member/SignUpJS.js}"></script>
+<script th:src="@{/JS/Member/MemberJS.js}"></script>
+    <!--<div class ="row d-flex">
+        <div class ="justify-content-start">
+            <img th:src = "@{/IMG/simplelogo.svg}" >
+        </div>
+        <div class ="justify-content-end">
+
+            <a th:href = "@{/Member/Login}">
+                <button>로그인</button>
+            </a>
+            <a th:href = "@{/Member/SignUp}">
+                <button>회원가입</button>
+            </a>
+        </div>
+
+    </div>-->
+    <div class="d-flex bd-highlight mb-3">
+        <div class="me-auto p-2 bd-highlight">
+            <a th:href = "@{/}">
+                <img th:src = "@{/IMG/simplelogo.svg}">
+            </a>
+        </div>
+        <div class="p-2 bd-highlight">
+            <a id="headtag" th:href = "@{/Member/Login}" th:if = "${session.loginDTO == null}">
+                로그인
+            </a>
+            <a id="headtag" th:href = "@{/Member/Login}" th:unless = "${session.loginDTO == null}">
+                내정보
+            </a>
+        </div>
+        <div class="p-2 bd-highlight">
+            <a id="headtag" th:href = "@{/Member/SignUp}" th:if = "${session.loginDTO == null}">
+                회원가입
+            </a>
+            <a id="headtag" th:href = "@{/Member/Logout}" th:unless = "${session.loginDTO == null}">
+                로그아웃
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

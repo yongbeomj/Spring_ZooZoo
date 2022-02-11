@@ -4,13 +4,17 @@ import ZooZoo.Domain.DTO.Board.BoardDTO;
 import ZooZoo.Domain.DTO.Board.LossDTO;
 import ZooZoo.Domain.DTO.Board.ShareDTO;
 import ZooZoo.Domain.DTO.Pagination;
+import ZooZoo.Domain.Entity.Board.BoardEntity;
 import ZooZoo.Service.Free.FreeBoardService;
 import ZooZoo.Service.Loss.LossService;
 import ZooZoo.Service.Share.ShareService;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.server.Session;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -203,11 +207,28 @@ public class BoardController {
         }
     }
 
-    // 자유게시판으로
+    // 자유게시판으로 (페이징, 검색)
     @GetMapping("/freeboard")
-    public String GotoFreeBoard(Model model) {
-        ArrayList<BoardDTO> boardDTOs = freeBoardService.GetAll();
-        model.addAttribute("freeboard", boardDTOs);
+    public String GotoFreeBoard(Model model, @PageableDefault Pageable pageable){
+
+        //검색 처리하기
+        String keyword = request.getParameter("keyword");
+        String search = request.getParameter("search");
+        HttpSession session = request.getSession();
+        if(keyword != null || search != null){
+            session.setAttribute("keyword",keyword);
+            session.setAttribute("search",search);
+        }else{
+            keyword = (String) session.getAttribute("keyword");
+            search = (String) session.getAttribute("search");
+        }
+        //페이징 처리한 카테고리 4번인 게시판들 불러오기
+        Page<BoardEntity> boardEntities = freeBoardService.GetAll(pageable, keyword, search);
+        System.out.println("Page boardEntities : " + boardEntities);
+
+        //첨부파일이 있든 없든 모델로 뿌려줘야됨, 내용, 제목은 있을 수 있기 때문
+        model.addAttribute("boardEntities", boardEntities);
+        //model.addAttribute("realpath",request.getServletContext().getRealPath(""));
         return "Board/Free/FreeBoardMain";
     }
 
@@ -249,10 +270,7 @@ public class BoardController {
         return "Board/Loss/LossBoardView";
     }
 
-    @GetMapping("/Board/Free/FreeBoardView")
-    public String goToFreeBoardView() {
-        return "Board/Free/FreeBoardView";
-    }
+
 
     @GetMapping("/ShareBoardView/{shareno}")
     public String SBView(ShareDTO shareDTO, Model model) {

@@ -15,7 +15,7 @@ import java.util.stream.DoubleStream;
 @AllArgsConstructor
 @Builder
 @Table(name="boardimg")
-@ToString (exclude = {"boardEntity", "categoryEntity2"})
+@ToString
 public class BoardImgEntity extends DateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,12 +25,12 @@ public class BoardImgEntity extends DateEntity {
     @Column(name="bimg")
     private String bimg;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="bno")
     private BoardEntity boardEntity;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cano")
-    private CategoryEntity categoryEntity2;
+    /*@ManyToOne
+    @JoinColumn(name="cano")
+    private CategoryEntity categoryEntity2;*/
 
 }

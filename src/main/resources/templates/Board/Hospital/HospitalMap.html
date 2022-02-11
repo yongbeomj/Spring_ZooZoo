@@ -52,7 +52,6 @@
     <p class="text-xs font-weight-bold mb-0" th:text ="${hospitalDto.getLat()}"></p>
     <div type ="hidden" name = "logt" id = "logt" th:val ="${hospitalDto.getLogt()}"></div>
 
-
     <div id="container" class="view_map">
         <div id="mapWrapper" style ="border: solid 1px black; height: 85vh">
             <div id="map" style="width:100%;height:100%"></div> <!-- 지도를 표시할 div 입니다 -->
@@ -68,15 +67,35 @@
 
     </div>-->
     <div class="container my-auto">
-        <!-- 사이드바 -->
+        <!-- 사이드바 --><br>
         <div class="sidebar">
-            <a href="javascript:void(0)" data-toggle="sidebar"> ◁--</a> <!-- 사이드바 닫기 -->
+            <div class ="container">
+                <div class="d-flex justify-content-end mt-2">
+                    <a href="javascript:void(0)" data-toggle="sidebar">
+                        <img th:src="@{/IMG/footexit.svg}" style = "height:44px; width:44px;">
+                    </a> <!-- 사이드바 닫기 -->
+                </div>
+            </div>
+            <div id="addrget" th:value="sdfsd">
+
+            </div>
             <div id="contents"> <!-- 사이드바 내용물 -->
 
             </div>
+            <div id="home">
+
+            </div>
+            <div id="review">
+
+            </div>
+        </div>
+        <div id="shadow" class="Shadow" >
+            <div class="bar"></div>
+            <span class="toggle" data-toggle="sidebar" id="sidebartoggle"></span>
         </div>
 
-        <a href="javascript:void(0)" data-toggle="sidebar" id="sidebartoggle">사이드바</a>
+
+        <!--<a href="javascript:void(0)" data-toggle="sidebar" id="sidebartoggle">사이드바</a>-->
     </div>
 </div>
 
@@ -86,7 +105,8 @@
 
 <script th:src = "@{/JS/simple-sidebar.js}"></script>
 <!-- 카카오 맵 API 활성화 인증 스크립트-->
-<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ac01b72f9ceab29a8b43644fc69366d6&libraries=clusterer"></script>
+<!--<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ac01b72f9ceab29a8b43644fc69366d6&libraries=clusterer"></script>-->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ac01b72f9ceab29a8b43644fc69366d6&libraries=services,clusterer,drawing"></script>
 
 <!--개발자 js-->
 <script th:src="@{/JS/Board/Hospital/HospitalBoard.js}" ></script>

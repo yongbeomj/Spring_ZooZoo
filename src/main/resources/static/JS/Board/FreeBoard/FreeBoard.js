@@ -1,4 +1,3 @@
-//Summernote 사용하기 (한글)
 $(document).ready(function() {
   $('#freebcontents').summernote({
     lang: 'ko-KR', // default: 'en-US' //메뉴 한글버전
@@ -8,38 +7,25 @@ $(document).ready(function() {
   });
 });
 
-//글쓰기
-/*function boardwrite(){
-   var formData = new FormData(document.getElementById("freeboardform"));
-   $.ajax({
-        type:"POST",
-        url:"/Board/FreeBoardWriteController",
-        data:formData,
-        processData:false,
-        contentType:false,
+
+function freeboardDelete(bno){
+    $.ajax({
+        url: "/Board/Free/FreeBoardImgDelete",
+        data:{"bno":bno},
         success: function(result){
+            alert(result);
             if(result == 1){
-                alert("글쓰기 완료.");
-                location.href = "/freeboard";
-            }else if(result == 2){
-                alert("로그인을 먼저 해주세요.");
-                location.href = "/Member/Login";
-            }else if(result == 3){
-                alert("내용을 입력해주세요.");
-            }else if(result == 4){
-                alert("테스트중");
+                $("#imgBox").load(location.href + ' #imgBox');
             }else{
-                alert("버그 발생!")
+                alert("오류발생");
             }
         }
-   });
-}*/
+    });
+}
 
-
-//드래그앤 드롭으로 자유게시판 글쓰기
+//드래그앤 드롭으로 자유게시판 글 수정하기
 var fileList = []; //파일 정보를 담아 둘 배열
 $(document).ready(function(){
-
     //드래그앤드랍
     $("#fileDrop").on("dragenter", function(e){
         e.preventDefault();
@@ -81,7 +67,9 @@ $(document).ready(function(){
     });
 
     //저장
-    $(document).on("click", "#save", function(){
+    $(document).on("click", "#save2", function(){
+        var bno = $("#bno").val();
+        alert(bno);
         var formData = new FormData($("#fileForm")[0]);
         if(fileList.length > 0){
             fileList.forEach(function(f){
@@ -90,7 +78,7 @@ $(document).ready(function(){
         }
 
         $.ajax({
-            url : "/Board/FreeBoardWriteController",
+            url : "/Board/Free/FreeBoardUpdate",
             data : formData,
             type:'POST',
             enctype:'multipart/form-data',
@@ -99,19 +87,32 @@ $(document).ready(function(){
             dataType:'json',
             cache:false,
             success:function(result){
+            //0이면 오류발생 //1이면 글쓰기 완료 //2이면 내용이나 제목이 없음 -> 글쓰기 실패 //3이면??
                 if(result == 1){
-                    alert("글쓰기 완료.");
-                    location.href = "/freeboard";
+                    alert("글 수정 완료.");
+                    location.href = "/Board/Free/FreeBoardView/"+bno;
                 }else if(result == 2){
                     alert("로그인을 먼저 해주세요.");
                     location.href = "/Member/Login";
-                }else if(result == 3){
-                    alert("내용을 입력해주세요.");
                 }else{
-                    alert("버그 발생!")
+                    alert("버그 발생!");
                 }
             }
         });
     });
 });
+
+//수정페이지 이미지 개별삭제
+function boardImgDelete(bno, bimg){
+
+    //alert(bno +", " + bimg);
+    $.ajax({
+        url:"/Board/Free/FreeBoardImgDelete",
+        data:{"bno":bno,"bimg":bimg},
+        success: function(result) {
+            alert(result);
+            location.reload();
+        }
+    });
+}
 

@@ -87,45 +87,61 @@
                                 </div>
                             </div>
                             <div class="col-lg-7">
-                                <form class="p-3" id="fileForm" name="fileForm" enctype="multipart/form-data" method="post">
+                                <form class="p-3" id="fileForm" name="fileForm" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" th:value="${boardEntity.bno}" id="bno" name="bno">
+
                                     <div class="card-header px-4 py-sm-5 py-3">
                                         <div class="row">
                                             <div>
-                                            <h2>글을 작성해주세요!</h2>
+                                            <h2>글을 수정해주세요!</h2>
                                         </div>
-                                        <p class="lead"> 자유게시판 글쓰기</p>
+                                        <p class="lead"> 자유게시판 글 수정하기</p>
                                     </div>
                                     <div class="card-body pt-1">
                                         <div class="row">
                                             <div class="col-md-12 pe-2 mb-3">
                                                 <div class="input-group input-group-static mb-4">
                                                     <label>제목</label>
-                                                    <input type="text" name="freebtitle" class="form-control" placeholder="제목">
+                                                    <input type="text" name="btitle" th:value="${boardEntity.btitle}" class="form-control" placeholder="제목">
                                                 </div>
                                             </div>
                                             <div class="col-md-12 pe-2 mb-3">
                                                 <div class="input-group input-group-static mb-4">
                                                     <label>내용</label>
-                                                    <textarea class="form-control" name="freebcontents" id="freebcontents" rows="6"></textarea>
+                                                    <textarea class="form-control" th:utext="${boardEntity.bcontents}" name="bcontents" id="freebcontents" rows="6"></textarea>
                                                 </div>
                                             </div>
-                                            <div class="input-group input-group-static mb-4">
-                                                <label>첨부파일</label>
-                                                <div id="fileDrop" class="filebox">
+                                            <div class="col-md-12 pe-2 mb-3">
+                                                <div class="col-md-12 pe-2 mb-3">
+                                                    <div class="row d-flex justify-content-between mb-3" id="imgBox" th:each="boardImgEntities: ${boardEntity.boardImgEntities}">
+                                                        <input type="hidden" th:value="${boardImgEntities.bimg}" name="bimg" id="bimg">
+                                                        <div class="col-md-4">
+                                                            <label th:text="${#strings.listSplit(boardImgEntities.bimg,'_')[1]}"></label>
+                                                        </div>
+                                                        <div class="col-md-2 imgDeletebtn">
+                                                            <a th:onclick="boardImgDelete([[${boardEntity.bno}]], [[${boardImgEntities.bimg}]])">삭제하기</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 pe-2 mb-3">
+                                                        <div class="input-group input-group-static mb-4">
+                                                            <label>첨부파일</label>
+                                                            <div id="fileDrop" class="filebox">
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <a th:href="@{/freeboard}">
-                                                <button type="button" class="btn btn bg-gradient-dark w-auto me-2">목록으로</button>
-                                            </a>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <a th:href="@{/freeboard}">
+                                                    <button type="button" class="btn btn bg-gradient-dark w-auto me-2">목록으로</button>
+                                                </a>
+                                            </div>
+                                            <div class="col-md-6 text-end ms-auto">
+                                                <button type="button" id="save2" class="btn btn-primary bg-gradient-primary mb-0">수정하기</button>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6 text-end ms-auto">
-                                            <button type="button" id="save" class="btn btn-primary bg-gradient-primary mb-0">글쓰기</button>
-                                        </div>
-                                    </div>
                                     </div>
                                 </form>
                             </div>
@@ -146,7 +162,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTfWur0PDbZWPr7Pmq8K3jiDp0_xUziI"></script>
     <script th:src="@{/JS/material-kit.min.js?v=3.0.0}" type="text/javascript"></script>
     <!--jquery ajax사용하기 위해서-->
-    <script th:src="@{/JS/Board/FreeBoard/FreeBoardWriteJS.js}" type="text/javascript"></script>
+    <script th:src="@{/JS/Board/FreeBoard/FreeBoard.js}" type="text/javascript"></script>
 
 </body>
 </html>

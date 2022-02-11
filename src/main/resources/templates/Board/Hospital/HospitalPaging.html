@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link" th:href="@{/hospitalboard?page=1}" aria-label="Previous">
+                <span aria-hidden="true">처음</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" th:href="@{/hospitalboard?page={page} (page = ${pagination.prevBlock})}" aria-label="Previous">
+                <span aria-hidden="true">이전</span>
+            </a>
+        </li>
+        <th:block  th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+            <li class="page-item"
+                th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
+                th:each="pageButton : ${#numbers.sequence(start, end)}">
+                <a class="page-link" th:href="@{/hospitalboard?page={page} (page = ${pageButton})}" th:text=${pageButton}></a>
+            </li>
+        </th:block>
+        <li class="page-item">
+            <a class="page-link" th:href="@{/hospitalboard?page={page} (page = ${pagination.nextBlock})}" aria-label="Next">
+                <span aria-hidden="true">다음</span>
+            </a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" th:href="@{/hospitalboard?page={page} (page = ${pagination.totalPageCnt})}" aria-label="Previous">
+                <span aria-hidden="true">끝</span>
+            </a>
+        </li>
+    </ul>
+    <form action="/hospitalboard" method="get"  class="col-md-5 offset-4 input-group my-3 g-0" >
+        <div class="col-md-1">
+            <select name="keyword" class="form-select " >
+                <option value="병원"> 병원 </option>
+                <option value="주소"> 주소 </option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <input type="type" name="search" class="form-control">
+        </div>
+        <div class="col-md-1">
+            <input type="submit" value="검색" class="form-control">
+        </div>
+    </form>
+</body>
+</html>
