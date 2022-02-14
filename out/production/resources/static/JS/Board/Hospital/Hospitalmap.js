@@ -2,7 +2,6 @@ var mapContainer , // 지도를 표시할 div
     mapOption;
 
 var map;
-
 // 마커가 표시될 위치입니다
 var markerPosition ;
 
@@ -14,16 +13,68 @@ var overlay = new kakao.maps.CustomOverlay({
     map: map,
     position: null
 });
+var getlat,
+    getlon,
+    getaddr;
+
+
+function getAddr(lat,lng){
+    let geocoder = new kakao.maps.services.Geocoder();
+
+    let coord = new kakao.maps.LatLng(lat, lng);
+    let callback = function(result, status) {
+        console.log("값 출력하기" + result);
+        console.log("상태값 출력하기" + status);
+        if (status === kakao.maps.services.Status.OK) {
+            console.log(result);
+        }
+    };
+    geocoder.coord2Address(coord.getLng(), coord.getLat(), callback);
+}
+
+if (navigator.geolocation) {
+    // GeoLocation을 이용해서 접속 위치를 얻어옵니다.
+    navigator.geolocation.getCurrentPosition(function(position) {
+        var lat2 = position.coords.latitude, // 위도
+            lon2 = position.coords.longitude; // 경도
+        getlat = lat2;
+        getlon = lon2;
+        var urllocation = "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json?x="+getlon+"&y="+getlat+""
+        $.ajax({
+            url: urllocation,
+            headers: { 'Authorization': 'KakaoAK b2ccc164f6cc52f4401fce4a4488a831'},
+            success: function(data) {
+                getaddr = data.documents[0].address_name;
+                console.log(getaddr);
+            }
+        });
+    });
+
+
+} else { // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+
+}
+
 
 $(document).ready(function (callback){
+    var h_addr ;
+    var h_tel ;
+    var h_status ;
+
+    $.get("/testmap.json", function(data) {
+      h_addr = data.hospital.refineroadnmaddr;
+      h_tel =  data.hospital.locplcfaclttelno;
+      h_status = data.hospital.bsnstatenm;
+    });
+
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
             center: new kakao.maps.LatLng(37.56682, 126.97865), // 지도의 중심좌표
             level: 10, // 지도의 확대 레벨
             mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
         };
-
-// 지도를 생성한다
+    $("#sidebartoggle").trigger('click');
+    // 지도를 생성한다
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
 
@@ -70,13 +121,33 @@ $(document).ready(function (callback){
             position: marker.getPosition()
         });
 
-
     });
 
+    $.ajax({
+        url: '/getmapside' ,
+        success: function(data) {
+            alert(getaddr);
+            $("#addrget").text(getaddr);
+            $("#contents").html(data);
+        }
+    });
+
+    $.ajax({
+        url: '/getmapsidehome' ,
+        success: function(data) {
+            $("#home").html(data);
+        }
+    });
 
 
 });
 
+    $.ajax({
+        url: '/getmapsidehome' ,
+        success: function(data) {
+            $("#home").html(data);
+        }
+    });
 
 
 $(window).on(function() {
@@ -96,8 +167,6 @@ $(window).on(function() {
     function closeOverlay() {
         overlay.setMap(null);
     }
-
-
 /*
 
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -113,5 +182,26 @@ $(window).on(function() {
     var map = new kakao.maps.Map(mapContainer, mapOption);
 }*/
 
+// onclick 홈 html 전달 함수
+function homeclick(){
+    $.ajax({
+        url: '/getmapsidehome' ,
+        success: function(data) {
+            $("#review").html("");
+            $("#home").html(data);
+        }
+    });
+}
+
+// onclick 리뷰 html 전달 함수
+function reviewclick(){
+    $.ajax({
+        url: '/getmapsidereview' ,
+        success: function(data) {
+            $("#home").html("");
+            $("#review").html(data);
+        }
+    });
+}
 
 

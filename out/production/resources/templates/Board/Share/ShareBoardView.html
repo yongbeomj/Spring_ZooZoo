@@ -2,91 +2,154 @@
 <html lang="en">
 
 <head>
+    <style>
+    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+    .wrap * {padding: 0;margin: 0;}
+    .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+    .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+    .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+    .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+    .info .close:hover {cursor: pointer;}
+    .info .body {position: relative;overflow: hidden;}
+    .info .desc {position: relative;margin: 13px 0 0 2px;height: 75px;}
+    .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;}
+    .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+    .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+    .info .link {color: #5085BB;}
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="Template Mo">
-  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 
-  <title>Education - List of Meetings</title>
+    </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Template Mo">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 
-  <!-- Bootstrap core CSS -->
-  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+    <link rel = 'stylesheet' type = 'text/css' href = 'index.css' >
+    <script src = 'index.js' defer></script>
+    <link th:href="@{/CSS/ShareBoard/SidebarCSS.css}" rel="stylesheet"/>
 
-  <!-- Additional CSS Files -->
-  <link th:href="@{/assets/css/fontawesome.css}" rel="stylesheet" />
-  <link th:href="@{/assets/css/templatemo-edu-meeting.css}" rel="stylesheet" />
-  <link th:href="@{/assets/css/owl.css}" rel="stylesheet" />
-  <link th:href="@{/assets/css/lightbox.css}" rel="stylesheet" />
-  <!--
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
 
-  TemplateMo 569 Edu Meeting
-
-  https://templatemo.com/tm-569-edu-meeting
-
-  -->
+    <!-- Additional CSS Files -->
+    <link th:href="@{/assets/css/fontawesome.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/templatemo-edu-meeting.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/owl.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/lightbox.css}" rel="stylesheet"/>
 </head>
 
 <body style="  background-color: #ff7f50;">
-
+<script th:src="@{/JS/Board/ShareBoard/SideBarJS.js}"></script>
 <div th:replace="Header.html :: header"></div>
 
 <section class="meetings-page" id="meetings">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
+    <div class="container">
         <div class="row">
-          <div class="col-lg-12">
-            <div class="meeting-single-item">
-              <div class="thumb">
-                <div class="price">
-                  <span>$14.00</span>
-                </div>
-                <div class="date">
-                  <h6>Nov <span>12</span></h6>
-                </div>
-                <a href="meeting-details.html"><img th:src="@{/assets/images/single-meeting.jpg}" alt=""></a>
-              </div>
-              <div class="down-content">
-                <a href="meeting-details.html"><h4 th:text = "${shareDTO.sharename}"></h4></a>
-                <p>부제</p>
-                <p class="description">
-                  내용
-                </p>
+            <div class="col-lg-12">
                 <div class="row">
-                  <div class="col-lg-4">
-                    <div class="hours">
-                      <h5>푸터형식1</h5>
-                      <p>정보1</p>
+                    <div class="col-lg-12">
+                        <div class="meeting-single-item">
+                            <div class="thumb">
+                                <input type="hidden" id="lat" th:value="${shareDTO.shareaddrx}">
+                                <input type="hidden" id="lng" th:value="${shareDTO.shareaddry}">
+                                <input type="hidden" id="name" th:value="${shareDTO.sharename}">
+                                <input type="hidden" id="address" th:value="${shareDTO.shareaddress}">
+                                <input type="hidden" id="oldaddr" th:value="${shareDTO.shareoldaddress}">
+                                <input type="hidden" id="post" th:value="${shareDTO.sharepost}">
+                                <input type="hidden" id="tel" th:value="${shareDTO.sharetel}">
+                                <!-- 지도를 표시할 div 입니다 -->
+                                <div id="map"
+                                     style="width:100%; height:350px; border-top-left-radius: 25px; border-top-right-radius: 25px;"></div>
+                            </div>
+                            <div class="down-content">
+                                <h3 th:text="${shareDTO.sharename}"></h3>
+                                <p th:text="${shareDTO.sharetel}"></p>
+                                <br>
+                                <hr>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="hours">
+                                            <h5>도로명주소</h5>
+                                            <p th:text="${shareDTO.shareaddress}"></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="location">
+                                            <h5>지번주소</h5>
+                                            <p th:text="${shareDTO.shareoldaddress}"></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="location">
+                                            <h5>인허가일자</h5>
+                                            <p th:text="${shareDTO.shareagreedate}"></p>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <hr>
+                                    <br>
+                                    <div class="col-lg-4">
+                                        <div class="location">
+                                            <h5>우편번호</h5>
+                                            <p th:text="${shareDTO.sharepost}"></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="book now">
+                                            <h5>영업상태</h5>
+                                            <p th:if="${shareDTO.sharecode} == 0000">영업중</p>
+                                            <p th:if="${shareDTO.sharecode} == 0001">휴업</p>
+                                            <p th:if="${shareDTO.sharecode} == 0002">폐업</p>
+                                            <p th:if="${shareDTO.sharecode} == 0004">말소</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="book now">
+                                            <h5>리뷰 및 댓글</h5><br>
+                                            <!-- 사이드바 -->
+                                            <div id = "side">
+                                                <input type="checkbox" id="menu">
+                                                <label for="menu">
+                                                    <span></span>
+                                                    <span></span>
+                                                    <span></span>
+                                                </label>
+                                                <nav>
+                                                    <ul>
+                                                        <li>
+                                                            <div class = "card">
+                                                                <div class = "card-head">
+                                                                    <img th:src="@{/IMG/1.jpg}" style="width: 310px; height: 200px;">
+                                                                </div>
+                                                                <div class = "card-body">
+                                                                    <h5 class = "card-title">title</h5>
+                                                                    <p class = "card-text">contents</p>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                            <!-- 사이드바 -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  <div class="col-lg-4">
-                    <div class="location">
-                      <h5>푸터형식2</h5>
-                      <p>정보2</p>
+                    <div class="col-lg-12">
+                        <div class="main-button-red">
+                            <a href="/ShareBoardList">리스트보기</a>
+                        </div>
                     </div>
-                  </div>
-                  <div class="col-lg-4">
-                    <div class="book now">
-                      <h5>푸터형식3</h5>
-                      <p>정보3</p>
-                    </div>
-                  </div>
+
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="col-lg-12">
-            <div class="main-button-red">
-              <a href="meetings.html">Back To Meetings List</a>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div th:replace="Footer.html :: footer"></div>
 </section>
 
 <!-- Scripts -->
@@ -101,7 +164,6 @@
 <script th:src="@{/assets/js/video.js}" type="text/javascript"></script>
 <script th:src="@{/assets/js/slick-slider.js}" type="text/javascript"></script>
 <script th:src="@{/assets/js/custom.js}" type="text/javascript"></script>
-
 
 <script>
         //according to loftblog tut
@@ -148,10 +210,11 @@
         $(window).scroll(function () {
           checkSection();
         });
-    </script>
+
+
+</script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=10a3beeb4b6c2e040f5db15a40300855"></script>
+<script th:src="@{/JS/Board/ShareBoard/ShareBoardJS.js}"></script>
+<div th:replace="Footer.html :: footer"></div>
 </body>
-
-
-</body>
-
 </html>

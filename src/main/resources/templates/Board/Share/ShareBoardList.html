@@ -20,7 +20,7 @@
   <link th:href="@{/assets/css/owl.css}" rel="stylesheet" />
   <link th:href="@{/assets/css/lightbox.css}" rel="stylesheet" />
 </head>
-<body style="background-color: #ff7f50;">
+<body style="background-color: #ff7f50;" id = "cate">
     <div th:replace="Header.html :: header"></div>
     <script th:src = "@{/JS/Board/ShareBoard/ShareBoardJS.js}"></script>
     <div class="container">
@@ -91,6 +91,6 @@
                 </li>
             </ul>
         </nav>
-    <div th:replace = "Footer.html :: footer"></div>
 </body>
+    <div th:replace = "Footer.html :: footer"></div>
 </html>

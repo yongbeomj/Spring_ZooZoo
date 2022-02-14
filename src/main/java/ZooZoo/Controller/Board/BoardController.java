@@ -38,19 +38,22 @@ public class BoardController {
     @Autowired
     LossService lossService;
 
-    //     분양게시판으로
+    // 분양게시판으로
     @GetMapping("/ShareBoardList")
     public String goToShareBoardList(Model model, @RequestParam(defaultValue = "1") int page) {
-//        HttpSession session = request.getSession();
-//        session.setAttribute("option", null);
-
-        System.out.println("3");
         ShareDTO shareDTO = new ShareDTO();
         ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
         ArrayList<String> petshop = shareService.Share(null);
         ArrayList<String> oneStep = new ArrayList<>();
         ArrayList<String> twoStep = new ArrayList<>();
         ArrayList<String> threeStep = new ArrayList<>();
+        ArrayList<String> addrpost = new ArrayList<>();
+        ArrayList<String> addrx = new ArrayList<>();
+        ArrayList<String> addry = new ArrayList<>();
+        ArrayList<String> oldaddress = new ArrayList<>();
+        ArrayList<String> code = new ArrayList<>();
+        ArrayList<String> agreedate = new ArrayList<>();
+        ArrayList<String> tel = new ArrayList<>();
         String[] s = new String[petshop.size()];
         int totalSize = petshop.size();
         Pagination paging = new Pagination(totalSize, page);
@@ -61,7 +64,14 @@ public class BoardController {
                 oneStep.add(s[i].split(":")[0]);
                 twoStep.add(s[i].split(":")[1]);
                 threeStep.add(s[i].split(":")[2]);
-                shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j)));
+                addrx.add(s[i].split(":")[3]);
+                addry.add(s[i].split(":")[4]);
+                addrpost.add(s[i].split(":")[5]);
+                code.add(s[i].split(":")[6]);
+                agreedate.add(s[i].split(":")[7]);
+                oldaddress.add(s[i].split(":")[8]);
+                tel.add(s[i].split(":")[9]);
+                shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
                 j++;
             }
         } else {
@@ -70,7 +80,14 @@ public class BoardController {
                 oneStep.add(s[i].split(":")[0]);
                 twoStep.add(s[i].split(":")[1]);
                 threeStep.add(s[i].split(":")[2]);
-                shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j)));
+                addrx.add(s[i].split(":")[3]);
+                addry.add(s[i].split(":")[4]);
+                addrpost.add(s[i].split(":")[5]);
+                code.add(s[i].split(":")[6]);
+                agreedate.add(s[i].split(":")[7]);
+                oldaddress.add(s[i].split(":")[8]);
+                tel.add(s[i].split(":")[9]);
+                shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
                 j++;
             }
         }
@@ -93,22 +110,19 @@ public class BoardController {
         return "Board/Share/ShareBoardList";
     }
 
-
-    // @GetMapping("/ShareBoardList")
-//    @ResponseBody
+    // 셀렉트 선택 됐을 때
     @GetMapping("/ShareBoardListController")
     public String ShareBoardListController(Model model, @RequestParam(defaultValue = "1") int page) {
         String option = request.getParameter("option");
-        System.out.println("Option : " + option);
         HttpSession session = request.getSession();
+        int lastpageno = 0;
         if (option != null) {
             String op = option;
             session.setAttribute("option", op);
-        }else{
+        } else {
             option = (String) session.getAttribute("option");
         }
 
-        System.out.println("option : " + option);
         if(option == null || option.equals("null") || option.equals(null)) { // 처음 페이지 열 때
             System.out.println("1");
             ShareDTO shareDTO = new ShareDTO();
@@ -117,6 +131,13 @@ public class BoardController {
             ArrayList<String> oneStep = new ArrayList<>();
             ArrayList<String> twoStep = new ArrayList<>();
             ArrayList<String> threeStep = new ArrayList<>();
+            ArrayList<String> addrpost = new ArrayList<>();
+            ArrayList<String> addrx = new ArrayList<>();
+            ArrayList<String> addry = new ArrayList<>();
+            ArrayList<String> oldaddress = new ArrayList<>();
+            ArrayList<String> code = new ArrayList<>();
+            ArrayList<String> agreedate = new ArrayList<>();
+            ArrayList<String> tel = new ArrayList<>();
             String[] s = new String[petshop.size()];
             int totalSize = petshop.size();
             Pagination paging = new Pagination(totalSize, page);
@@ -127,7 +148,14 @@ public class BoardController {
                     oneStep.add(s[i].split(":")[0]);
                     twoStep.add(s[i].split(":")[1]);
                     threeStep.add(s[i].split(":")[2]);
-                    shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j)));
+                    addrx.add(s[i].split(":")[3]);
+                    addry.add(s[i].split(":")[4]);
+                    addrpost.add(s[i].split(":")[5]);
+                    code.add(s[i].split(":")[6]);
+                    agreedate.add(s[i].split(":")[7]);
+                    oldaddress.add(s[i].split(":")[8]);
+                    tel.add(s[i].split(":")[9]);
+                    shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
                     j++;
                 }
             } else {
@@ -136,7 +164,14 @@ public class BoardController {
                     oneStep.add(s[i].split(":")[0]);
                     twoStep.add(s[i].split(":")[1]);
                     threeStep.add(s[i].split(":")[2]);
-                    shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j)));
+                    addrx.add(s[i].split(":")[3]);
+                    addry.add(s[i].split(":")[4]);
+                    addrpost.add(s[i].split(":")[5]);
+                    code.add(s[i].split(":")[6]);
+                    agreedate.add(s[i].split(":")[7]);
+                    oldaddress.add(s[i].split(":")[8]);
+                    tel.add(s[i].split(":")[9]);
+                    shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
                     j++;
                 }
             }
@@ -157,25 +192,37 @@ public class BoardController {
             model.addAttribute("share", shareDTOS);
             return "Board/Share/ShareTable";
         } else { // 카테고리 선택되면
-            System.out.println("2");
             ShareDTO shareDTO = new ShareDTO();
             ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
             ArrayList<String> petshop = shareService.Share(option);
             ArrayList<String> oneStep = new ArrayList<>();
             ArrayList<String> twoStep = new ArrayList<>();
             ArrayList<String> threeStep = new ArrayList<>();
+            ArrayList<String> addrpost = new ArrayList<>();
+            ArrayList<String> addrx = new ArrayList<>();
+            ArrayList<String> addry = new ArrayList<>();
+            ArrayList<String> oldaddress = new ArrayList<>();
+            ArrayList<String> code = new ArrayList<>();
+            ArrayList<String> agreedate = new ArrayList<>();
+            ArrayList<String> tel = new ArrayList<>();
             String[] s = new String[petshop.size()];
             int totalSize = petshop.size();
             Pagination paging = new Pagination(totalSize, page);
             int j = 0;
-            if (page != 80) {
+            if ((paging.getTotalListCnt() - paging.getStartIndex()) > 100) {
                 for (int i = (page - 1) * 100; i < paging.getPageSize() * page; i++) {
-//                    System.out.println(petshop.get(i));
                     s[i] = petshop.get(i);
                     oneStep.add(s[i].split(":")[0]);
                     twoStep.add(s[i].split(":")[1]);
                     threeStep.add(s[i].split(":")[2]);
-                    shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j)));
+                    addrx.add(s[i].split(":")[3]);
+                    addry.add(s[i].split(":")[4]);
+                    addrpost.add(s[i].split(":")[5]);
+                    code.add(s[i].split(":")[6]);
+                    agreedate.add(s[i].split(":")[7]);
+                    oldaddress.add(s[i].split(":")[8]);
+                    tel.add(s[i].split(":")[9]);
+                    shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
                     j++;
                 }
             } else {
@@ -184,7 +231,14 @@ public class BoardController {
                     oneStep.add(s[i].split(":")[0]);
                     twoStep.add(s[i].split(":")[1]);
                     threeStep.add(s[i].split(":")[2]);
-                    shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j)));
+                    addrx.add(s[i].split(":")[3]);
+                    addry.add(s[i].split(":")[4]);
+                    addrpost.add(s[i].split(":")[5]);
+                    code.add(s[i].split(":")[6]);
+                    agreedate.add(s[i].split(":")[7]);
+                    oldaddress.add(s[i].split(":")[8]);
+                    tel.add(s[i].split(":")[9]);
+                    shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
                     j++;
                 }
             }
@@ -271,21 +325,31 @@ public class BoardController {
     }
 
 
-
+    // 분양게시판 상세보기
     @GetMapping("/ShareBoardView/{shareno}")
     public String SBView(ShareDTO shareDTO, Model model) {
-        String no = shareDTO.getShareno();
-        String sno = no.split(",")[0];
-        String s_no = sno.split("=")[1];
-        String name = no.split(",")[1];
-        String sname = name.split("=")[1];
-        String address = no.split(",")[2];
-        String saddress = address.split("=")[1];
+        String no = shareDTO.getShareno(); String sno = no.split(",")[0]; String s_no = sno.split("=")[1];
+        String name = no.split(",")[1]; String sname = name.split("=")[1];
+        String address = no.split(",")[2]; String saddress = address.split("=")[1];
+        String addrx1 = shareDTO.toString().split("addrx=")[1]; String addrx = addrx1.split(",")[0];
+        String addry1 = shareDTO.toString().split("addry=")[1]; String addry = addry1.split(",")[0];
+        String oldaddress1 = shareDTO.toString().split("oldaddress=")[1]; String oldaddress = oldaddress1.split(",")[0];
+        String post1 = shareDTO.toString().split("post=")[1]; String post = post1.split(",")[0];
+        String code1 = shareDTO.toString().split("code=")[1]; String code = code1.split(",")[0];
+        String agreedate1 = shareDTO.toString().split("agreedate=")[1]; String agreedate = agreedate1.split(",")[0];
+        String tel1 = shareDTO.toString().split("tel=")[1]; String tel = tel1.split(",")[0];
 
         ShareDTO dto = new ShareDTO();
         dto.setShareno(s_no);
         dto.setSharename(sname);
         dto.setShareaddress(saddress);
+        dto.setShareaddrx(addrx);
+        dto.setShareaddry(addry);
+        dto.setShareoldaddress(oldaddress);
+        dto.setSharepost(post);
+        dto.setSharecode(code);
+        dto.setShareagreedate(agreedate);
+        dto.setSharetel(tel);
         model.addAttribute("shareDTO", dto);
         return "Board/Share/ShareBoardView";
     }

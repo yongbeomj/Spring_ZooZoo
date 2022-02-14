@@ -1,0 +1,88 @@
+#side label {
+  padding: 0.4rem;
+  cursor: pointer;
+  z-index: 4;
+  margin-top: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+#side label span {
+  display: block;
+  width: 2rem;
+  height: 0.25rem;
+  background-color: coral;
+  margin: 0.25rem 0;
+  border-radius: 0.2rem;
+  transition: transform 0.4s linear;
+}
+
+#side nav {
+  width: 20rem;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-color: #ffffff;
+  z-index: 3;
+  transform: translateY(-100%) rotate(90deg);
+  transition: transform 0.4s cubic-bezier(0.55, 0.06, 0.68, 0.19);
+}
+
+#side ul {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style-type: none;
+  flex-direction: column;
+  height: 100%;
+}
+
+#side li {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+#side a {
+  display: block;
+  color: coral;
+  padding: 0.2rem;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+#side input[type="checkbox"] {
+  display: none;
+}
+
+#side input[type="checkbox"]:checked ~ nav {
+  transform: translateY(0) rotate(0);
+}
+
+#side input[type="checkbox"]:checked + label span:first-child {
+  transform: rotate(45deg) translate(6px, 2px);
+}
+
+#side input[type="checkbox"]:checked + label span:nth-child(2) {
+  display: none;
+}
+
+#side input[type="checkbox"]:checked + label span:last-child {
+  transform: rotate(-45deg) translate(3px, 1px);
+}
+
+#side main{
+   text-align: center;
+}
+
+#side h1{
+  transform: translateY(20vh);
+}
+
+@media screen and (min-width:768px){
+  label{
+    margin-right: 1rem;
+  }
+}

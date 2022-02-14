@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!-- 테이블 스타트 -->
+<!--<span th:text="${param.keyword}"></span>-->
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table align-items-center mb-0" id="tabletest">
+            <thead>
+            <tr>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">동물병원</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">주소</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">영업상태명</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">전화번호</th>
+                <th class="text-secondary opacity-7"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each = "parse:${parses}">
+                <td>
+                    <div class="d-flex px-2 py-1">
+                        <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-xs" th:text ="${parse.getBizplcnm()}"></h6>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <p class="text-xs font-weight-bold mb-0" th:text ="${parse.getRefineroadnmaddr()}"></p>
+                </td>
+                <td class="align-middle text-center text-sm">
+                    <span class="badge bg-success badge-sm" th:text ="${parse.getBsnstatenm()}"><!--Online--></span>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-normal" th:text ="${parse.getLocplcfaclttelno()}"></span>
+                </td>
+                <td class="align-middle">
+                    <!--<button type="button" th:onclick ="hospitalapi()" class="btn btn-warning btn-sm">테스트</button>-->
+                    <!--<a th:href="@{/hospitalmap}">-->
+                    <button type="button"  class="btn btn-warning btn-sm"
+                            th:onclick ="getmap( [[${parse.getLogt()}]],
+                                                                    [[${parse.getLat()}]],
+                                                                    [[${parse.getBizplcnm()}]],
+                                                                    [[${parse.getRefineroadnmaddr()}]],
+                                                                    [[${parse.getBsnstatenm()}]],
+                                                                    [[${parse.getLocplcfaclttelno()}]],
+                                                                    [[${parse.getSigunnm}]],
+                                                                    [[${parse.getSiguncd}]]
+                                                                    )">지도</button>
+                    <!--</a>-->
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+<div class ="container">
+    <div class="row justify-space-between py-2" id ="paging">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                <a class="page-link" th:onclick="hospitalpage(1)"  aria-label="Previous" >
+                    <span aria-hidden="true">처음</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:onclick="hospitalpage([[${page}]])" th:with="page = ${pagination.prevBlock}"  aria-label="Previous">
+                    <span aria-hidden="true">이전</span>
+                </a>
+            </li>
+            <th:block  th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+                <li class="page-item"
+                    th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
+                    th:each="pageButton : ${#numbers.sequence(start, end)}">
+                    <a class="page-link" th:onclick="hospitalpage([[${page}]])" th:with="page = ${pageButton}"  th:text=${pageButton}></a>
+                </li>
+            </th:block>
+            <li class="page-item">
+                <a class="page-link" th:onclick="hospitalpage([[${page}]])" th:with="page = ${pagination.nextBlock}"  aria-label="Next">
+                    <span aria-hidden="true">다음</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" th:onclick="hospitalpage([[${page}]])" th:with="page = ${pagination.totalPageCnt}"  aria-label="Previous">
+                    <span aria-hidden="true">끝</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- 테이블 end -->
+
+<!--paging button-->
+
+
+</body>
+</html>
