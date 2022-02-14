@@ -3,94 +3,109 @@
 
 <head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="Template Mo">
-  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="Template Mo">
+        <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900"
+              rel="stylesheet">
 
-  <title>Education - List of Meetings</title>
+        <title>Education - List of Meetings</title>
 
-  <!-- Bootstrap core CSS -->
-  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+        <!-- Bootstrap core CSS -->
+        <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
 
-  <!-- Additional CSS Files -->
-  <link th:href="@{/assets/css/fontawesome.css}" rel="stylesheet" />
-  <link th:href="@{/assets/css/templatemo-edu-meeting.css}" rel="stylesheet" />
-  <link th:href="@{/assets/css/owl.css}" rel="stylesheet" />
-  <link th:href="@{/assets/css/lightbox.css}" rel="stylesheet" />
+        <!-- Additional CSS Files -->
+        <link th:href="@{/assets/css/fontawesome.css}" rel="stylesheet"/>
+        <link th:href="@{/assets/css/templatemo-edu-meeting.css}" rel="stylesheet"/>
+        <link th:href="@{/assets/css/owl.css}" rel="stylesheet"/>
+        <link th:href="@{/assets/css/lightbox.css}" rel="stylesheet"/>
 </head>
-<body style="background-color: #ff7f50;" id = "cate">
-    <div th:replace="Header.html :: header"></div>
-    <script th:src = "@{/JS/Board/ShareBoard/ShareBoardJS.js}"></script>
-    <div class="container">
-        <div class = "row">
-            <div class = "col-md-3">
-                <a th:href = "@{/LossBoardlist}"><h4 class = "text-center">유기</h4></a>
-            </div>
-            <div class = "col-md-3">
-                <a th:href = "@{/ShareBoardList}"><h4 class = "text-center">분양</h4></a>
-            </div>
-            <div class = "col-md-3">
-                <a th:href = "@{/hospitalboard}"><h4 class = "text-center">병원</h4></a>
-            </div>
-            <div class = "col-md-3">
-                <a th:href = "@{/freeboard}"><h4 class = "text-center">자유</h4></a>
-            </div>
+<body style="background-color: #ff7f50;" id="cate">
+        <div th:replace="Header.html :: header"></div>
+        <script th:src="@{/JS/Board/ShareBoard/ShareBoardJS.js}"></script>
+        <div class="container">
+                <div class="row">
+                        <div class="col-md-3">
+                                <a th:href="@{/LossBoardlist}"><h4 class="text-center">유기</h4></a>
+                        </div>
+                        <div class="col-md-3">
+                                <a th:href="@{/ShareBoardList}"><h4 class="text-center">분양</h4></a>
+                        </div>
+                        <div class="col-md-3">
+                                <a th:href="@{/hospitalboard}"><h4 class="text-center">병원</h4></a>
+                        </div>
+                        <div class="col-md-3">
+                                <a th:href="@{/freeboard}"><h4 class="text-center">자유</h4></a>
+                        </div>
+                </div>
         </div>
-    </div>
-    <hr><br>
-    <div class = "container">
-        <select id = "selectBoxTest" onchange="changeSelection()">
-            <option value = "시/도">시/도</option>
-            <div th:each = " select : ${select}">
-                <option th:if = "${session.option  ==  select} " selected th:text = "${select}" th:value = "${select}" th:name = "sel" th:id = "selectA"></option>
-                <option th:if = "${session.option  !=  select} "  th:text = "${select}" th:value = "${select}" th:name = "sel" th:id = "selectA"></option>
-            </div>
-        </select>
+        <hr>
+        <br>
+        <div class="container">
+                <select id="selectBoxTest" onchange="changeSelection()">
+                        <option value="시/도">시/도</option>
+                        <div th:each=" select : ${select}">
+                                <option th:if="${session.option  ==  select} " selected th:text="${select}" th:value="${select}"
+                                        th:name="sel" th:id="selectA"></option>
+                                <option th:if="${session.option  !=  select} " th:text="${select}" th:value="${select}"
+                                        th:name="sel" th:id="selectA"></option>
+                        </div>
+                </select>
 
-        <table class = "table" id = "tab">
-            <tr class = "row">
-                <th class = "col-md-1 text-center">번호</th><th class = "col-md-5 text-center">가게명</th><th class = "col-md-5 text-center">주소</th>
-            </tr>
-            <tr class = "row" th:each = "share : ${share}" id = "tt">
-                <td class = "col-md-1 text-center" th:text = "${share.shareno}"></td><td class = "col-md-5 text-center"><a th:text = "${share.sharename}" th:href = "@{'/ShareBoardView/' + ${share.shareno} + ${share}}"></a></td><td class = "col-md-5 text-center" th:text = "${share.shareaddress}"></td>
-            </tr>
-        </table>
-    </div>
-    <br>
-    <!--paging button-->
-        <nav id = "pp" aria-label="Page navigation example" class = "d-flex justify-content-center">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" th:href="@{/ShareBoardList?page=1}" aria-label="Previous">
-                        <span aria-hidden="true"><<</span>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pagination.prevBlock})}" aria-label="Previous">
-                        <span aria-hidden="true"><</span>
-                    </a>
-                </li>
-                <th:block  th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
-                    <li class="page-item"
-                        th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
-                        th:each="pageButton : ${#numbers.sequence(start, end)}">
-                        <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pageButton})}" th:text=${pageButton}></a>
-                    </li>
-                </th:block>
-                <li class="page-item">
-                    <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pagination.nextBlock})}" aria-label="Next">
-                        <span aria-hidden="true">></span>
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pagination.totalPageCnt})}" aria-label="Previous">
-                        <span aria-hidden="true">>></span>
-                    </a>
-                </li>
-            </ul>
+                <table class="table" id="tab">
+                        <tr class="row">
+                                <th class="col-md-1 text-center">번호</th>
+                                <th class="col-md-5 text-center">가게명</th>
+                                <th class="col-md-5 text-center">주소</th>
+                        </tr>
+                        <tr class="row" th:each="share : ${share}" id="tt">
+                                <td class="col-md-1 text-center" th:text="${share.shareno}"></td>
+                                <td class="col-md-5 text-center"><a th:text="${share.sharename}"
+                                                                    th:href="@{'/ShareBoardView/' + ${share.shareno}}"></a>
+                                </td>
+                                <td class="col-md-5 text-center" th:text="${share.shareaddress}"></td>
+                        </tr>
+                </table>
+        </div>
+        <br>
+        <!--paging button-->
+        <nav id="pp" aria-label="Page navigation example" class="d-flex justify-content-center">
+                <ul class="pagination">
+                        <li class="page-item">
+                                <a class="page-link" th:href="@{/ShareBoardList?page=1}" aria-label="Previous">
+                                        <span aria-hidden="true"><<</span>
+                                </a>
+                        </li>
+                        <li class="page-item">
+                                <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pagination.prevBlock})}"
+                                   aria-label="Previous">
+                                        <span aria-hidden="true"><</span>
+                                </a>
+                        </li>
+                        <th:block th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+                                <li class="page-item"
+                                    th:with="start = ${pagination.startPage}, end = ${pagination.endPage}"
+                                    th:each="pageButton : ${#numbers.sequence(start, end)}">
+                                        <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pageButton})}"
+                                           th:text=${pageButton}></a>
+                                </li>
+                        </th:block>
+                        <li class="page-item">
+                                <a class="page-link" th:href="@{/ShareBoardList?page={page} (page = ${pagination.nextBlock})}"
+                                   aria-label="Next">
+                                        <span aria-hidden="true">></span>
+                                </a>
+                        </li>
+                        <li class="page-item">
+                                <a class="page-link"
+                                   th:href="@{/ShareBoardList?page={page} (page = ${pagination.totalPageCnt})}"
+                                   aria-label="Previous">
+                                        <span aria-hidden="true">>></span>
+                                </a>
+                        </li>
+                </ul>
         </nav>
+        <div th:replace="Footer.html :: footer"></div>
 </body>
-    <div th:replace = "Footer.html :: footer"></div>
 </html>
