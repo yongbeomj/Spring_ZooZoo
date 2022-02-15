@@ -3,6 +3,7 @@ package ZooZoo.Domain.Entity.Board;
 import ZooZoo.Domain.Entity.Category.CategoryEntity;
 import ZooZoo.Domain.Entity.DateEntity;
 import ZooZoo.Domain.Entity.Member.MemberEntity;
+import ZooZoo.Domain.Entity.Reply.ReplyEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="board")
-@ToString (exclude={"memberEntity","categoryEntity","boardImgEntities"})
+@ToString (exclude={"memberEntity","categoryEntity","boardImgEntities", "replyEntities"})
 public class BoardEntity extends DateEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,5 +50,14 @@ public class BoardEntity extends DateEntity {
     @OneToMany(mappedBy="boardEntity", cascade = CascadeType.ALL)
     private List<BoardImgEntity> boardImgEntities = new ArrayList<>();
 
+    //댓글
+    @OneToMany(mappedBy="boardEntity2", cascade =CascadeType.ALL)
+    private List<ReplyEntity> replyEntities = new ArrayList<>();
 
+    public int getintbstar(){
+        double bstar2 = Double.parseDouble(this.bstar)*10.0*2;
+        int getint = (int)bstar2;
+
+        return getint;
+    }
 }

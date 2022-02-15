@@ -1,6 +1,7 @@
 package ZooZoo.Controller.Member;
 
 import ZooZoo.Domain.DTO.Member.MemberDTO;
+import ZooZoo.Service.Category.CategorySerivce;
 import ZooZoo.Service.Member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,11 +20,14 @@ public class MemberController {
     MemberService memberService;
     @Autowired
     HttpServletRequest request;
+    @Autowired
+    CategorySerivce categorySerivce;
 
     // 시작 - 메인화면
     @GetMapping("/")
     public String goToMain(Model model) {
         HttpSession session = request.getSession();
+        categorySerivce.makeCategory();
         if(session.getAttribute("loginDTO") != null) {
             return "LogMain";
         } else {
@@ -116,5 +120,14 @@ public class MemberController {
         }
 
         return "Member/FindPw";
+    }
+
+    //로그아웃
+    @GetMapping("/Member/Logout")
+    public String logout(){
+        HttpSession session = request.getSession();
+        session.invalidate(); //모든 세션 끊기
+        /*session.setAttribute("logindto",null); //기존 세션 값을 null로 변경하기*/
+        return "redirect:/"; //로그아웃 성공시 메인페이지로 이동
     }
 }

@@ -5,12 +5,12 @@
     <title>Title</title>
 </head>
 <body>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <!--위도,경도, 병원이름, 병원주소, 병원상태, 병원 전화번호, 시 정보, 시 코드,-->
 <!--getLogt, getLat, getBizplcnm, getRefineroadnmaddr, getBsnstatenm, getLocplcfaclttelno, getSigunnm, getSiguncd-->
     <!--DB ID : 사업자명(병원이름 앞글자) - 인허가일자 - 위도+경도(소수점 제거)  -->
     <div type ="hidden" name="encoding" id="encoding" th:val="${encode}"></div>
     <div class ="container">
-
         <div>날씨 넣기</div>
         <div class = "d-flex justify-content-center" >
             <h3 th:text= "${hospitalDto.getBizplcnm}"></h3>&nbsp;
@@ -18,7 +18,14 @@
         </div>
         <br>
         <div class ="d-flex justify-content-center">
-            <div>*점 평균</div>&nbsp;&nbsp;<div>리뷰 개수</div>
+            <div id="starget" type ="hidden" th:value="${avg_s}"></div>
+            <span class="star2" >
+                    ★★★★★
+            <span th:style="${'width:'+ avg_s+'%'}">★★★★★</span>
+              <input type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10" disabled>
+            </span>
+
+            *점 평균<div th:text ="${avg}"></div> &nbsp;&nbsp;리뷰개수<div th:text="${replyEntities.size()}"></div>
         </div>
         <br>
         <div class ="d-flex justify-content-center">
@@ -37,12 +44,10 @@
                         <span style="font-weight: bold">리뷰</span>
                     </button>
                 </div>
-
             </div>
-            <!--<div style ="border: solid 1px black;" class ="d-flex justify-content-start"  th:text="${hospitalDto.getLocplcfaclttelno}" ></div>
-            <div style ="border: solid 1px black;" class ="d-flex justify-content-start" th:text="${hospitalDto.getRefineroadnmaddr}" ></div>
-            <div style ="border: solid 1px black;" class ="d-flex justify-content-start" th:text="${hospitalDto.getBsnstatenm}"></div>-->
         </div>
     </div>
+
+
 </body>
 </html>

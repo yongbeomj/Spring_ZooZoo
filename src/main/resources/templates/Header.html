@@ -45,8 +45,11 @@
             </a>
         </div>
         <div class="p-2 bd-highlight">
-            <a id="headtag" th:href = "@{/Member/SignUp}">
+            <a id="headtag" th:href = "@{/Member/SignUp}" th:if = "${session.loginDTO == null}">
                 회원가입
+            </a>
+            <a id="headtag" th:href = "@{/Member/Logout}" th:unless = "${session.loginDTO == null}">
+                로그아웃
             </a>
         </div>
     </div>

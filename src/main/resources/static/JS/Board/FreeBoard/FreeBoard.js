@@ -7,15 +7,16 @@ $(document).ready(function() {
   });
 });
 
-
+//게시판 지우기
 function freeboardDelete(bno){
+    alert("삭제버튼 눌렀을때  bno 나옴? : "+ bno);
     $.ajax({
-        url: "/Board/Free/FreeBoardImgDelete",
+        url: "/Board/Free/FreeBoardDelete",
         data:{"bno":bno},
         success: function(result){
             alert(result);
             if(result == 1){
-                $("#imgBox").load(location.href + ' #imgBox');
+                location.href = "/freeboard";
             }else{
                 alert("오류발생");
             }
@@ -69,7 +70,7 @@ $(document).ready(function(){
     //저장
     $(document).on("click", "#save2", function(){
         var bno = $("#bno").val();
-        alert(bno);
+        //alert(bno);
         var formData = new FormData($("#fileForm")[0]);
         if(fileList.length > 0){
             fileList.forEach(function(f){
@@ -110,9 +111,10 @@ function boardImgDelete(bno, bimg){
         url:"/Board/Free/FreeBoardImgDelete",
         data:{"bno":bno,"bimg":bimg},
         success: function(result) {
-            alert(result);
+            //alert(result);
             location.reload();
         }
     });
 }
+
 

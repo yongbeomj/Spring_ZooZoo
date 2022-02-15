@@ -18,9 +18,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -54,17 +58,14 @@ public class FreeBoardService {
         if(keyword != null && keyword.equals("bwriter")){
             List<BoardEntity> boardEntities = boardRepository.findFreeBoardByCategory(categoryNumber);
             for(int i=0; i<boardEntities.size(); i++){
-                System.out.println("@@@@@@@@@@@@@@@@@@@@@ getMid() : " +boardEntities.get(i).getMemberEntity().getMid());
+                //System.out.println("@@@@@@@@@@@@@@@@@@@@@ getMid() : " +boardEntities.get(i).getMemberEntity().getMid());
                 bwriter = boardEntities.get(i).getMemberEntity().getMid();
-                System.out.println("@@@@@@@@@@@ search : " + search);
+                //System.out.println("@@@@@@@@@@@ search : " + search);
                 if(search.equals(bwriter)){
                     mno = boardEntities.get(i).getMemberEntity().getMno();
-                    System.out.println("--------------------------------------같음------------------------------------");
+                    //System.out.println("--------------------------------------같음------------------------------------");
                     return boardRepository.findAllMno(pageable, categoryNumber, mno);
 
-                }else{
-                    System.out.println("--------------------------------------같지않음------------------------------------");
-                    System.out.println(search);
                 }
             }
         }
@@ -79,7 +80,6 @@ public class FreeBoardService {
     public String FreeBoardWrite(String btitle, String bcontents, List<MultipartFile> files) {
         //1. 게시판 엔티티에다가 카테고리, 멤버, 게시판 이미지 엔티티 주입 //저장을 해서 bno생성하고나서 bimg게시판 이미지 넣기
         BoardImgEntity boardImgEntity = new BoardImgEntity();
-
         HttpSession session = request.getSession();
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginDTO");
         if (memberDTO == null) {
@@ -104,18 +104,35 @@ public class FreeBoardService {
         //카테고리 엔티티에 게시판 엔티티 넣어주기
         categoryEntity.get().getBoardEntities().add(boardEntity);
 
+       /* //첨부파일 폴더 생성하기 위해서
+        String path = "C:\\FreeBoardIMG\\";
+        File Folder = new File(path);
+
+        // 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
+        if (!Folder.exists()) {
+            try{
+                Folder.mkdir(); //폴더 생성합니다.
+                System.out.println("폴더가 생성되었습니다.");
+            }
+            catch(Exception e){
+                e.getStackTrace();
+            }
+        }else {
+            System.out.println("이미 폴더가 생성되어 있습니다.");
+        }*/
+
         if (files.size() != 0) {
             for (MultipartFile temp : files) {
                 UUID uuid = UUID.randomUUID();
                 //첨부파일이 비었을 때, 첨부파일 엔티티를 게시판엔티티에 넣어줘야하나요????? 그리고 그 반대도 해야하나요????
                 if (temp.getOriginalFilename() == null || temp.getOriginalFilename().equals("")) {
-                   return "1";
+                    return "1";
                 } else {
                     uuidfile = uuid.toString() + "_" + temp.getOriginalFilename().replaceAll("_", "-");
-
+                    //String filepath = "C:\\FreeBoardIMG\\" + uuidfile;
                     //String filepath = "C:\\Users\\JHD\\IdeaProjects\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\"+uuidfile;
+                    //String filepath = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\"+ uuidfile;
                     String filepath = "C:\\Users\\505\\IdeaProjects\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + uuidfile;
-                    //String filepath = request.getServletContext().getRealPath("")+uuidfile;
                     try {
                         temp.transferTo(new File(filepath));
                     } catch (Exception e) {
@@ -183,7 +200,7 @@ public class FreeBoardService {
         //원래 첨부파일이 없고, 새로운 첨부파일도 없을때 1반환 (글쓰기 완료)
         if(bsize == 0 && file2.size() == 0){  return "1";   }
 
-        //로그인 세션값 없으면 2 반환
+        //로그인 세션값 없으면 2반환
         HttpSession session = request.getSession();
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginDTO");
         if (memberDTO == null) {
@@ -196,7 +213,8 @@ public class FreeBoardService {
                 String uuidfile = null;
                 UUID uuid = UUID.randomUUID();
                 uuidfile = uuid.toString() + "_" + temp.getOriginalFilename().replaceAll("_", "-");
-                //String filepath = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + uuidfile;
+                //String filepath = "C:\\FreeBoardIMG\\" + uuidfile;
+                //String filepath = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\"+ uuidfile;
                 //String filepath = "C:\\Users\\JHD\\IdeaProjects\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + uuidfile;
                 String filepath = "C:\\Users\\505\\IdeaProjects\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + uuidfile;
                 try { temp.transferTo(new File(filepath));
@@ -215,11 +233,39 @@ public class FreeBoardService {
 
     }
 
+    //첨부파일 개별삭제
     public boolean deleteBoardImg(int bno, String bimg) {
         Optional<BoardImgEntity> s = bimgRepository.findBybimg(bimg);
         bimgRepository.delete(s.get());
         return true;
     }
+
+    //첨부파일 다운로드
+    public void freeBoardFileDown(String bimg, HttpServletResponse response) {
+        //String path = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\"+ bimg;
+        String path = "C:\\Users\\505\\IdeaProjects\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + bimg;
+
+        File file = new File(path);
+        //파일 이미지가 있으면
+        if(file.isFile()) {
+            try {
+                //다운로드 html [창]
+                response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode( bimg.split("_")[1],"UTF-8")); //다운로드
+                OutputStream OutStream = response.getOutputStream();
+                //내보내기 할 대상의 파일 읽어오기
+                FileInputStream InStream = new FileInputStream(file);
+                //읽어오기 시작
+                int read = 0;
+                byte[] buffer = new byte[1024 * 1024]; //읽어올 바이트 배열
+                while ((read = InStream.read(buffer)) != -1) { // -1 : 읽어올게(byte) 없다, [.read] -> 파일읽기
+                    //파일 쓰기 [.write]
+                    OutStream.write(buffer, 0, read);
+                }
+            } catch (Exception e) {  System.out.println("첨부파일 다운로드 오류 발생");  }
+        }else{   System.out.println("첨부파일이 없어용"); }
+    }
+
+
 
 
 //    @Transactional

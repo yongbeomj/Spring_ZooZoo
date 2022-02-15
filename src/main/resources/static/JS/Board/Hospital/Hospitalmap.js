@@ -17,6 +17,15 @@ var getlat,
     getlon,
     getaddr;
 
+var checked = 0;
+var bstar;
+
+const drawStar = (target) => {
+    bstar = target.value/2;
+    $(`.star span`).css({
+        width: `${target.value * 10}%`
+    });
+}
 
 function getAddr(lat,lng){
     let geocoder = new kakao.maps.services.Geocoder();
@@ -79,7 +88,7 @@ $(document).ready(function (callback){
 
 
     $.get("/testmap.json", function(data) {
-        alert(  JSON.stringify(data.hospital));
+        /*alert(  JSON.stringify(data.hospital));*/
         /*alert(  JSON.stringify(data.hospital));
         alert(  JSON.stringify(data.hospital.lat));
         alert(  JSON.stringify(data.hospital.logt));*/
@@ -126,7 +135,7 @@ $(document).ready(function (callback){
     $.ajax({
         url: '/getmapside' ,
         success: function(data) {
-            alert(getaddr);
+            /*alert(getaddr);*/
             $("#addrget").text(getaddr);
             $("#contents").html(data);
         }
@@ -139,15 +148,25 @@ $(document).ready(function (callback){
         }
     });
 
+    /*$.ajax({
+        url: '/hospitalavgstar' ,
+        success: function(data) {
+            alert(data)
+            $(`.star2 span`).css({
+                width: `${data * 10}%`
+            });
+        }
+    });*/
 
 });
 
-    $.ajax({
-        url: '/getmapsidehome' ,
-        success: function(data) {
-            $("#home").html(data);
-        }
-    });
+
+$.ajax({
+    url: '/getmapsidehome' ,
+    success: function(data) {
+        $("#home").html(data);
+    }
+});
 
 
 $(window).on(function() {
@@ -199,9 +218,49 @@ function reviewclick(){
         url: '/getmapsidereview' ,
         success: function(data) {
             $("#home").html("");
+            $("#review").html("");
             $("#review").html(data);
         }
     });
+}
+
+// 댓글 달기 및 출력하기
+function replywrite(apikey){
+    var rcontents = $("#rcontents").val();
+    var cano = 3; // 동물 병원 카테고리 병원은 3번일까요?
+
+    // 댓글내용 공백 시 알람
+    if( rcontents == "" ){
+        alert("댓글 내용을 입력해주세요");
+        return;
+    }
+    $.ajax({
+        url: "/hospitalreply" ,
+        data : { "apikey" : apikey , "cano" : cano, "rcontents" : rcontents, "bstar" : bstar },
+        success: function(data) {
+            if( data == 1 ){
+                checked = 1;
+                $("#rcontents").val("");
+            }else {
+                alert("로그인 후 사용가능합니다");
+                return;
+            }
+        }
+    });
+    if(checked == 1){
+        alert(checked);
+        $.ajax({
+            url: '/getmapsidereview' ,
+            success: function(data) {
+                $("#home").html("");
+                $("#review").html("");
+                $("#review").html(data);
+            }
+        });
+        checked = 0;
+    }
+
+
 }
 
 

@@ -2,16 +2,25 @@ package ZooZoo.Service.Hospital;
 
 import ZooZoo.Controller.Hospital.HospitalDto;
 import ZooZoo.Domain.DTO.Pagination;
+import ZooZoo.Domain.Entity.Board.BoardEntity;
+import ZooZoo.Domain.Entity.Board.BoardRepository;
+import ZooZoo.Domain.Entity.Category.CategoryEntity;
+import ZooZoo.Domain.Entity.Category.CategoryRepository;
+import ZooZoo.Domain.Entity.Member.MemberEntity;
+import ZooZoo.Domain.Entity.Member.MemberRepository;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnimalHospitalService {
@@ -336,5 +345,70 @@ public class AnimalHospitalService {
         }
 
         return parsepage;
+    }
+
+    @Autowired
+    BoardRepository boardRepository;
+    @Autowired
+    CategoryRepository categoryRepository;
+    @Autowired
+    MemberRepository memberRepository;
+
+    @Transactional
+    public boolean replywrite(String apikey, int cano, String rcontents, String bstar,int mno){
+        // 카테고리
+        Optional<CategoryEntity> categoryEntity = categoryRepository.findById(cano);
+        Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
+
+        // entity에 넣기
+        BoardEntity boardEntity = BoardEntity.builder()
+                .bcontents(rcontents)
+                .apikey(apikey)
+                .bstar(bstar)
+                .categoryEntity(categoryEntity.get())
+                .memberEntity(memberEntity.get())
+                .build();
+
+        // 댓글 save
+        boardRepository.save(boardEntity);
+        return true;
+    }
+
+    /*게시물 댓글 출력*/
+    public List<BoardEntity> getreplylist(String apikey, int cano) {
+        List<BoardEntity> replyEntities = new ArrayList<>();
+
+        try {
+            replyEntities = boardRepository.findAllReply(apikey, cano);
+
+        } catch (Exception e) {
+        }
+
+        return replyEntities;
+    }
+
+    /*게시물 댓글 평점 내기*/
+    public double getreplyavg(String apikey, int cano){
+        List<BoardEntity> replyEntities = new ArrayList<>();
+        double avg;
+        double d_avg = 0;
+        try {
+            replyEntities = boardRepository.findAllReply(apikey, cano);
+            for(int i=0; i<replyEntities.size(); i++){
+                String s_avg = replyEntities.get(i).getBstar();
+                d_avg = Double.parseDouble(s_avg) + d_avg;
+            }
+
+            d_avg = d_avg/replyEntities.size();
+            return d_avg;
+        } catch (Exception e) {
+
+        }
+        return d_avg;
+    }
+    /*게시물 댓글 삭제하기*/
+    public boolean deletereply(String apikey, int cano, int bno){
+
+        return true;
     }
 }

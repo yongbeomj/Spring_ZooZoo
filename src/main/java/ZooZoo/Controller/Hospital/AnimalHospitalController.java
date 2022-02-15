@@ -1,6 +1,8 @@
 package ZooZoo.Controller.Hospital;
 
+import ZooZoo.Domain.DTO.Member.MemberDTO;
 import ZooZoo.Domain.DTO.Pagination;
+import ZooZoo.Domain.Entity.Board.BoardEntity;
 import ZooZoo.Service.Hospital.AnimalHospitalService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -135,17 +138,28 @@ public class AnimalHospitalController {
     // 사이드 바 맵에 전달해야되는 값
     @GetMapping("/getmapside")
     public String getmapside(Model model){
-        model.addAttribute("hospitalDto", hospitalDto);
-
-        /*char ch = '최';
-        int code = (int)ch;
-        String encode = Integer.toHexString(code);
-        System.out.println(encode);*/
 
         char encoding = hospitalDto.getBizplcnm().charAt(0);
         int code = (int)encoding;
         String encode = Integer.toHexString(code);
-        System.out.println(encode);
+
+        double x = Double.parseDouble(hospitalDto.getLogt());
+        int x_i = (int) x;
+        String s_x = Integer.toString(x_i);
+
+        double y = Double.parseDouble(hospitalDto.getLat());
+        int y_i = (int) y;
+        String s_y = Integer.toString(y_i);
+
+        encode = encode + s_x + s_y;
+
+        double avg = animalHospitalService.getreplyavg(encode, 3);
+        List<BoardEntity> replyEntities = animalHospitalService.getreplylist(encode, 3);
+        double avg_s = avg * 10*2;
+        model.addAttribute("avg_s", avg_s);
+        model.addAttribute("avg", avg);
+        model.addAttribute("hospitalDto", hospitalDto);
+        model.addAttribute("replyEntities", replyEntities);
         model.addAttribute("encode", encode);
         return "/Board/Hospital/HospitalSide";
     }
@@ -159,7 +173,34 @@ public class AnimalHospitalController {
 
     @GetMapping("/getmapsidereview")
     public String getmapsidereview(Model model){
+        /*char ch = '최';
+        int code = (int)ch;
+        String encode = Integer.toHexString(code);
+        System.out.println(encode);*/
+        char encoding = hospitalDto.getBizplcnm().charAt(0);
+        int code = (int)encoding;
+        String encode = Integer.toHexString(code);
 
+        double x = Double.parseDouble(hospitalDto.getLogt());
+        int x_i = (int) x;
+        String s_x = Integer.toString(x_i);
+
+        double y = Double.parseDouble(hospitalDto.getLat());
+        int y_i = (int) y;
+        String s_y = Integer.toString(y_i);
+
+        encode = encode + s_x + s_y;
+
+
+        System.out.println(encode);
+        // 해당 게시물 댓글 호출  /* 동물병원 카테고리 넘버 3*/
+        List<BoardEntity> replyEntities = animalHospitalService.getreplylist(encode, 3);
+
+       /* replyEntities.get(0).getBcontents()*/
+
+        model.addAttribute("replyEntities", replyEntities);
+        model.addAttribute("encode", encode);
+        model.addAttribute("hospitalDto", hospitalDto);
         return "/Board/Hospital/HospitalSideReview";
     }
 
@@ -265,4 +306,49 @@ public class AnimalHospitalController {
 
         return "/Board/Hospital/HospitalTable";
     }
+
+    // 댓글 작성
+    @GetMapping("/hospitalreply")
+    @ResponseBody
+    public String replywrite(@RequestParam("apikey") String apikey,
+                             @RequestParam("cano") int cano,
+                             @RequestParam("rcontents") String rcontents,
+                             @RequestParam("bstar") String bstar) {
+
+        HttpSession session = request.getSession();
+        MemberDTO memberDto = (MemberDTO) session.getAttribute("loginDTO");
+        // 로그인 안되어 있을 경우
+        if (memberDto == null) {
+            return "2";
+        } else {
+            animalHospitalService.replywrite(apikey, cano, rcontents, bstar, memberDto.getMno());
+            return "1";
+        }
+    }
+
+    // 댓글 평균 평점 뽑아내기
+    @GetMapping("/hospitalavgstar")
+    @ResponseBody
+    public String replystar(Model model){
+        char encoding = hospitalDto.getBizplcnm().charAt(0);
+        int code = (int)encoding;
+        String encode = Integer.toHexString(code);
+
+        double x = Double.parseDouble(hospitalDto.getLogt());
+        int x_i = (int) x;
+        String s_x = Integer.toString(x_i);
+
+        double y = Double.parseDouble(hospitalDto.getLat());
+        int y_i = (int) y;
+        String s_y = Integer.toString(y_i);
+
+        encode = encode + s_x + s_y;
+
+        double avg = animalHospitalService.getreplyavg(encode, 3);
+        List<BoardEntity> replyEntities = animalHospitalService.getreplylist(encode, 3);
+        String avg_s = Double.toString(avg);
+
+        return avg_s;
+    }
+
 }

@@ -69,7 +69,7 @@
                     </div>
                     <!--글쓰기 버튼-->
                     <div style="width: 10%;float: right;box-sizing: border-box;">
-                        <a th:href="@{/Board/FreeBoardWrite}">
+                        <a th:if="${memberDTO != null}" th:href="@{/Board/FreeBoardWrite}">
                             <button type="submit" class="btn btn bg-gradient-dark mb-0">
                                 <div class="d-flex align-items-center">
                                     <i class="material-icons me-2" aria-hidden="true">edit</i>
@@ -84,9 +84,9 @@
                             <div th:each="boardEntities : ${boardEntities}"  class="col-lg-4 templatemo-item-col all soon mt-3">
                                 <div class="meeting-item">
                                     <div class="thumb">
-                                        <div class="price">
+                                     <!--   <div class="price">
                                             <span>$14.00</span>
-                                        </div>
+                                        </div>-->
                                         <a th:if="${ boardEntities.boardImgEntities.size() != 0 }" th:href="@{'/Board/Free/FreeBoardView/'+${boardEntities.bno}}">
                                         <img th:src="@{'/IMG/Board/FreeBoardIMG/'+${boardEntities.boardImgEntities.get(0).bimg}}" alt="" style="height: 200px;  object-fit: cover; background-color: #1d1e19;">
                                         </a>
@@ -100,13 +100,17 @@
                                             <span class="mt-0" th:text="${#strings.substring(boardEntities.createdDate,8,10)}" style="font-size:0.8"></span>
                                         </div>
                                         <a th:href="@{'/Board/Free/FreeBoardView/'+${boardEntities.bno}}">
-                                            <h4  th:if="${boardEntities.btitle.length > 18}"  th:text="${#strings.substring(boardEntities.btitle,0,18)+'...'}"></h4>
-                                            <h4 th:unless="${boardEntities.btitle.length > 18}"  th:text="${boardEntities.btitle}"></h4>
+                                            <h4  th:if="${boardEntities.btitle.length > 18}"  th:text="${#strings.substring(boardEntities.btitle,0,18)+'...'}" style="margin-bottom:9px;"></h4>
+                                            <h4 th:unless="${boardEntities.btitle.length > 18}"  th:text="${boardEntities.btitle}" style="margin-bottom:9px;"></h4>
                                         </a>
                                         <br>
-                                        <a th:href="@{'/Board/Free/FreeBoardView/'+${boardEntities.bno}}" id="readmore" style="font-size:1em;">
-                                            Read More<i class="material-icons mx-2" aria-hidden="true">follow_the_signs</i>
-                                        </a>
+                                        <p th:if="${boardEntities.bcontents.length > 12}" style="margin-bottom:0px;" th:utext="${#strings.substring(boardEntities.bcontents,0,12)+'...'}" ></p>
+                                        <p th:unless="${boardEntities.bcontents.length > 12}" style="margin-bottom:0px;"  th:utext="${boardEntities.bcontents}" ></p>
+                                        <div>
+                                            <a th:href="@{'/Board/Free/FreeBoardView/'+${boardEntities.bno}}" id="readmore" style="font-size:1em; margin-left:43px; ">
+                                                Read More<i class="material-icons mx-2" aria-hidden="true">follow_the_signs</i>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

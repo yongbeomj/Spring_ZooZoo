@@ -9,15 +9,27 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategorySerivce {
 
-   /*@Autowired
+    @Autowired
     CategoryRepository categoryRepository;
+    //카테고리 생성
+    public void makeCategory() {
+        try{
+            CategoryEntity categoryEntity = new CategoryEntity();
+            System.out.println(categoryEntity.getCano());
+            if(categoryEntity.getCano()==0){
+                int [] cano = {1, 2, 3, 4};
+                String [] caname = {"유기","분양","병원","자유"};
+                for(int i =0; i<4; i++){
+                    categoryEntity = CategoryEntity.builder()
+                            .cano(cano[i]).caname(caname[i]).build();
 
-    public void addCategory(int cano, String caname) {
-        System.out.println(cano +", "+caname);
-        CategoryEntity categoryEntity = CategoryEntity.builder()
-                .cano(cano).caname(caname).build();
-
-        categoryRepository.save(categoryEntity);
-
-    }*/
+                    categoryRepository.save(categoryEntity);
+                }
+            }else{
+                return;
+            }
+        }catch (Exception e){
+            e.getStackTrace();
+        }
+    }
 }

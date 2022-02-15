@@ -2,6 +2,7 @@ package ZooZoo.Domain.Entity.Member;
 
 import ZooZoo.Domain.Entity.Board.BoardEntity;
 import ZooZoo.Domain.Entity.DateEntity;
+import ZooZoo.Domain.Entity.Reply.ReplyEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity @Table(name = "member")
-@Getter @Setter @ToString (exclude="boardEntities") @Builder
+@Getter @Setter @ToString (exclude={"boardEntities","replyEntities"}) @Builder
 @NoArgsConstructor @AllArgsConstructor
 public class MemberEntity extends DateEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +32,8 @@ public class MemberEntity extends DateEntity {
     @OneToMany(mappedBy = "memberEntity")
     private List<BoardEntity> boardEntities = new ArrayList<>();
 
-
+    //댓글 엔티티 매핑
+    @OneToMany(mappedBy = "memberEntity2", cascade = CascadeType.ALL)
+    private List<ReplyEntity> replyEntities = new ArrayList<>();
 
 }
