@@ -3,6 +3,7 @@ package ZooZoo.Controller.Board;
 import ZooZoo.Domain.DTO.Board.BoardDTO;
 import ZooZoo.Domain.DTO.Board.LossDTO;
 import ZooZoo.Domain.DTO.Board.ShareDTO;
+import ZooZoo.Domain.DTO.Member.MemberDTO;
 import ZooZoo.Domain.DTO.Pagination;
 import ZooZoo.Domain.Entity.Board.BoardEntity;
 import ZooZoo.Service.Free.FreeBoardService;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Controller
 public class BoardController {
@@ -293,20 +295,23 @@ public class BoardController {
         String sex = request.getParameter("sex"); // 성별
         String kind = request.getParameter("kind"); // 축종
         String city = request.getParameter("city"); // 시군구
+        String state = request.getParameter("state"); // 시군구
         HttpSession session = request.getSession();
 
-        if (sex != null || kind != null || city != null) {
+        if (sex != null || kind != null || city != null || state != null) {
             session.setAttribute("sex", sex);
             session.setAttribute("kind", kind);
             session.setAttribute("city", city);
+            session.setAttribute("state", state);
         } else {
             sex = (String) session.getAttribute("sex");
             kind = (String) session.getAttribute("kind");
             city = (String) session.getAttribute("city");
+            state = (String) session.getAttribute("state");
         }
 
 
-        ArrayList<LossDTO> parses = lossService.losslist(sex, kind, city); // 필터링 게시물
+        ArrayList<LossDTO> parses = lossService.losslist(sex, kind, city, state); // 필터링 게시물
         ArrayList<LossDTO> parsesPage = lossService.parsenum(parses, page); // 페이징
 
         Pagination pagination = new Pagination(parses.size(), page);
@@ -316,11 +321,24 @@ public class BoardController {
         return "Board/Loss/LossBoardlist";
     }
 
+
     // 상세페이지로
     @GetMapping("/Board/Loss/LossBoardView/{ABDM_IDNTFY_NO}")
     public String goToLossBoardView(Model model, @PathVariable("ABDM_IDNTFY_NO") String ABDM_IDNTFY_NO) {
         ArrayList<LossDTO> lossDTOS = lossService.getlossboard(ABDM_IDNTFY_NO);
+        // 세션 호출
+        HttpSession session = request.getSession();
+        MemberDTO memberDto = (MemberDTO) session.getAttribute("loginDTO");
+        String apikey = lossDTOS.get(0).getABDM_IDNTFY_NO();
+        int cano = 1;
+
+        System.out.println(apikey + "," + cano);
+        // 해당 게시물 댓글 호출
+        List<BoardEntity> replyEntities = lossService.getreplylist(apikey, cano);
+
+        model.addAttribute("loginDTO",memberDto);
         model.addAttribute("lossDTOS", lossDTOS);
+        model.addAttribute("replyEntities", replyEntities);
         return "Board/Loss/LossBoardView";
     }
 
@@ -363,4 +381,38 @@ public class BoardController {
 		model.addAttribute("shareDTO", dto);
 		return "Board/Share/ShareBoardView";
 	}
+
+    // 댓글 작성
+    @GetMapping("/replywrite")
+    @ResponseBody
+    public String replywrite(@RequestParam("apikey") String apikey,
+                             @RequestParam("cano") int cano,
+                             @RequestParam("rcontents") String rcontents,Model model) {
+        HttpSession session = request.getSession();
+        MemberDTO memberDto = (MemberDTO) session.getAttribute("loginDTO");
+
+        // 로그인 안되어 있을 경우
+        if (memberDto == null) {
+            return "2";
+        } else {
+            lossService.replywrite(apikey, cano, rcontents, memberDto.getMno());
+            return "1";
+        }
+    }
+    // 댓글 삭제
+    @GetMapping("/replydelete")
+    @ResponseBody
+    public int replydelete(@RequestParam("bno") int bno) {
+
+        lossService.replydelete(bno);
+        return 1;
+    }
+
+    // 댓글 수정
+    @GetMapping("/replyupdate")
+    @ResponseBody
+    public String replyupdate(@RequestParam("bno") int bno, @RequestParam("newcontents") String newcontents){
+        lossService.replyupdate(bno, newcontents);
+        return "1";
+    }
 }
