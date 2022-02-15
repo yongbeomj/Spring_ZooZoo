@@ -3,29 +3,29 @@
 
 <head>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="Template Mo">
-  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Template Mo">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
 
-  <title>Education - List of Meetings</title>
+    <title>Education - List of Meetings</title>
 
-  <!-- Bootstrap core CSS -->
-  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
 
-  <!-- Additional CSS Files -->
-  <link th:href="@{/assets/css/fontawesome.css}" rel="stylesheet"/>
-  <link th:href="@{/assets/css/templatemo-edu-meeting.css}" rel="stylesheet"/>
-  <link th:href="@{/assets/css/owl.css}" rel="stylesheet"/>
-  <link th:href="@{/assets/css/lightbox.css}" rel="stylesheet"/>
-  <!--
+    <!-- Additional CSS Files -->
+    <link th:href="@{/assets/css/fontawesome.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/templatemo-edu-meeting.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/owl.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/lightbox.css}" rel="stylesheet"/>
+    <!--
 
-  TemplateMo 569 Edu Meeting
+    TemplateMo 569 Edu Meeting
 
-  https://templatemo.com/tm-569-edu-meeting
+    https://templatemo.com/tm-569-edu-meeting
 
-  -->
+    -->
 </head>
 
 <body style="  background-color: #ff7f50;">
@@ -33,125 +33,193 @@
 <div th:replace="Header.html :: header"></div>
 
 <section class="heading-page header-text" id="top">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12" style="color : white;">
-        <h2>유기동물 입양</h2>
-        <h5>개나 고양이를 키우고 싶다면 유기동물 보호시설에서 보호하고 있는 유기동물을 입양하는게 어떨까요?</h5>
-      </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" style="color : white;">
+                <h2>유기동물 입양</h2>
+                <h5>개나 고양이를 키우고 싶다면 유기동물 보호시설에서 보호하고 있는 유기동물을 입양하는게 어떨까요?</h5>
+            </div>
+        </div>
     </div>
-  </div>
 </section>
 
 <section class="meetings-page" id="meetings">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
+    <div class="container">
         <div class="row">
-          <div class="col-lg-12" th:each="lossDTO : ${lossDTOS}">
-            <div class="meeting-single-item">
-              <div class="thumb">
-                <div class="price">
-                  <span th:text="${lossDTO.PBLANC_IDNTFY_NO}">공고번호</span>
-                </div>
-                <a href="meeting-details.html">
-                  <img th:src="${lossDTO.IMAGE_COURS}" alt="" style="height:800px;">
-                </a>
-              </div>
-              <div class="down-content">
-                <a href="meeting-details.html">
-                  <h4 th:text="${lossDTO.SPECIES_NM}">품종</h4>
-                </a>
-                <p>상태 : <span th:text="${lossDTO.STATE_NM}"></span></p>
-                <table class="table" style="margin-bottom : 16px;">
-                  <tr>
-                    <td>공고번호</td><td th:text="${lossDTO.PBLANC_IDNTFY_NO}">></td>
-                  </tr>
-                  <tr>
-                    <td>나이</td><td th:text="${lossDTO.AGE_INFO}"></td>
-                  </tr>
-                  <tr>
-                    <td>체중</td><td th:text="${lossDTO.BDWGH_INFO}"></td>
-                  </tr>
-                  <tr>
-                    <td>색상</td><td th:text="${lossDTO.COLOR_NM}"></td>
-                  </tr>
-                  <tr>
-                    <td>성별</td><td th:text="${lossDTO.SEX_NM}"></td>
-                  </tr>
-                  <tr>
-                    <td>중성화여부</td><td th:text="${lossDTO.NEUT_YN}"></td>
-                  </tr>
-                  <tr>
-                    <td>특징</td><td th:text="${lossDTO.SFETR_INFO}"></td>
-                  </tr>
-                  <tr>
-                    <td>접수일시</td><td th:text="${lossDTO.RECEPT_DE}"></td>
-                  </tr>
-                  <tr>
-                    <td>발견장소</td><td th:text="${lossDTO.DISCVRY_PLC_INFO}"></td>
-                  </tr>
-                  <tr>
-                    <td>공고기간</td><td ><span th:text="${lossDTO.PBLANC_BEGIN_DE}"></span> ~
-                    <span th:text="${lossDTO.PBLANC_END_DE}"></span></td>
-                  </tr>
-                  <tr>
-                    <td>보호장소</td><td th:text="${lossDTO.PROTECT_PLC}"></td>
-                  </tr>
-                </table>
+            <div class="col-lg-12">
                 <div class="row">
-                  <div class="col-lg-4">
-                    <div class="hours">
-                      <h5>관할보호센터</h5>
-                      <p th:text="${lossDTO.SHTER_NM}"></p>
+                    <div class="col-lg-12" th:each="lossDTO : ${lossDTOS}">
+                        <div class="meeting-single-item">
+                            <div class="thumb">
+                                <div class="price">
+                                    <span th:text="${lossDTO.PBLANC_IDNTFY_NO}">공고번호</span>
+                                </div>
+<!--                                <div style="max-height:800px;">-->
+<!--                                    <img th:src="${lossDTO.IMAGE_COURS}">-->
+<!--                                </div>-->
+                                <div class="image-box">
+                                    <img class="image-thumbnail" th:src="${lossDTO.IMAGE_COURS}">
+                                </div>
+
+                            </div>
+                            <div class="down-content">
+                                <h4 th:text="${lossDTO.details}">품종</h4>
+                                <p>상태 : <span th:text="${lossDTO.STATE_NM}"></span></p>
+                                <table class="table" style="margin-bottom : 16px;">
+                                    <tr>
+                                        <td>공고번호</td>
+                                        <td th:text="${lossDTO.PBLANC_IDNTFY_NO}">></td>
+                                    </tr>
+                                    <tr>
+                                        <td>품종</td>
+                                        <td th:text="${lossDTO.SPECIES_NM}">></td>
+                                    </tr>
+                                    <tr>
+                                        <td>나이</td>
+                                        <td th:text="${lossDTO.AGE_INFO}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>체중</td>
+                                        <td th:text="${lossDTO.BDWGH_INFO}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>색상</td>
+                                        <td th:text="${lossDTO.COLOR_NM}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>성별</td>
+                                        <td th:text="${lossDTO.SEX_NM}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>중성화여부</td>
+                                        <td th:text="${lossDTO.NEUT_YN}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>특징</td>
+                                        <td th:text="${lossDTO.SFETR_INFO}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>접수일시</td>
+                                        <td th:text="${lossDTO.newRECEPT_DE}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>발견장소</td>
+                                        <td th:text="${lossDTO.DISCVRY_PLC_INFO}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>공고기간</td>
+                                        <td><span th:text="${lossDTO.newPBLANC_BEGIN_DE}"></span> ~
+                                            <span th:text="${lossDTO.newPBLANC_END_DE}"></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>보호장소</td>
+                                        <td th:text="${lossDTO.PROTECT_PLC}"></td>
+                                    </tr>
+                                </table>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="hours">
+                                            <h5>관할보호센터</h5>
+                                            <p th:text="${lossDTO.SHTER_NM}"></p>
+                                        </div>
+                                        <div class="hours">
+                                            <h5>관할기관</h5>
+                                            <p th:text="${lossDTO.JURISD_INST_NM}"></p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="location">
+                                            <h5>주소</h5>
+                                            <p>
+                                                <span th:text="${lossDTO.REFINE_ZIP_CD}"></span><br>
+                                                <span th:text="${lossDTO.REFINE_ROADNM_ADDR}"></span><br>
+                                                <span th:text="${lossDTO.REFINE_LOTNO_ADDR}"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="book now">
+                                            <h5>연락처</h5>
+                                            <p>
+                                                <span th:text="${lossDTO.SHTER_TELNO}"></span><br>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="">
+                                            <h5>※ 유기동물 문의는 보호센터에 연락하시기 바랍니다.</h5>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <br>
+
+                                    <div class="row">
+                                        <div class="col-md-10">
+                                            <input th:if="${session.loginDTO != null }" class="form-control" type="text"
+                                                   id="rcontents" name="rcontents">
+                                            <input type="text" id="cano" name="cano" value="1" style="display:none">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button th:if="${session.loginDTO != null }" class="form-control"
+                                                    th:onclick="replywrite([[${lossDTO.ABDM_IDNTFY_NO}]])">댓글등록
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <table class="table" id="replytable">
+                                        <tr>
+                                            <th width="15%" style="text-align: center;">작성자(작성일)</th>
+                                            <th width="70%">내용</th>
+                                            <th width="13%"></th>
+                                        </tr>
+                                        <tr th:each="replyEntities : ${replyEntities}" height="50px;">
+                                            <td style="text-align: center;">
+                                                <div th:text="${replyEntities.getMemberEntity().getMid()}"></div>
+                                                <div th:text="${#temporals.format( replyEntities.createdDate , 'yyyy-MM-dd HH:mm:ss')}" style="font-size:14px;"></div>
+                                            </td>
+                                            <td th:id="tdbcontents+${replyEntities.getBno()}" name="tdbcontents"
+                                                th:text="${replyEntities.bcontents}" style="vertical-align:middle;">댓글
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <div class="d-flex justify-content-center">
+                                                    <div style="margin-right:8px;">
+                                                        <button th:if="${session.loginDTO != null} and ${session.loginDTO.mid == replyEntities.getMemberEntity().getMid()}"
+                                                                th:id="btnrupdate+${replyEntities.getBno()}"
+                                                                type="button"
+                                                                class="btn btn-outline-secondary"
+                                                                th:onclick="rupdate([[${replyEntities.getBno()}]])">수정
+                                                        </button>
+                                                    </div>
+                                                    <div style="margin-right:10px;">
+                                                        <button th:if="${session.loginDTO != null} and ${session.loginDTO.mid == replyEntities.getMemberEntity().getMid()}"
+                                                                th:id="btnrchange+${replyEntities.getBno()}"
+                                                                type="button"
+                                                                class="btn btn-outline-secondary" style="display:none;">
+                                                            확인
+                                                        </button>
+                                                    </div>
+                                                    <div>
+                                                        <button th:if="${session.loginDTO != null} and ${session.loginDTO.mid == replyEntities.getMemberEntity().getMid()}"
+                                                                type="button" class="btn btn-outline-secondary"
+                                                                th:onclick="rdelete([[${replyEntities.getBno()}]])">삭제
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="hours">
-                      <h5>관할기관</h5>
-                      <p th:text="${lossDTO.JURISD_INST_NM}"></p>
+                    <div class="col-lg-12">
+                        <div class="main-button-red">
+                            <a th:href="@{/LossBoardlist}">뒤로가기</a>
+                        </div>
                     </div>
-                  </div>
-                  <div class="col-lg-4">
-                    <div class="location">
-                      <h5>주소</h5>
-                      <p>
-                        <span th:text="${lossDTO.REFINE_ZIP_CD}"></span><br>
-                        <span th:text="${lossDTO.REFINE_ROADNM_ADDR}"></span><br>
-                        <span th:text="${lossDTO.REFINE_LOTNO_ADDR}"></span>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-lg-4">
-                    <div class="book now">
-                      <h5>연락처</h5>
-                      <p>
-                        <span th:text="${lossDTO.SHTER_TELNO}"></span><br>
-                      </p>
-                    </div>
-                  </div>
-                  <div class="col-lg-12">
-                    <div class="share">
-                      <h5>Share:</h5>
-                      <ul>
-                        <li><a href="#">Facebook</a>,</li>
-                        <li><a href="#">Twitter</a>,</li>
-                        <li><a href="#">Linkedin</a>,</li>
-                        <li><a href="#">Behance</a></li>
-                      </ul>
-                    </div>
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="col-lg-12">
-            <div class="main-button-red">
-              <a th:href="@{/LossBoardlist}">뒤로가기</a>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </section>
 <div th:replace="Footer.html :: footer"></div>
 
@@ -167,60 +235,7 @@
 <script th:src="@{/assets/js/video.js}" type="text/javascript"></script>
 <script th:src="@{/assets/js/slick-slider.js}" type="text/javascript"></script>
 <script th:src="@{/assets/js/custom.js}" type="text/javascript"></script>
-
-
-<script>
-        //according to loftblog tut
-        $('.nav li:first').addClass('active');
-
-        var showSection = function showSection(section, isAnimate) {
-          var
-          direction = section.replace(/#/, ''),
-          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
-          reqSectionPos = reqSection.offset().top - 0;
-
-          if (isAnimate) {
-            $('body, html').animate({
-              scrollTop: reqSectionPos },
-            800);
-          } else {
-            $('body, html').scrollTop(reqSectionPos);
-          }
-
-        };
-
-        var checkSection = function checkSection() {
-          $('.section').each(function () {
-            var
-            $this = $(this),
-            topEdge = $this.offset().top - 80,
-            bottomEdge = topEdge + $this.height(),
-            wScroll = $(window).scrollTop();
-            if (topEdge < wScroll && bottomEdge > wScroll) {
-              var
-              currentId = $this.data('section'),
-              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
-              reqLink.closest('li').addClass('active').
-              siblings().removeClass('active');
-            }
-          });
-        };
-
-        $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
-          e.preventDefault();
-          showSection($(this).attr('href'), true);
-        });
-
-        $(window).scroll(function () {
-          checkSection();
-        });
-
-
-
-
-</script>
-</body>
-
+<script th:src="@{/JS/Board/Loss/LossBoard.js}" type="text/javascript"></script>
 
 </body>
 

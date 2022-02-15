@@ -53,6 +53,14 @@
         <form action="/LossBoardlist" method="get">
             <div class="row">
                 <div class="col-md-2 d-flex"> <!-- d-flex-->
+                    <label style="width:100px; font-size:18px; color:white;"><strong>상태</strong></label>
+                    <select name="state" class="form-select">
+                        <option value="total" selected="selected">전체</option>
+                        <option value="보호중">보호중</option>
+                        <option value="종료">종료</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex"> <!-- d-flex-->
                     <label style="width:100px; font-size:18px; color:white;"><strong>성별</strong></label>
                     <select name="sex" class="form-select">
                         <option value="total" selected="selected">전체</option>
@@ -62,7 +70,7 @@
                     </select>
                 </div>
                 <div class="col-md-2 d-flex">
-                    <label style="width:100px; font-size:18px; color:white;"><strong>축종</strong></label>
+                    <label style="width:100px; font-size:18px; color:white;"><strong>품종</strong></label>
                     <select name="kind" class="form-select">
                         <option value="total" selected="selected">전체</option>
                         <option value="개">개</option>
@@ -70,10 +78,10 @@
                         <option value="기타축종">기타</option>
                     </select>
                 </div>
-                <div class="col-md-3 d-flex">
-                    <label style="width:250px; font-size:18px; color:white;"><strong>지역(시군구)</strong></label>
+                <div class="d-flex" style="width:300px;">
+                    <label style="width:280px; font-size:18px; color:white;"><strong>지역(시군구)</strong></label>
                     <select name="city" onchange="categoryChange(this)" class="form-select">
-                        <option value='total' selected="selected">전체</option>
+                        <option value="total" selected="selected">전체</option>
                         <option value="가평군">가평군</option>
                         <option value="고양시">고양시</option>
                         <option value="과천시">과천시</option>
@@ -106,12 +114,12 @@
                         <option value="하남시">하남시</option>
                         <option value="화성시">화성시</option>
                     </select>
-                    <!--                    <div class="col-md-6">-->
-                    <!--                        <select name="cals09" id="cals09" class="form-select">-->
-                    <!--                            <option value=''>전체</option>-->
-                    <!--                        </select>-->
-                    <!--                    </div>-->
                 </div>
+<!--                <div style="width:250px;">-->
+<!--                    <select name="cals09" id="cals09" class="form-select">-->
+<!--                        <option value=''>전체</option>-->
+<!--                    </select>-->
+<!--                </div>-->
                 <div class="col-md-1">
                     <input type="submit" value="검색" class="form-control">
                 </div>
@@ -123,26 +131,26 @@
         <div class="row">
             <div class="col-lg-3 templatemo-item-col" th:each="lossDTO : ${parsesPage}">
                 <div class="meeting-item">
-                    <div class="thumb">
+                    <div class="thumblist">
                         <a th:href="@{ '/Board/Loss/LossBoardView/' + ${lossDTO.ABDM_IDNTFY_NO} } ">
-                            <img th:src="${lossDTO.IMAGE_COURS}" alt="" style="height:300px;">
+                            <img class="image-thumbnail" th:src="${lossDTO.IMAGE_COURS}" alt="">
                         </a>
                     </div>
                     <div class="down-content">
-                        <a href="meeting-details.html">
+                        <a th:href="@{ '/Board/Loss/LossBoardView/' + ${lossDTO.ABDM_IDNTFY_NO} } ">
                             <h4 th:text="${lossDTO.details}">품종세부</h4><br>
                         </a>
                         <table class="table">
                             <tr>
                                 <td width="40%">접수일자</td>
-                                <td th:text="${lossDTO.RECEPT_DE}"></td>
+                                <td th:text="${lossDTO.newRECEPT_DE}"></td>
                             </tr>
                             <tr>
                                 <td>품종</td>
                                 <td th:text="${lossDTO.SPECIES_NM}"></td>
                             </tr>
                             <tr>
-                                <td>지역</td>
+                                <td>보호지역</td>
                                 <td th:text="${lossDTO.city}"></td>
                             </tr>
                             <tr>
@@ -159,8 +167,8 @@
                             </tr>
                             <tr>
                                 <td>공고기간</td>
-                                <td><span th:text="${lossDTO.PBLANC_BEGIN_DE}"></span> ~ <span
-                                        th:text="${lossDTO.PBLANC_END_DE}"></span></td>
+                                <td><span th:text="${lossDTO.newPBLANC_BEGIN_DE}"></span> ~ <span
+                                        th:text="${lossDTO.newPBLANC_END_DE}"></span></td>
                             </tr>
                         </table>
                     </div>
@@ -271,6 +279,7 @@
         $(window).scroll(function () {
           checkSection();
         });
+
 
 
 

@@ -28,4 +28,10 @@ public interface BoardRepository extends JpaRepository<BoardEntity,Integer> {
     Page<BoardEntity> findAllContents(Pageable pageable,
                                       @Param("categoryNumber") int categoryNumber,
                                       @Param("search") String search);
+
+
+    //전체 댓글
+    @Query(nativeQuery = true, value = "select * from board where apikey = :apikey and cano = :cano order by bno DESC")
+    List<BoardEntity> findAllReply(@Param("apikey") String apikey, @Param("cano") int cano);
+
 }

@@ -15,31 +15,39 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "board")
-@ToString(exclude = {"memberEntity", "categoryEntity", "boardImgEntities"})
+@Table(name="board")
+@ToString (exclude={"memberEntity","categoryEntity","boardImgEntities"})
 public class BoardEntity extends DateEntity {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int bno;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int bno;
 
-	@Column(name = "btitle")
-	private String btitle;
-	@Column(name = "bcontents", columnDefinition = "LONGTEXT")
-	private String bcontents;
-	@Column(name = "bview")
-	private int bview;
+    @Column (name="btitle")
+    private String btitle;
+    @Column (name="bcontents", columnDefinition = "LONGTEXT")
+    private String bcontents;
+    @Column (name="bview")
+    private int bview;
 
-	//회원 번호 fk
-	@ManyToOne
-	@JoinColumn(name = "mno")
-	private MemberEntity memberEntity;
+    @Column(name="apikey")
+    private String apikey; // api 식별키
 
-	//카테고리 fk??????
-	@ManyToOne
-	@JoinColumn(name = "cano")
-	private CategoryEntity categoryEntity;
+    @Column(name="bstar")
+    private String bstar; //병호 별점
 
-	//게시판 이미지
-	@OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL)
-	private List<BoardImgEntity> boardImgEntities = new ArrayList<>();
+    //회원 번호 fk
+    @ManyToOne
+    @JoinColumn(name="mno")
+    private MemberEntity memberEntity;
+
+    //카테고리 fk??????
+    @ManyToOne
+    @JoinColumn(name = "cano")
+    private CategoryEntity categoryEntity;
+
+    //게시판 이미지
+    @OneToMany(mappedBy="boardEntity", cascade = CascadeType.ALL)
+    private List<BoardImgEntity> boardImgEntities = new ArrayList<>();
+
+
 }

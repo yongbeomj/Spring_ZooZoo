@@ -29,300 +29,300 @@ import java.util.Collections;
 
 @Controller
 public class BoardController {
-	@Autowired
-	ShareService shareService;
-	@Autowired
-	FreeBoardService freeBoardService;
-	@Autowired
-	HttpServletRequest request;
-	@Autowired
-	LossService lossService;
+    @Autowired
+    ShareService shareService;
+    @Autowired
+    FreeBoardService freeBoardService;
+    @Autowired
+    HttpServletRequest request;
+    @Autowired
+    LossService lossService;
 
-	// 분양게시판으로
-	@GetMapping("/ShareBoardList")
-	public String goToShareBoardList(Model model, @RequestParam(defaultValue = "1") int page) {
-		ShareDTO shareDTO = new ShareDTO();
-		ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
-		ArrayList<String> petshop = shareService.Share(null);
-		ArrayList<String> oneStep = new ArrayList<>();
-		ArrayList<String> twoStep = new ArrayList<>();
-		ArrayList<String> threeStep = new ArrayList<>();
-		ArrayList<String> addrpost = new ArrayList<>();
-		ArrayList<String> addrx = new ArrayList<>();
-		ArrayList<String> addry = new ArrayList<>();
-		ArrayList<String> oldaddress = new ArrayList<>();
-		ArrayList<String> code = new ArrayList<>();
-		ArrayList<String> agreedate = new ArrayList<>();
-		ArrayList<String> tel = new ArrayList<>();
-		String[] s = new String[petshop.size()];
-		int totalSize = petshop.size();
-		Pagination paging = new Pagination(totalSize, page);
-		int j = 0;
-		if (page != 80) {
-			for (int i = (page - 1) * 100; i < paging.getPageSize() * page; i++) {
-				s[i] = petshop.get(i);
-				oneStep.add(s[i].split(":")[0]);
-				twoStep.add(s[i].split(":")[1]);
-				threeStep.add(s[i].split(":")[2]);
-				addrx.add(s[i].split(":")[3]);
-				addry.add(s[i].split(":")[4]);
-				addrpost.add(s[i].split(":")[5]);
-				code.add(s[i].split(":")[6]);
-				agreedate.add(s[i].split(":")[7]);
-				oldaddress.add(s[i].split(":")[8]);
-				tel.add(s[i].split(":")[9]);
-				shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
-				j++;
-			}
-		} else {
-			for (int i = (page - 1) * 100; i < totalSize; i++) {
-				s[i] = petshop.get(i);
-				oneStep.add(s[i].split(":")[0]);
-				twoStep.add(s[i].split(":")[1]);
-				threeStep.add(s[i].split(":")[2]);
-				addrx.add(s[i].split(":")[3]);
-				addry.add(s[i].split(":")[4]);
-				addrpost.add(s[i].split(":")[5]);
-				code.add(s[i].split(":")[6]);
-				agreedate.add(s[i].split(":")[7]);
-				oldaddress.add(s[i].split(":")[8]);
-				tel.add(s[i].split(":")[9]);
-				shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
-				j++;
-			}
-		}
+    // 분양게시판으로
+    @GetMapping("/ShareBoardList")
+    public String goToShareBoardList(Model model, @RequestParam(defaultValue = "1") int page) {
+        ShareDTO shareDTO = new ShareDTO();
+        ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
+        ArrayList<String> petshop = shareService.Share(null);
+        ArrayList<String> oneStep = new ArrayList<>();
+        ArrayList<String> twoStep = new ArrayList<>();
+        ArrayList<String> threeStep = new ArrayList<>();
+        ArrayList<String> addrpost = new ArrayList<>();
+        ArrayList<String> addrx = new ArrayList<>();
+        ArrayList<String> addry = new ArrayList<>();
+        ArrayList<String> oldaddress = new ArrayList<>();
+        ArrayList<String> code = new ArrayList<>();
+        ArrayList<String> agreedate = new ArrayList<>();
+        ArrayList<String> tel = new ArrayList<>();
+        String[] s = new String[petshop.size()];
+        int totalSize = petshop.size();
+        Pagination paging = new Pagination(totalSize, page);
+        int j = 0;
+        if (page != 80) {
+            for (int i = (page - 1) * 100; i < paging.getPageSize() * page; i++) {
+                s[i] = petshop.get(i);
+                oneStep.add(s[i].split(":")[0]);
+                twoStep.add(s[i].split(":")[1]);
+                threeStep.add(s[i].split(":")[2]);
+                addrx.add(s[i].split(":")[3]);
+                addry.add(s[i].split(":")[4]);
+                addrpost.add(s[i].split(":")[5]);
+                code.add(s[i].split(":")[6]);
+                agreedate.add(s[i].split(":")[7]);
+                oldaddress.add(s[i].split(":")[8]);
+                tel.add(s[i].split(":")[9]);
+                shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
+                j++;
+            }
+        } else {
+            for (int i = (page - 1) * 100; i < totalSize; i++) {
+                s[i] = petshop.get(i);
+                oneStep.add(s[i].split(":")[0]);
+                twoStep.add(s[i].split(":")[1]);
+                threeStep.add(s[i].split(":")[2]);
+                addrx.add(s[i].split(":")[3]);
+                addry.add(s[i].split(":")[4]);
+                addrpost.add(s[i].split(":")[5]);
+                code.add(s[i].split(":")[6]);
+                agreedate.add(s[i].split(":")[7]);
+                oldaddress.add(s[i].split(":")[8]);
+                tel.add(s[i].split(":")[9]);
+                shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
+                j++;
+            }
+        }
 
-		String[] select = {
-			"김포시", "파주시", "고양시", "양주시", "동두천시", "포천시", "가평군",
-			"남양주시", "양평군", "여주시", "이천시", "광주시", "하남시", "성남시",
-			"용인시", "안성시", "오산시", "평택시", "화성시", "수원시", "안산시",
-			"의왕시", "과천시", "군포시", "시흥시", "광명시", "부천시"
-		};
-		ArrayList<String> selectArr = new ArrayList<>();
-		for (int i = 0; i < select.length; i++) {
-			selectArr.add(select[i]);
-		}
+        String[] select = {
+                "김포시", "파주시", "고양시", "양주시", "동두천시", "포천시", "가평군",
+                "남양주시", "양평군", "여주시", "이천시", "광주시", "하남시", "성남시",
+                "용인시", "안성시", "오산시", "평택시", "화성시", "수원시", "안산시",
+                "의왕시", "과천시", "군포시", "시흥시", "광명시", "부천시"
+        };
+        ArrayList<String> selectArr = new ArrayList<>();
+        for (int i = 0; i < select.length; i++) {
+            selectArr.add(select[i]);
+        }
 
-		model.addAttribute("select", selectArr);
-		model.addAttribute("pagination", paging);
-		model.addAttribute("share", shareDTOS);
+        model.addAttribute("select", selectArr);
+        model.addAttribute("pagination", paging);
+        model.addAttribute("share", shareDTOS);
 
-		return "Board/Share/ShareBoardList";
-	}
+        return "Board/Share/ShareBoardList";
+    }
 
-	// 셀렉트 선택 됐을 때
-	@GetMapping("/ShareBoardListController")
-	public String ShareBoardListController(Model model, @RequestParam(defaultValue = "1") int page) {
-		String option = request.getParameter("option");
-		HttpSession session = request.getSession();
-		int lastpageno = 0;
-		if (option != null) {
-			String op = option;
-			session.setAttribute("option", op);
-		} else {
-			option = (String) session.getAttribute("option");
-		}
+    // 셀렉트 선택 됐을 때
+    @GetMapping("/ShareBoardListController")
+    public String ShareBoardListController(Model model, @RequestParam(defaultValue = "1") int page) {
+        String option = request.getParameter("option");
+        HttpSession session = request.getSession();
+        int lastpageno = 0;
+        if (option != null) {
+            String op = option;
+            session.setAttribute("option", op);
+        } else {
+            option = (String) session.getAttribute("option");
+        }
 
-		if (option == null || option.equals("null") || option.equals(null)) { // 처음 페이지 열 때
-			System.out.println("1");
-			ShareDTO shareDTO = new ShareDTO();
-			ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
-			ArrayList<String> petshop = shareService.Share(option);
-			ArrayList<String> oneStep = new ArrayList<>();
-			ArrayList<String> twoStep = new ArrayList<>();
-			ArrayList<String> threeStep = new ArrayList<>();
-			ArrayList<String> addrpost = new ArrayList<>();
-			ArrayList<String> addrx = new ArrayList<>();
-			ArrayList<String> addry = new ArrayList<>();
-			ArrayList<String> oldaddress = new ArrayList<>();
-			ArrayList<String> code = new ArrayList<>();
-			ArrayList<String> agreedate = new ArrayList<>();
-			ArrayList<String> tel = new ArrayList<>();
-			String[] s = new String[petshop.size()];
-			int totalSize = petshop.size();
-			Pagination paging = new Pagination(totalSize, page);
-			int j = 0;
-			if (page != 80) {
-				for (int i = (page - 1) * 100; i < paging.getPageSize() * page; i++) {
-					s[i] = petshop.get(i);
-					oneStep.add(s[i].split(":")[0]);
-					twoStep.add(s[i].split(":")[1]);
-					threeStep.add(s[i].split(":")[2]);
-					addrx.add(s[i].split(":")[3]);
-					addry.add(s[i].split(":")[4]);
-					addrpost.add(s[i].split(":")[5]);
-					code.add(s[i].split(":")[6]);
-					agreedate.add(s[i].split(":")[7]);
-					oldaddress.add(s[i].split(":")[8]);
-					tel.add(s[i].split(":")[9]);
-					shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
-					j++;
-				}
-			} else {
-				for (int i = (page - 1) * 100; i < totalSize; i++) {
-					s[i] = petshop.get(i);
-					oneStep.add(s[i].split(":")[0]);
-					twoStep.add(s[i].split(":")[1]);
-					threeStep.add(s[i].split(":")[2]);
-					addrx.add(s[i].split(":")[3]);
-					addry.add(s[i].split(":")[4]);
-					addrpost.add(s[i].split(":")[5]);
-					code.add(s[i].split(":")[6]);
-					agreedate.add(s[i].split(":")[7]);
-					oldaddress.add(s[i].split(":")[8]);
-					tel.add(s[i].split(":")[9]);
-					shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
-					j++;
-				}
-			}
+        if(option == null || option.equals("null") || option.equals(null)) { // 처음 페이지 열 때
+            System.out.println("1");
+            ShareDTO shareDTO = new ShareDTO();
+            ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
+            ArrayList<String> petshop = shareService.Share(option);
+            ArrayList<String> oneStep = new ArrayList<>();
+            ArrayList<String> twoStep = new ArrayList<>();
+            ArrayList<String> threeStep = new ArrayList<>();
+            ArrayList<String> addrpost = new ArrayList<>();
+            ArrayList<String> addrx = new ArrayList<>();
+            ArrayList<String> addry = new ArrayList<>();
+            ArrayList<String> oldaddress = new ArrayList<>();
+            ArrayList<String> code = new ArrayList<>();
+            ArrayList<String> agreedate = new ArrayList<>();
+            ArrayList<String> tel = new ArrayList<>();
+            String[] s = new String[petshop.size()];
+            int totalSize = petshop.size();
+            Pagination paging = new Pagination(totalSize, page);
+            int j = 0;
+            if (page != 80) {
+                for (int i = (page - 1) * 100; i < paging.getPageSize() * page; i++) {
+                    s[i] = petshop.get(i);
+                    oneStep.add(s[i].split(":")[0]);
+                    twoStep.add(s[i].split(":")[1]);
+                    threeStep.add(s[i].split(":")[2]);
+                    addrx.add(s[i].split(":")[3]);
+                    addry.add(s[i].split(":")[4]);
+                    addrpost.add(s[i].split(":")[5]);
+                    code.add(s[i].split(":")[6]);
+                    agreedate.add(s[i].split(":")[7]);
+                    oldaddress.add(s[i].split(":")[8]);
+                    tel.add(s[i].split(":")[9]);
+                    shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
+                    j++;
+                }
+            } else {
+                for (int i = (page - 1) * 100; i < totalSize; i++) {
+                    s[i] = petshop.get(i);
+                    oneStep.add(s[i].split(":")[0]);
+                    twoStep.add(s[i].split(":")[1]);
+                    threeStep.add(s[i].split(":")[2]);
+                    addrx.add(s[i].split(":")[3]);
+                    addry.add(s[i].split(":")[4]);
+                    addrpost.add(s[i].split(":")[5]);
+                    code.add(s[i].split(":")[6]);
+                    agreedate.add(s[i].split(":")[7]);
+                    oldaddress.add(s[i].split(":")[8]);
+                    tel.add(s[i].split(":")[9]);
+                    shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
+                    j++;
+                }
+            }
 
-			String[] select = {
-				"김포시", "파주시", "고양시", "양주시", "동두천시", "포천시", "가평군",
-				"남양주시", "양평군", "여주시", "이천시", "광주시", "하남시", "성남시",
-				"용인시", "안성시", "오산시", "평택시", "화성시", "수원시", "안산시",
-				"의왕시", "과천시", "군포시", "시흥시", "광명시", "부천시"
-			};
-			ArrayList<String> selectArr = new ArrayList<>();
-			for (int i = 0; i < select.length; i++) {
-				selectArr.add(select[i]);
-			}
+            String[] select = {
+                    "김포시", "파주시", "고양시", "양주시", "동두천시", "포천시", "가평군",
+                    "남양주시", "양평군", "여주시", "이천시", "광주시", "하남시", "성남시",
+                    "용인시", "안성시", "오산시", "평택시", "화성시", "수원시", "안산시",
+                    "의왕시", "과천시", "군포시", "시흥시", "광명시", "부천시"
+            };
+            ArrayList<String> selectArr = new ArrayList<>();
+            for (int i = 0; i < select.length; i++) {
+                selectArr.add(select[i]);
+            }
 
-			model.addAttribute("select", selectArr);
-			model.addAttribute("pagination", paging);
-			model.addAttribute("share", shareDTOS);
-			return "Board/Share/ShareTable";
-		} else { // 카테고리 선택되면
-			ShareDTO shareDTO = new ShareDTO();
-			ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
-			ArrayList<String> petshop = shareService.Share(option);
-			ArrayList<String> oneStep = new ArrayList<>();
-			ArrayList<String> twoStep = new ArrayList<>();
-			ArrayList<String> threeStep = new ArrayList<>();
-			ArrayList<String> addrpost = new ArrayList<>();
-			ArrayList<String> addrx = new ArrayList<>();
-			ArrayList<String> addry = new ArrayList<>();
-			ArrayList<String> oldaddress = new ArrayList<>();
-			ArrayList<String> code = new ArrayList<>();
-			ArrayList<String> agreedate = new ArrayList<>();
-			ArrayList<String> tel = new ArrayList<>();
-			String[] s = new String[petshop.size()];
-			int totalSize = petshop.size();
-			Pagination paging = new Pagination(totalSize, page);
-			int j = 0;
-			if ((paging.getTotalListCnt() - paging.getStartIndex()) > 100) {
-				for (int i = (page - 1) * 100; i < paging.getPageSize() * page; i++) {
-					s[i] = petshop.get(i);
-					oneStep.add(s[i].split(":")[0]);
-					twoStep.add(s[i].split(":")[1]);
-					threeStep.add(s[i].split(":")[2]);
-					addrx.add(s[i].split(":")[3]);
-					addry.add(s[i].split(":")[4]);
-					addrpost.add(s[i].split(":")[5]);
-					code.add(s[i].split(":")[6]);
-					agreedate.add(s[i].split(":")[7]);
-					oldaddress.add(s[i].split(":")[8]);
-					tel.add(s[i].split(":")[9]);
-					shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
-					j++;
-				}
-			} else {
-				for (int i = (page - 1) * 100; i < totalSize; i++) {
-					s[i] = petshop.get(i);
-					oneStep.add(s[i].split(":")[0]);
-					twoStep.add(s[i].split(":")[1]);
-					threeStep.add(s[i].split(":")[2]);
-					addrx.add(s[i].split(":")[3]);
-					addry.add(s[i].split(":")[4]);
-					addrpost.add(s[i].split(":")[5]);
-					code.add(s[i].split(":")[6]);
-					agreedate.add(s[i].split(":")[7]);
-					oldaddress.add(s[i].split(":")[8]);
-					tel.add(s[i].split(":")[9]);
-					shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
-					j++;
-				}
-			}
+            model.addAttribute("select", selectArr);
+            model.addAttribute("pagination", paging);
+            model.addAttribute("share", shareDTOS);
+            return "Board/Share/ShareTable";
+        } else { // 카테고리 선택되면
+            ShareDTO shareDTO = new ShareDTO();
+            ArrayList<ShareDTO> shareDTOS = new ArrayList<>();
+            ArrayList<String> petshop = shareService.Share(option);
+            ArrayList<String> oneStep = new ArrayList<>();
+            ArrayList<String> twoStep = new ArrayList<>();
+            ArrayList<String> threeStep = new ArrayList<>();
+            ArrayList<String> addrpost = new ArrayList<>();
+            ArrayList<String> addrx = new ArrayList<>();
+            ArrayList<String> addry = new ArrayList<>();
+            ArrayList<String> oldaddress = new ArrayList<>();
+            ArrayList<String> code = new ArrayList<>();
+            ArrayList<String> agreedate = new ArrayList<>();
+            ArrayList<String> tel = new ArrayList<>();
+            String[] s = new String[petshop.size()];
+            int totalSize = petshop.size();
+            Pagination paging = new Pagination(totalSize, page);
+            int j = 0;
+            if ((paging.getTotalListCnt() - paging.getStartIndex()) > 100) {
+                for (int i = (page - 1) * 100; i < paging.getPageSize() * page; i++) {
+                    s[i] = petshop.get(i);
+                    oneStep.add(s[i].split(":")[0]);
+                    twoStep.add(s[i].split(":")[1]);
+                    threeStep.add(s[i].split(":")[2]);
+                    addrx.add(s[i].split(":")[3]);
+                    addry.add(s[i].split(":")[4]);
+                    addrpost.add(s[i].split(":")[5]);
+                    code.add(s[i].split(":")[6]);
+                    agreedate.add(s[i].split(":")[7]);
+                    oldaddress.add(s[i].split(":")[8]);
+                    tel.add(s[i].split(":")[9]);
+                    shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
+                    j++;
+                }
+            } else {
+                for (int i = (page - 1) * 100; i < totalSize; i++) {
+                    s[i] = petshop.get(i);
+                    oneStep.add(s[i].split(":")[0]);
+                    twoStep.add(s[i].split(":")[1]);
+                    threeStep.add(s[i].split(":")[2]);
+                    addrx.add(s[i].split(":")[3]);
+                    addry.add(s[i].split(":")[4]);
+                    addrpost.add(s[i].split(":")[5]);
+                    code.add(s[i].split(":")[6]);
+                    agreedate.add(s[i].split(":")[7]);
+                    oldaddress.add(s[i].split(":")[8]);
+                    tel.add(s[i].split(":")[9]);
+                    shareDTOS.add(new ShareDTO(oneStep.get(j), threeStep.get(j), twoStep.get(j), addrpost.get(j), addrx.get(j), addry.get(j), oldaddress.get(j), code.get(j), agreedate.get(j), tel.get(j)));
+                    j++;
+                }
+            }
 
-			String[] select = {
-				"김포시", "파주시", "고양시", "양주시", "동두천시", "포천시", "가평군",
-				"남양주시", "양평군", "여주시", "이천시", "광주시", "하남시", "성남시",
-				"용인시", "안성시", "오산시", "평택시", "화성시", "수원시", "안산시",
-				"의왕시", "과천시", "군포시", "시흥시", "광명시", "부천시"
-			};
-			ArrayList<String> selectArr = new ArrayList<>();
-			for (int i = 0; i < select.length; i++) {
-				selectArr.add(select[i]);
-			}
+            String[] select = {
+                    "김포시", "파주시", "고양시", "양주시", "동두천시", "포천시", "가평군",
+                    "남양주시", "양평군", "여주시", "이천시", "광주시", "하남시", "성남시",
+                    "용인시", "안성시", "오산시", "평택시", "화성시", "수원시", "안산시",
+                    "의왕시", "과천시", "군포시", "시흥시", "광명시", "부천시"
+            };
+            ArrayList<String> selectArr = new ArrayList<>();
+            for (int i = 0; i < select.length; i++) {
+                selectArr.add(select[i]);
+            }
 
-			model.addAttribute("select", selectArr);
-			model.addAttribute("pagination", paging);
-			model.addAttribute("share", shareDTOS);
-			return "Board/Share/ShareTable";
-		}
-	}
+            model.addAttribute("select", selectArr);
+            model.addAttribute("pagination", paging);
+            model.addAttribute("share", shareDTOS);
+            return "Board/Share/ShareTable";
+        }
+    }
 
-	// 자유게시판으로 (페이징, 검색)
-	@GetMapping("/freeboard")
-	public String GotoFreeBoard(Model model, @PageableDefault Pageable pageable) {
+    // 자유게시판으로 (페이징, 검색)
+    @GetMapping("/freeboard")
+    public String GotoFreeBoard(Model model, @PageableDefault Pageable pageable){
 
-		//검색 처리하기
-		String keyword = request.getParameter("keyword");
-		String search = request.getParameter("search");
-		HttpSession session = request.getSession();
-		if (keyword != null || search != null) {
-			session.setAttribute("keyword", keyword);
-			session.setAttribute("search", search);
-		} else {
-			keyword = (String) session.getAttribute("keyword");
-			search = (String) session.getAttribute("search");
-		}
-		//페이징 처리한 카테고리 4번인 게시판들 불러오기
-		Page<BoardEntity> boardEntities = freeBoardService.GetAll(pageable, keyword, search);
-		System.out.println("Page boardEntities : " + boardEntities);
+        //검색 처리하기
+        String keyword = request.getParameter("keyword");
+        String search = request.getParameter("search");
+        HttpSession session = request.getSession();
+        if(keyword != null || search != null){
+            session.setAttribute("keyword",keyword);
+            session.setAttribute("search",search);
+        }else{
+            keyword = (String) session.getAttribute("keyword");
+            search = (String) session.getAttribute("search");
+        }
+        //페이징 처리한 카테고리 4번인 게시판들 불러오기
+        Page<BoardEntity> boardEntities = freeBoardService.GetAll(pageable, keyword, search);
+        System.out.println("Page boardEntities : " + boardEntities);
 
-		//첨부파일이 있든 없든 모델로 뿌려줘야됨, 내용, 제목은 있을 수 있기 때문
-		model.addAttribute("boardEntities", boardEntities);
-		//model.addAttribute("realpath",request.getServletContext().getRealPath(""));
-		return "Board/Free/FreeBoardMain";
-	}
+        //첨부파일이 있든 없든 모델로 뿌려줘야됨, 내용, 제목은 있을 수 있기 때문
+        model.addAttribute("boardEntities", boardEntities);
+        //model.addAttribute("realpath",request.getServletContext().getRealPath(""));
+        return "Board/Free/FreeBoardMain";
+    }
 
-	// 유기게시판으로
-	@GetMapping("LossBoardlist")
-	public String goToLossBoardList(Model model, @RequestParam(defaultValue = "1") int page) {
+    // 유기게시판으로
+    @GetMapping("LossBoardlist")
+    public String goToLossBoardList(Model model, @RequestParam(defaultValue = "1") int page) {
 
-		String sex = request.getParameter("sex"); // 성별
-		String kind = request.getParameter("kind"); // 축종
-		String city = request.getParameter("city"); // 시군구
-		HttpSession session = request.getSession();
+        String sex = request.getParameter("sex"); // 성별
+        String kind = request.getParameter("kind"); // 축종
+        String city = request.getParameter("city"); // 시군구
+        HttpSession session = request.getSession();
 
-		if (sex != null || kind != null || city != null) {
-			session.setAttribute("sex", sex);
-			session.setAttribute("kind", kind);
-			session.setAttribute("city", city);
-		} else {
-			sex = (String) session.getAttribute("sex");
-			kind = (String) session.getAttribute("kind");
-			city = (String) session.getAttribute("city");
-		}
+        if (sex != null || kind != null || city != null) {
+            session.setAttribute("sex", sex);
+            session.setAttribute("kind", kind);
+            session.setAttribute("city", city);
+        } else {
+            sex = (String) session.getAttribute("sex");
+            kind = (String) session.getAttribute("kind");
+            city = (String) session.getAttribute("city");
+        }
 
 
-		ArrayList<LossDTO> parses = lossService.losslist(sex, kind, city); // 필터링 게시물
-		ArrayList<LossDTO> parsesPage = lossService.parsenum(parses, page); // 페이징
+        ArrayList<LossDTO> parses = lossService.losslist(sex, kind, city); // 필터링 게시물
+        ArrayList<LossDTO> parsesPage = lossService.parsenum(parses, page); // 페이징
 
-		Pagination pagination = new Pagination(parses.size(), page);
+        Pagination pagination = new Pagination(parses.size(), page);
 
-		model.addAttribute("parsesPage", parsesPage);
-		model.addAttribute("pagination", pagination);
-		return "Board/Loss/LossBoardlist";
-	}
+        model.addAttribute("parsesPage", parsesPage);
+        model.addAttribute("pagination", pagination);
+        return "Board/Loss/LossBoardlist";
+    }
 
-	// 상세페이지로
-	@GetMapping("/Board/Loss/LossBoardView/{ABDM_IDNTFY_NO}")
-	public String goToLossBoardView(Model model, @PathVariable("ABDM_IDNTFY_NO") String ABDM_IDNTFY_NO) {
-		ArrayList<LossDTO> lossDTOS = lossService.getlossboard(ABDM_IDNTFY_NO);
-		model.addAttribute("lossDTOS", lossDTOS);
-		return "Board/Loss/LossBoardView";
-	}
+    // 상세페이지로
+    @GetMapping("/Board/Loss/LossBoardView/{ABDM_IDNTFY_NO}")
+    public String goToLossBoardView(Model model, @PathVariable("ABDM_IDNTFY_NO") String ABDM_IDNTFY_NO) {
+        ArrayList<LossDTO> lossDTOS = lossService.getlossboard(ABDM_IDNTFY_NO);
+        model.addAttribute("lossDTOS", lossDTOS);
+        return "Board/Loss/LossBoardView";
+    }
 
 
 	// 분양게시판 상세보기

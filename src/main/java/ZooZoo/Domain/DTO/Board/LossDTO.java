@@ -14,11 +14,14 @@ public class LossDTO {
     private String SIGUN_CD; //시군코드
     private String SIGUN_NM; //시군명
     private String RECEPT_DE; //접수일자
+    private StringBuffer newRECEPT_DE; //접수일자(-포함)
     private String DISCVRY_PLC_INFO; //발견장소
     private String STATE_NM; //상태
     private String PBLANC_IDNTFY_NO; //공고고유번호
     private String PBLANC_BEGIN_DE; //공고시작일자
+    private StringBuffer newPBLANC_BEGIN_DE; //공고시작일자(-포함)
     private String PBLANC_END_DE; //공고종료일자
+    private StringBuffer newPBLANC_END_DE; //공고종료일자(-포함)
     private String SPECIES_NM; //품종
     private String details; //세부종류
     private String COLOR_NM; //색상
@@ -42,10 +45,5 @@ public class LossDTO {
     private String THUMB_IMAGE_COURS; //썸네일이미지경로
     private String REFINE_WGS84_LAT; //WGS84위도
     private String REFINE_WGS84_LOGT; //WGS84경도
-
-
-
-
-
 
 }
