@@ -4,6 +4,7 @@ import ZooZoo.Domain.DTO.Category.CategoryDTO;
 import ZooZoo.Domain.Entity.Board.BoardEntity;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

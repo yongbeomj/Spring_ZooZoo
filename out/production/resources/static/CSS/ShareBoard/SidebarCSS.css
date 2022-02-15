@@ -17,7 +17,7 @@
 }
 
 #side nav {
-  width: 20rem;
+  width: 25rem;
   height: 100vh;
   position: fixed;
   top: 0;
@@ -32,12 +32,24 @@
   padding: 0;
   margin: 0;
   display: flex;
-  justify-content: center;
   align-items: center;
   list-style-type: none;
   flex-direction: column;
   height: 100%;
 }
+
+/* 스크롤바 */
+#side ul::-webkit-scrollbar {
+    width: 10px;
+}
+#side ul::-webkit-scrollbar-thumb {
+    background-color: coral;
+    border-radius: 10px;
+}
+#side ul::-webkit-scrollbar-track {
+    background-color: white;
+}
+/* 스크롤바 */
 
 #side li {
   font-size: 1.4rem;
@@ -85,4 +97,52 @@
   label{
     margin-right: 1rem;
   }
+}
+
+/*--------------------------------------------------------------------*/
+.side-panel {
+  height: 100vh;
+  display: none;
+  position: fixed;
+  right: 400px;
+  top: 0;
+   z-index: 2;
+  background: coral;
+}
+
+@media (max-width: 1000px) {
+  .side-panel { width: 300px;}
+}
+/* Width set to 100% for small screens. */
+@media (max-width: 760px) {
+  .side-panel { width: 100%;}
+}
+
+#twibtn {
+  background: #b22234;
+  color: white;
+  padding: 10px 15px 10px 15px;
+  border: none;
+  opacity: 0.8;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.2s;
+  margin: 20px;
+}
+#twibtn:hover {
+  background: #3c3b6e;
+}
+#twibtn {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 30px;
+  padding: 20px;
+}
+#twibtn:hover {
+  color: red;
 }
