@@ -62,7 +62,7 @@
                         <tr class="row" th:each="share : ${share}" id="tt">
                                 <td class="col-md-1 text-center" th:text="${share.shareno}"></td>
                                 <td class="col-md-5 text-center"><a th:text="${share.sharename}"
-                                                                    th:href="@{'/ShareBoardView/' + ${share.shareno}}"></a>
+                                                                    th:href="@{'/ShareBoardView/' + ${share.shareno} + ${share}}"></a>
                                 </td>
                                 <td class="col-md-5 text-center" th:text="${share.shareaddress}"></td>
                         </tr>

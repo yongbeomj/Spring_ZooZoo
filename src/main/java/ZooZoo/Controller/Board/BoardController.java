@@ -263,7 +263,69 @@ public class BoardController {
         }
     }
 
+    // 분양게시판 상세보기
+    @GetMapping("/ShareBoardView/{shareno}")
+    public String SBView(ShareDTO shareDTO, Model model) {
+        String sno = shareDTO.toString().split("shareno=")[1];
+        String no = sno.split("ShareDTO")[0];
+        String name1 = shareDTO.toString().split("sharename=")[1];
+        String name = name1.split(",")[0];
+        String address1 = shareDTO.toString().split("shareaddress=")[1];
+        String address = address1.split(",")[0];
+        String addrx1 = shareDTO.toString().split("addrx=")[1];
+        String addrx = addrx1.split(",")[0];
+        String addry1 = shareDTO.toString().split("addry=")[1];
+        String addry = addry1.split(",")[0];
+        String oldaddress1 = shareDTO.toString().split("oldaddress=")[1];
+        String oldaddress = oldaddress1.split(",")[0];
+        String post1 = shareDTO.toString().split("post=")[1];
+        String post = post1.split(",")[0];
+        String code1 = shareDTO.toString().split("code=")[1];
+        String code = code1.split(",")[0];
+        String agreedate1 = shareDTO.toString().split("agreedate=")[1];
+        String agreedate = agreedate1.split(",")[0];
+        String tel1 = shareDTO.toString().split("tel=")[1];
+        String tel = tel1.split(",")[0];
 
+        ShareDTO dto = new ShareDTO();
+        dto.setShareno(no);
+        dto.setSharename(name);
+        dto.setShareaddress(address);
+        dto.setShareaddrx(addrx);
+        dto.setShareaddry(addry);
+        dto.setShareoldaddress(oldaddress);
+        dto.setSharepost(post);
+        dto.setSharecode(code);
+        dto.setShareagreedate(agreedate);
+        dto.setSharetel(tel);
+        model.addAttribute("shareDTO", dto);
+        return "Board/Share/ShareBoardView";
+    }
+
+    // 분양 리뷰 쓰기
+    @GetMapping("/ShareReply")
+    @ResponseBody
+    public String ShareReview(@RequestParam("btitle")String btitle, @RequestParam("bcontents")String bcontents, @RequestParam("addrx")String addrx, @RequestParam("addry")String addry, @RequestParam("agreedate")String agreedate) {
+        HttpSession session = request.getSession();
+        MemberDTO logSession = (MemberDTO)session.getAttribute("loginDTO");
+        if(logSession.getMid() != null) {
+            boolean result = shareService.ReviewWrite(btitle, bcontents, addrx, addry, agreedate);
+            if (result) {
+                return "1";
+            } else {
+                return "2";
+            }
+        } else {
+            return "3";
+        }
+    }
+
+    // 분양 리뷰 출력
+    @GetMapping("/ShareReviewView")
+    public void ShareReviewView(Model model, @RequestParam("addrx")String addrx, @RequestParam("addry")String addry, @RequestParam("agreedate")String agreedate) {
+        List<BoardDTO> review = shareService.ReviewView(addrx, addry, agreedate);
+        model.addAttribute("review", review);
+    }
 
     // 유기게시판으로
     @GetMapping("LossBoardlist")
@@ -318,46 +380,6 @@ public class BoardController {
         model.addAttribute("replyEntities", replyEntities);
         return "Board/Loss/LossBoardView";
     }
-
-
-	// 분양게시판 상세보기
-	@GetMapping("/ShareBoardView/{shareno}")
-	public String SBView(ShareDTO shareDTO, Model model) {
-		String sno = shareDTO.toString().split("shareno=")[1];
-		String no = sno.split("ShareDTO")[0];
-		String name1 = shareDTO.toString().split("sharename=")[1];
-		String name = name1.split(",")[0];
-		String address1 = shareDTO.toString().split("shareaddress=")[1];
-		String address = address1.split(",")[0];
-		String addrx1 = shareDTO.toString().split("addrx=")[1];
-		String addrx = addrx1.split(",")[0];
-		String addry1 = shareDTO.toString().split("addry=")[1];
-		String addry = addry1.split(",")[0];
-		String oldaddress1 = shareDTO.toString().split("oldaddress=")[1];
-		String oldaddress = oldaddress1.split(",")[0];
-		String post1 = shareDTO.toString().split("post=")[1];
-		String post = post1.split(",")[0];
-		String code1 = shareDTO.toString().split("code=")[1];
-		String code = code1.split(",")[0];
-		String agreedate1 = shareDTO.toString().split("agreedate=")[1];
-		String agreedate = agreedate1.split(",")[0];
-		String tel1 = shareDTO.toString().split("tel=")[1];
-		String tel = tel1.split(",")[0];
-
-		ShareDTO dto = new ShareDTO();
-		dto.setShareno(no);
-		dto.setSharename(name);
-		dto.setShareaddress(address);
-		dto.setShareaddrx(addrx);
-		dto.setShareaddry(addry);
-		dto.setShareoldaddress(oldaddress);
-		dto.setSharepost(post);
-		dto.setSharecode(code);
-		dto.setShareagreedate(agreedate);
-		dto.setSharetel(tel);
-		model.addAttribute("shareDTO", dto);
-		return "Board/Share/ShareBoardView";
-	}
 
     // 댓글 작성
     @GetMapping("/replywrite")
