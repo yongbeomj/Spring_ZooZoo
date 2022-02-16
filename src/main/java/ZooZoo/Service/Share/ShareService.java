@@ -305,10 +305,10 @@ public class ShareService {
 
                 int afterday = 0; String last = null;
 
-                if(Integer.parseInt(date.replace("-", "")) >= Integer.parseInt(sdf1.format(dd).replace("-", ""))) {
-                    long second = (getD.getTime() - getT.getTime())/1000;
-                    long minute = (getT.getTime() - getD.getTime())/(60 * 1000);
-                    long hour = (getT.getTime() - getD.getTime())/(60 * 60 * 1000);
+		    long second = (getD.getTime() - getT.getTime())/1000;
+		    long minute = (getT.getTime() - getD.getTime())/(60 * 1000);
+		    long hour = (getT.getTime() - getD.getTime())/(60 * 60 * 1000);
+                if(hour < 24 && Integer.parseInt(date.replace("-", "")) >= Integer.parseInt(sdf1.format(dd).replace("-", ""))) {
                     if(Integer.parseInt(Long.toString(minute).replace("-", "")) < 60) {
                         String change = Long.toString(minute).replace("-", "");
                         last = change + "분 전";
@@ -316,7 +316,7 @@ public class ShareService {
                         String change = Long.toString(hour).replace("-", "");
                         last = change + "시간 전";
                     }
-                } else {
+                } else if(hour > 24) {
                     int afterday1 = Integer.parseInt(date.replace("-", "")) - Integer.parseInt(sdf1.format(dd).replace("-", ""));
                     String aft = Integer.toString(afterday1);
                     afterday = Integer.parseInt(aft.replace("-", ""));

@@ -40,3 +40,14 @@ function ReviewView(addrx, addry, agreedate) {
         }
     });
 }
+
+/* 드랍다운 */
+//let main = document.querySelector('.main')
+//
+//function show(type){
+//    document.querySelector('.textBox').value = type;
+//}
+let dropdown = document.querySelector('.dropdown');
+dropdown.onclick = function(){
+    dropdown.classList.toggle('active');
+}
