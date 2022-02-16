@@ -30,7 +30,9 @@ function getmap2(){
     alert(lat)
     alert(logt)
 }
-
+$(document).ready(function (callback){
+    hospitalstatus();
+});
 /*function getmap(){
 
     $(function() {
@@ -83,7 +85,6 @@ function hospitalstatus(){
             $("#research").html(data);
         }
     })
-
 }
 
 function hospitalpage(pages){

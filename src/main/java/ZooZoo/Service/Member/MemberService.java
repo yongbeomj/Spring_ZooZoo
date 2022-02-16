@@ -1,14 +1,21 @@
 package ZooZoo.Service.Member;
 
 import ZooZoo.Domain.DTO.Member.MemberDTO;
+import ZooZoo.Domain.Entity.Board.BoardEntity;
+import ZooZoo.Domain.Entity.Board.BoardRepository;
 import ZooZoo.Domain.Entity.Member.MemberEntity;
 import ZooZoo.Domain.Entity.Member.MemberRepository;
+import ZooZoo.Domain.Entity.Reply.ReplyEntity;
+import ZooZoo.Domain.Entity.Reply.ReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MemberService {
@@ -32,8 +39,8 @@ public class MemberService {
     // 아이디 중복확인
     public boolean Checkid(String mid) {
         List<MemberEntity> memberEntityList = memberRepository.findAll();
-        for(MemberEntity memberEntity : memberEntityList) {
-            if(memberEntity != null && memberEntity.getMid().equals(mid)) {
+        for (MemberEntity memberEntity : memberEntityList) {
+            if (memberEntity != null && memberEntity.getMid().equals(mid)) {
                 return true;
             }
         }
@@ -46,8 +53,8 @@ public class MemberService {
     // 로그인
     public boolean Login(String mid, String mpw) {
         List<MemberEntity> memberEntityList = memberRepository.findAll();
-        for(MemberEntity memberEntity : memberEntityList) {
-            if(memberEntity.getMid().equals(mid) && memberEntity.getMpw().equals(mpw)) {
+        for (MemberEntity memberEntity : memberEntityList) {
+            if (memberEntity.getMid().equals(mid) && memberEntity.getMpw().equals(mpw)) {
                 MemberDTO memberDTO = MemberDTO.builder().mid(memberEntity.getMid()).mpw(memberEntity.getMpw()).mno(memberEntity.getMno()).build();
                 HttpSession session = request.getSession();
                 session.setAttribute("loginDTO", memberDTO);
@@ -60,8 +67,8 @@ public class MemberService {
     // 회원 아이디 찾기
     public String FindId(String memail, String mname) {
         List<MemberEntity> memberEntities = memberRepository.findAll();
-        for(MemberEntity temp : memberEntities){
-            if(temp.getMemail() != null && temp.getMname() != null && temp.getMemail().equals(memail) && temp.getMname().equals(mname)){
+        for (MemberEntity temp : memberEntities) {
+            if (temp.getMemail() != null && temp.getMname() != null && temp.getMemail().equals(memail) && temp.getMname().equals(mname)) {
                 return temp.getMid();
             }
         }
@@ -78,4 +85,100 @@ public class MemberService {
         }
         return null;
     }
+
+    // 회원번호 -> 회원정보 반환
+    @Transactional
+    public MemberDTO getmemberDto(int mno) {
+        // 회원정보 저장 리스트
+        Optional<MemberEntity> entityOptional = memberRepository.findById(mno);
+
+        return MemberDTO.builder()
+                .mid(entityOptional.get().getMid())
+                .mpw(entityOptional.get().getMpw())
+                .memail(entityOptional.get().getMemail())
+                .mbirth(entityOptional.get().getMbirth())
+                .mname(entityOptional.get().getMname())
+                .maddress(entityOptional.get().getMaddress())
+                .createdDate(entityOptional.get().getCreatedDate())
+                .build();
+    }
+
+    // 회원탈퇴
+    public boolean mdelete(int mno, String passwordconfirm) {
+        // 엔티티 가져오기
+        Optional<MemberEntity> entityOptional = memberRepository.findById(mno);
+
+        // 비밀번호 일치 여부 확인
+        if (entityOptional.get().getMpw().equals(passwordconfirm)) {
+            memberRepository.delete(entityOptional.get());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // 회원수정
+    @Transactional
+    public boolean mupdate(int mno, String newmname, String newmemail, String newmbirth, String newmaddress) {
+        MemberEntity memberEntity = memberRepository.findById(mno).get();
+        memberEntity.setMname(newmname);
+        memberEntity.setMemail(newmemail);
+        memberEntity.setMbirth(newmbirth);
+        memberEntity.setMaddress(newmaddress);
+        return true;
+    }
+
+    // 비밀번호수정
+    @Transactional
+    public boolean mpwupdate(int mno, String tdmpw, String newmpw) {
+        MemberEntity memberEntity = memberRepository.findById(mno).get();
+        if (memberEntity.getMpw().equals(tdmpw)) {
+            memberEntity.setMpw(newmpw);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Autowired
+    BoardRepository boardRepository;
+
+    @Autowired
+    ReplyRepository replyRepository;
+
+    // 작성 게시물 세기
+    public int countboard(int mno) {
+        List<BoardEntity> boardEntities = boardRepository.findAll();
+        int count = 0;
+        for (int i = 0; i < boardEntities.size(); i++) {
+            if (boardEntities.get(i).getMemberEntity().getMno() == mno && boardEntities.get(i).getCategoryEntity().getCano() == 4) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // 댓글 세기
+    public int countreply(int mno) {
+        List<BoardEntity> boardEntities = boardRepository.findAll();
+        List<ReplyEntity> replyEntities = replyRepository.findAll();
+
+        int count = 0; // 전체 댓글 수
+
+        // board DB (유기, 분양, 병원 댓글)
+        for (int i = 0; i < boardEntities.size(); i++) {
+            if (boardEntities.get(i).getMemberEntity().getMno() == mno && boardEntities.get(i).getCategoryEntity().getCano() != 4) {
+                count++;
+            }
+        }
+        // reply DB (자유 댓글)
+        for (int i = 0; i < replyEntities.size(); i++) {
+            if (replyEntities.get(i).getMemberEntity2().getMno() == mno){
+                count++;
+            }
+        }
+        return count;
+    }
+
+
 }

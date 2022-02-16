@@ -46,11 +46,10 @@
                 <option th:selected= "${param.keyword}=='폐업'" th:value="'폐업'" th:text="폐업"> </option>
             </select>
         </div>
+
         <br>
         <section id ="research">
-            <!-- 테이블 스타트 -->
-            <!--<span th:text="${param.keyword}"></span>-->
-
+            <!-- 타임리프 파라미터 값 가져올수있음 <span th:text="${param.keyword}"></span>-->
             <div class="card">
                 <div class="table-responsive">
                     <table class="table align-items-center mb-0" id="tabletest">
@@ -82,10 +81,8 @@
                                 <span class="text-secondary text-xs font-weight-normal" th:text ="${parse.getLocplcfaclttelno()}"></span>
                             </td>
                             <td class="align-middle">
-                                <!--<button type="button" th:onclick ="hospitalapi()" class="btn btn-warning btn-sm">테스트</button>-->
-                                <!--<a th:href="@{/hospitalmap}">-->
-                                <button type="button"  class="btn btn-warning btn-sm"
 
+                                <button type="button"  class="btn btn-warning btn-sm"
                                         th:onclick ="getmap( [[${parse.getLogt()}]],
                                                                     [[${parse.getLat()}]],
                                                                     [[${parse.getBizplcnm()}]],
@@ -95,20 +92,15 @@
                                                                     [[${parse.getSigunnm}]],
                                                                     [[${parse.getSiguncd}]]
                                                                     )">지도</button>
-                                <!--</a>-->
                             </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
             <!-- 테이블 end -->
-
             <!--paging button-->
-
         </section>
-
         <div clss ="container-fluid">
             <div class="container my-auto">
                 <form class="col-md-5 offset-4 input-group my-3 g-0">
@@ -129,15 +121,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
 
 <!--   Core JS Files   -->
 <script th:src="@{/JS/core/popper.min.js}" type="text/javascript"></script>

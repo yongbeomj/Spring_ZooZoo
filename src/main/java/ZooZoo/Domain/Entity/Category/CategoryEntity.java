@@ -2,6 +2,7 @@ package ZooZoo.Domain.Entity.Category;
 
 import ZooZoo.Domain.Entity.Board.BoardEntity;
 import ZooZoo.Domain.Entity.Board.BoardImgEntity;
+import ZooZoo.Domain.Entity.BoardLike.BoardLikeEntity;
 import ZooZoo.Domain.Entity.Reply.ReplyEntity;
 import lombok.*;
 
@@ -33,5 +34,7 @@ public class CategoryEntity {
 
    /* @OneToMany(mappedBy = "categoryEntity2", cascade = CascadeType.ALL)
     private List<BoardImgEntity> boardImgEntities = new ArrayList<>();*/
-
+   //게시판 추천
+   @OneToMany(mappedBy="categoryBLikeEntity", cascade = CascadeType.ALL)
+   private List<BoardLikeEntity> boardLikeEntities = new ArrayList<>();
 }

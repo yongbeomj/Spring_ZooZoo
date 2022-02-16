@@ -13,6 +13,7 @@ var overlay = new kakao.maps.CustomOverlay({
     map: map,
     position: null
 });
+
 var getlat,
     getlon,
     getaddr;
@@ -148,16 +149,6 @@ $(document).ready(function (callback){
         }
     });
 
-    /*$.ajax({
-        url: '/hospitalavgstar' ,
-        success: function(data) {
-            alert(data)
-            $(`.star2 span`).css({
-                width: `${data * 10}%`
-            });
-        }
-    });*/
-
 });
 
 
@@ -224,12 +215,12 @@ function reviewclick(){
     });
 }
 
-// 댓글 달기 및 출력하기
+// 리뷰 달기 및 출력하기
 function replywrite(apikey){
     var rcontents = $("#rcontents").val();
     var cano = 3; // 동물 병원 카테고리 병원은 3번일까요?
 
-    // 댓글내용 공백 시 알람
+    // 리뷰내용 공백 시 알람
     if( rcontents == "" ){
         alert("댓글 내용을 입력해주세요");
         return;
@@ -238,29 +229,131 @@ function replywrite(apikey){
         url: "/hospitalreply" ,
         data : { "apikey" : apikey , "cano" : cano, "rcontents" : rcontents, "bstar" : bstar },
         success: function(data) {
-            if( data == 1 ){
-                checked = 1;
+            if( data == 1 ){ // 만약 성공적으로 댓글이 달렸다면 값을 부여
+                $.ajax({
+                    url: '/getmapside' ,
+                    success: function(data) {
+                        $("#addrget").text("");
+                        $("#contents").html("");
+                        $("#addrget").text(getaddr);
+                        $("#contents").html(data);
+                    }
+                });
                 $("#rcontents").val("");
+                $.ajax({
+                    url: '/getmapsidereview' ,
+                    success: function(data) {
+                        $("#home").html("");
+                        $("#review").html("");
+                        $("#review").html(data);
+                    }
+                });
             }else {
                 alert("로그인 후 사용가능합니다");
                 return;
             }
         }
     });
-    if(checked == 1){
-        alert(checked);
-        $.ajax({
-            url: '/getmapsidereview' ,
-            success: function(data) {
-                $("#home").html("");
-                $("#review").html("");
-                $("#review").html(data);
-            }
-        });
-        checked = 0;
-    }
+}
 
+/*리뷰 삭제 하기*/
+function replydelete(bno){
+    alert(bno);
+    $.ajax({
+        url: '/reviewdelete',
+        data:{"bno": bno},
+        success: function(data){
+            if(data == "1"){
+                $.ajax({
+                    url: '/getmapside' ,
+                    success: function(data) {
+                        $("#addrget").text("");
+                        $("#contents").html("");
+                        $("#addrget").text(getaddr);
+                        $("#contents").html(data);
+                    }
+                });
+                $.ajax({
+                    url: '/getmapsidereview' ,
+                    success: function(data) {
+                        $("#home").html("");
+                        $("#review").html("");
+                        $("#review").html(data);
+                    }
+                });
+            }else{
+                alert("리뷰 삭제 오류 [관리자 문의]")
+            }
+        }
+    });
+}
+
+
+/* 리뷰 수정하기 할때 처음에 가져온값 뿌려주는 함수 이후 업데이트 실행하기*/
+function r_updateget(bno, bcontents, bustar){
+    $('div[id=rupdateid]').attr('value',bno);
+    $('div[id=rupdatestar]').attr('value',bustar);
+    $("#rcontents2").text(bcontents);
+    $(`#modalstar span`).css({
+        width: `${bustar * 10 * 2}%`
+    });
 
 }
+
+/* 리뷰 수정하기 */
+function replyupdate(){
+    var rcontents2 = document.getElementById("rcontents2").value;
+    var bno = $('div[id=rupdateid]').attr('value');
+    var rupdatestar = $('div[id=rupdatestar]').attr('value');
+    alert(rupdatestar);
+    // 리뷰내용 공백 시
+    if( rcontents2 == "" ){
+        alert("리뷰 내용을 입력해주세요");
+        return;
+    }
+
+    if(bstar == null || bstar == ""){
+        rupdatestar = rupdatestar;
+    }else{
+        rupdatestar = bstar;
+    }
+
+    if(rupdatestar == null || rupdatestar ==""){
+        alert("리뷰 별점에 오류가 생겼습니다.");
+        alert(rupdatestar);
+        return ;
+    }
+    $.ajax({
+        url: '/getmapside' ,
+        success: function(data) {
+            $("#addrget").text("");
+            $("#contents").html("");
+            $("#addrget").text(getaddr);
+            $("#contents").html(data);
+        }
+    });
+
+    $.ajax({
+        url: "/reviewupdate",
+        data : {"bno":bno,"rcontents":rcontents2, "bstar":rupdatestar},
+        success: function(data){
+            if(data == "1"){
+                alert("리뷰가 수정되었습니다.");
+                $.ajax({
+                    url: '/getmapsidereview' ,
+                    success: function(data) {
+                        $("#home").html("");
+                        $("#review").html("");
+                        $("#review").html(data);
+                    }
+                });
+            }else{
+                alert("리뷰 수정 오류 [관리자 문의]")
+            }
+        }
+    });
+
+}
+
 
 

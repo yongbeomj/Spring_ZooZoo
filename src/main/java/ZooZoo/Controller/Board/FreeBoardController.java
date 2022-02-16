@@ -46,6 +46,7 @@ public class FreeBoardController {
     @Autowired
     FreeBoardService freeBoardService;
 
+
     @Autowired
     ReplyService replyService;
 
@@ -91,8 +92,10 @@ public class FreeBoardController {
         String res = "1";
         String btitle = request.getParameter("freebtitle");
         String bcontents = request.getParameter("freebcontents");
+        //태그 연습
         System.out.println("제목 > " + btitle);
         System.out.println("내용 > " + bcontents);
+
         //전달받은 제목, 타이틀이 없으면 3반환
         if (btitle == null || btitle.equals("") || bcontents == null || bcontents.equals("")) {
             return "3";
@@ -131,7 +134,6 @@ public class FreeBoardController {
     public String goToFreeBoardView(@PathVariable("bno") int bno, Model model) {
         HttpSession session =  request.getSession();
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginDTO");
-        System.out.println(memberDTO);
         ArrayList<String> bimglist = new ArrayList<String>();
         try {
             BoardEntity boardEntity = freeBoardService.getFreeBoardView(bno);
@@ -143,6 +145,7 @@ public class FreeBoardController {
             model.addAttribute("bimglist",bimglist);
             model.addAttribute("boardEntity", boardEntity);
             model.addAttribute("replyEntities",replyEntities);
+            System.out.println(replyEntities.size());
         } catch(Exception e){
             System.out.println(e);
         }
@@ -207,13 +210,16 @@ public class FreeBoardController {
     public String FreeBoardUpdate(MultipartHttpServletRequest mtfRequest,
                                   @RequestParam("bcontents") String bcontents,
                                   @RequestParam("btitle") String btitle,
-                                  @RequestParam("bno") int bno){
+                                  @RequestParam("bno") int bno,
+                                  Model model){
 
         String res = "1";
         System.out.println("제목 > " + btitle);
         System.out.println("내용 > " + bcontents);
         System.out.println(bcontents+", "+btitle+", "+bno+", "+mtfRequest);
-
+        if (btitle == null || btitle.equals("") || bcontents == null || bcontents.equals("")) {
+            return "3";
+        }
         //수정 요청이 있으면
         if (mtfRequest != null) {
             List<MultipartFile> fileList = mtfRequest.getFiles("fileList");
@@ -259,6 +265,7 @@ public class FreeBoardController {
                                    @RequestParam("frcontents") String frcontents){
         int cano = 4;
         int rs = replyService.writeReply(bno, cano, frcontents);
+
         if(rs == 1){
             return 1; //로그인 안했을 때
         }else if(rs==2){
@@ -284,11 +291,10 @@ public class FreeBoardController {
 
     }
 
-
     // 댓글 수정
-    @GetMapping("/replyupdatea")
+    @GetMapping("/Board/Free/FreeBoardReplyUpdate")
     @ResponseBody
-    public String replyupdate(@RequestParam("bno") int bno, @RequestParam("newcontents") String newcontents){
+    public String FreeBoardReplyUpdate(@RequestParam("bno") int bno, @RequestParam("newcontents") String newcontents){
         replyService.replyupdate(bno, newcontents);
         return "1";
     }

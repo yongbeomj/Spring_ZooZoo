@@ -8,6 +8,7 @@ import ZooZoo.Domain.Entity.Category.CategoryEntity;
 import ZooZoo.Domain.Entity.Category.CategoryRepository;
 import ZooZoo.Domain.Entity.Member.MemberEntity;
 import ZooZoo.Domain.Entity.Member.MemberRepository;
+import ZooZoo.Domain.Entity.Reply.ReplyEntity;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -100,6 +101,19 @@ public class AnimalHospitalService {
                         (String)jsonObject.get("SIGUN_NM"), // 시 정보
                         (String)jsonObject.get("SIGUN_CD") // 시 정보코드
                 );
+                /*정규식을 통한 알고리즘 수정 전화번호 변경하기 */
+                if (hospitalDto.getLocplcfaclttelno() == null) {
+                    hospitalDto.setLocplcfaclttelno("");
+                }
+                if (hospitalDto.getLocplcfaclttelno().length() == 8) {
+                    hospitalDto.setLocplcfaclttelno(hospitalDto.getLocplcfaclttelno().replaceFirst("^([0-9]{4})([0-9]{4})$", "$1-$2"));
+                } else if (hospitalDto.getLocplcfaclttelno().length() == 12) {
+                    hospitalDto.setLocplcfaclttelno(hospitalDto.getLocplcfaclttelno().replaceFirst("(^[0-9]{4})([0-9]{4})([0-9]{4})$", "$1-$2-$3"));
+                }else if(hospitalDto.getLocplcfaclttelno().length() == 7){
+                    hospitalDto.setLocplcfaclttelno(hospitalDto.getLocplcfaclttelno().replaceFirst("^([0-9]{3})([0-9]{4})$", "$1-$2"));
+                }
+                hospitalDto.setLocplcfaclttelno(hospitalDto.getLocplcfaclttelno().replaceFirst("(^02|[0-9]{3})([0-9]{3,4})([0-9]{4})$", "$1-$2-$3"));
+                /*정규식을 통한 알고리즘 수정 전화번호 변경하기 end */
                 parse.add(hospitalDto);
             }
 
@@ -160,9 +174,7 @@ public class AnimalHospitalService {
                         System.out.println(parse.get(i).getRefineroadnmaddr());
                         if(parse.get(i).getRefineroadnmaddr() == null || parse.get(i).getRefineroadnmaddr().equals("")){
                             parse.get(i).setRefineroadnmaddr("");
-
                         }
-
                         System.out.println(parse.get(i).getRefineroadnmaddr());
                         System.out.println(parse.size());
                         if (parse.get(i).getRefineroadnmaddr().matches("(.*)"+search + "(.*)")&&
@@ -213,7 +225,6 @@ public class AnimalHospitalService {
                         System.out.println("`````````````````````````````````````````" + search);
                         if(parse.get(i).getRefineroadnmaddr() == null || parse.get(i).getRefineroadnmaddr().equals("")){
                             parse.get(i).setRefineroadnmaddr("");
-
                         }
                         if (parse.get(i).getRefineroadnmaddr().matches( "(.*)"+search+"(.*)")&&
                                 parse.get(i).getBsnstatenm().matches("(.*)"+status+"(.*)")) { // 값이 일치한다면
@@ -235,15 +246,10 @@ public class AnimalHospitalService {
                 }
             }
                 if(status.equals("선택")) {
-                    if (search == null || search.equals("")) {
-                        return parse;
-                    }
-
                     if (keyword.equals("병원")) {
                         parse2.clear();
                         for (int i = 0; i < parse.size(); i++) { // 해당 크기만큼의 사이즈를 가지고와서
-                            if (parse.get(i).getBizplcnm().matches("(.*)"+search+"(.*)")&&
-                                    parse.get(i).getBsnstatenm().matches("(.*)"+status+"(.*)")) { // 값이 일치한다면
+                            if (parse.get(i).getBizplcnm().matches("(.*)"+search+"(.*)")) { // 값이 일치한다면
                                 HospitalDto hospitalDto = new HospitalDto(
                                         parse.get(i).getBizplcnm(), // 병원 이름
                                         parse.get(i).getRefineroadnmaddr(), // 주소
@@ -259,12 +265,14 @@ public class AnimalHospitalService {
                         }
                         return parse2;
                     }
-                    if (keyword.equals("주소") || keyword == "주소") {
+                    if (keyword.equals("주소")) {
                         parse2.clear();
                         for (int i = 0; i < parse.size(); i++) { // 해당 크기만큼의 사이즈를 가지고와서
+                            if(parse.get(i).getRefineroadnmaddr() == null || parse.get(i).getRefineroadnmaddr().equals("")){
+                                parse.get(i).setRefineroadnmaddr("");
+                            }
                             System.out.println("`````````````````````````````````````````" + search);
-                            if (parse.get(i).getRefineroadnmaddr().matches( "(.*)"+search+"(.*)")&&
-                                    parse.get(i).getBsnstatenm().matches("(.*)"+status+"(.*)")) { // 값이 일치한다면
+                            if (parse.get(i).getRefineroadnmaddr().matches( "(.*)"+search+"(.*)")) { // 값이 일치한다면
                                 System.out.println(parse.get(i).getRefineroadnmaddr());
                                 HospitalDto hospitalDto = new HospitalDto(
                                         parse.get(i).getBizplcnm(), // 병원 이름
@@ -336,12 +344,9 @@ public class AnimalHospitalService {
             maxPage = parses.size();
             /*minPage = */
         }
-//        System.out.println("시작 페이지 입니다." + minPage);
-//        System.out.println("마지막 페이지 입니다." + maxPage);
 
         for(int i = minPage-1; i<maxPage; i++){
             parsepage.add(parses.get(i));
-//            System.out.println(i);
         }
 
         return parsepage;
@@ -374,7 +379,7 @@ public class AnimalHospitalService {
         return true;
     }
 
-    /*게시물 댓글 출력*/
+    /*리뷰 출력*/
     public List<BoardEntity> getreplylist(String apikey, int cano) {
         List<BoardEntity> replyEntities = new ArrayList<>();
 
@@ -387,7 +392,7 @@ public class AnimalHospitalService {
         return replyEntities;
     }
 
-    /*게시물 댓글 평점 내기*/
+    /*리뷰 평점 내기*/
     public double getreplyavg(String apikey, int cano){
         List<BoardEntity> replyEntities = new ArrayList<>();
         double avg;
@@ -406,9 +411,35 @@ public class AnimalHospitalService {
         }
         return d_avg;
     }
-    /*게시물 댓글 삭제하기*/
-    public boolean deletereply(String apikey, int cano, int bno){
+
+    /*리뷰 삭제하기*/
+    @Transactional
+    public boolean deletereply(int bno){
+
+        Optional<BoardEntity> replyEntity = boardRepository.findById(bno);
+
+        if(replyEntity.get() != null){
+            boardRepository.delete(replyEntity.get());
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /*리뷰 수정하기 */
+    @Transactional
+    public boolean updatereply(int bno, String rcontents, String bstar){
+        // 댓글 가져오기
+        BoardEntity boardEntity = boardRepository.findById(bno).get();
+        System.out.println("bno : " + bno);
+        System.out.println("내용 : " + rcontents);
+        System.out.println(boardRepository.findById(bno).get());
+        // 내용 수정
+        boardEntity.setBcontents(rcontents);
+        boardEntity.setBstar(bstar);
 
         return true;
     }
+
+
 }

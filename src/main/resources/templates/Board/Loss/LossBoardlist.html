@@ -27,111 +27,107 @@
 
     -->
 </head>
-
 <body style="  background-color: #ff7f50;">
-
 <div th:replace="Header.html :: header"></div>
+<div class="container">
+<!--    <div>-->
+<!--        <p>-->
+<!--            「동물보호법」 제17조, 시행령7조 및 동법 시행규칙 제20조에 따라 유기·유실동물을 보호하고 있는 경우에는 소유자 등이-->
+<!--            보호조치 사실을 알 수 있도록 7일 이상 공고하여야 합니다.-->
 
+<!--            공고 중인 동물 소유자는 해당 시군구 및 동물보호센터에 문의하시어 동물을 찾아가시기 바랍니다.-->
+
+<!--            「동물보호법」 제17조에 따른 공고가 있는 날부터 10일이 경과하여도 소유자 등을 알 수 없는 경우에는 「유실물법」 제12조 및 「민법」 제253조의 규정에도 불구하고 해당 시·도지사 또는-->
+<!--            시장·군수·구청장이 그 동물의 소유권을 취득하게 됩니다.-->
+
+<!--            「동물보호법」 제8조 및 동법 제 46조에 따라 동물 학대, 알선, 구매, 유기 등의 행위를 하는 경우에는 3년 이하의 징역 또는 3천만원 이하의 벌금에 처하게 됩니다.-->
+<!--        </p>-->
+<!--    </div>-->
+    <form action="/LossBoardlist" method="get">
+        <div class="row">
+            <div class="col-md-2 d-flex"> <!-- d-flex-->
+                <label style="width:100px; font-size:18px; color:white;"><strong>상태</strong></label>
+                <select name="state" class="form-select">
+                    <option value="total" selected="selected">전체</option>
+                    <option value="보호중">보호중</option>
+                    <option value="종료">종료</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex"> <!-- d-flex-->
+                <label style="width:100px; font-size:18px; color:white;"><strong>성별</strong></label>
+                <select name="sex" class="form-select">
+                    <option value="total" selected="selected">전체</option>
+                    <option value="암컷">암컷</option>
+                    <option value="수컷">수컷</option>
+                    <option value="미상">미상</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex">
+                <label style="width:100px; font-size:18px; color:white;"><strong>품종</strong></label>
+                <select name="kind" class="form-select">
+                    <option value="total" selected="selected">전체</option>
+                    <option value="개">개</option>
+                    <option value="고양이">고양이</option>
+                    <option value="기타축종">기타</option>
+                </select>
+            </div>
+            <div class="d-flex" style="width:300px;">
+                <label style="width:280px; font-size:18px; color:white;"><strong>지역(시군구)</strong></label>
+                <select name="city" onchange="categoryChange(this)" class="form-select">
+                    <option value="total" selected="selected">전체</option>
+                    <option value="가평군">가평군</option>
+                    <option value="고양시">고양시</option>
+                    <option value="과천시">과천시</option>
+                    <option value="광명시">광명시</option>
+                    <option value="광주시">광주시</option>
+                    <option value="구리시">구리시</option>
+                    <option value="군포시">군포시</option>
+                    <option value="김포시">김포시</option>
+                    <option value="남양주시">남양주시</option>
+                    <option value="동두천시">동두천시</option>
+                    <option value="부천시">부천시</option>
+                    <option value="성남시">성남시</option>
+                    <option value="수원시">수원시</option>
+                    <option value="시흥시">시흥시</option>
+                    <option value="안산시">안산시</option>
+                    <option value="안성시">안성시</option>
+                    <option value="안양시">안양시</option>
+                    <option value="양주시">양주시</option>
+                    <option value="양평군">양평군</option>
+                    <option value="여주군">여주군</option>
+                    <option value="연천군">연천군</option>
+                    <option value="오산시">오산시</option>
+                    <option value="용인시">용인시</option>
+                    <option value="의왕시">의왕시</option>
+                    <option value="의정부시">의정부시</option>
+                    <option value="이천시">이천시</option>
+                    <option value="파주시">파주시</option>
+                    <option value="평택시">평택시</option>
+                    <option value="포천시">포천시</option>
+                    <option value="하남시">하남시</option>
+                    <option value="화성시">화성시</option>
+                </select>
+            </div>
+            <!--                <div style="width:250px;">-->
+            <!--                    <select name="cals09" id="cals09" class="form-select">-->
+            <!--                        <option value=''>전체</option>-->
+            <!--                    </select>-->
+            <!--                </div>-->
+            <div class="col-md-1">
+                <input type="submit" value="검색" class="form-control">
+            </div>
+        </div>
+    </form>
+</div>
+<br>
+<div style="border: 1px solid white;"></div>
+<br>
 <section class="meetings-page" id="meetings">
     <div class="container">
         <div class="row">
-            <div class="col-md-3">
-                <a th:href="@{/LossBoardlist}"><h4 class="text-center">유기</h4></a>
-            </div>
-            <div class="col-md-3">
-                <a th:href="@{/ShareBoardList}"><h4 class="text-center">분양</h4></a>
-            </div>
-            <div class="col-md-3">
-                <a th:href="@{/hospitalboard}"><h4 class="text-center">병원</h4></a>
-            </div>
-            <div class="col-md-3">
-                <a th:href="@{/freeboard}"><h4 class="text-center">자유</h4></a>
-            </div>
-        </div>
-        <hr>
-        <br>
-        <form action="/LossBoardlist" method="get">
-            <div class="row">
-                <div class="col-md-2 d-flex"> <!-- d-flex-->
-                    <label style="width:100px; font-size:18px; color:white;"><strong>상태</strong></label>
-                    <select name="state" class="form-select">
-                        <option value="total" selected="selected">전체</option>
-                        <option value="보호중">보호중</option>
-                        <option value="종료">종료</option>
-                    </select>
-                </div>
-                <div class="col-md-2 d-flex"> <!-- d-flex-->
-                    <label style="width:100px; font-size:18px; color:white;"><strong>성별</strong></label>
-                    <select name="sex" class="form-select">
-                        <option value="total" selected="selected">전체</option>
-                        <option value="암컷">암컷</option>
-                        <option value="수컷">수컷</option>
-                        <option value="미상">미상</option>
-                    </select>
-                </div>
-                <div class="col-md-2 d-flex">
-                    <label style="width:100px; font-size:18px; color:white;"><strong>품종</strong></label>
-                    <select name="kind" class="form-select">
-                        <option value="total" selected="selected">전체</option>
-                        <option value="개">개</option>
-                        <option value="고양이">고양이</option>
-                        <option value="기타축종">기타</option>
-                    </select>
-                </div>
-                <div class="d-flex" style="width:300px;">
-                    <label style="width:280px; font-size:18px; color:white;"><strong>지역(시군구)</strong></label>
-                    <select name="city" onchange="categoryChange(this)" class="form-select">
-                        <option value="total" selected="selected">전체</option>
-                        <option value="가평군">가평군</option>
-                        <option value="고양시">고양시</option>
-                        <option value="과천시">과천시</option>
-                        <option value="광명시">광명시</option>
-                        <option value="광주시">광주시</option>
-                        <option value="구리시">구리시</option>
-                        <option value="군포시">군포시</option>
-                        <option value="김포시">김포시</option>
-                        <option value="남양주시">남양주시</option>
-                        <option value="동두천시">동두천시</option>
-                        <option value="부천시">부천시</option>
-                        <option value="성남시">성남시</option>
-                        <option value="수원시">수원시</option>
-                        <option value="시흥시">시흥시</option>
-                        <option value="안산시">안산시</option>
-                        <option value="안성시">안성시</option>
-                        <option value="안양시">안양시</option>
-                        <option value="양주시">양주시</option>
-                        <option value="양평군">양평군</option>
-                        <option value="여주군">여주군</option>
-                        <option value="연천군">연천군</option>
-                        <option value="오산시">오산시</option>
-                        <option value="용인시">용인시</option>
-                        <option value="의왕시">의왕시</option>
-                        <option value="의정부시">의정부시</option>
-                        <option value="이천시">이천시</option>
-                        <option value="파주시">파주시</option>
-                        <option value="평택시">평택시</option>
-                        <option value="포천시">포천시</option>
-                        <option value="하남시">하남시</option>
-                        <option value="화성시">화성시</option>
-                    </select>
-                </div>
-<!--                <div style="width:250px;">-->
-<!--                    <select name="cals09" id="cals09" class="form-select">-->
-<!--                        <option value=''>전체</option>-->
-<!--                    </select>-->
-<!--                </div>-->
-                <div class="col-md-1">
-                    <input type="submit" value="검색" class="form-control">
-                </div>
-            </div>
-        </form>
-
-        <br>
-        <hr>
-        <div class="row">
             <div class="col-lg-3 templatemo-item-col" th:each="lossDTO : ${parsesPage}">
                 <div class="meeting-item">
-                    <div class="thumblist">
+                    <div class="thumblist" style="border-radius:20px;">
                         <a th:href="@{ '/Board/Loss/LossBoardView/' + ${lossDTO.ABDM_IDNTFY_NO} } ">
                             <img class="image-thumbnail" th:src="${lossDTO.IMAGE_COURS}" alt="">
                         </a>
@@ -215,10 +211,8 @@
             </ul>
         </div>
     </div>
-    </div>
     <div th:replace="Footer.html :: footer"></div>
 </section>
-
 
 <!-- Scripts -->
 <!-- Bootstrap core JavaScript -->
@@ -233,74 +227,6 @@
 <script th:src="@{/assets/js/slick-slider.js}" type="text/javascript"></script>
 <script th:src="@{/assets/js/custom.js}" type="text/javascript"></script>
 <script th:src="@{/JS/Board/Loss/LossBoard.js}" type="text/javascript"></script>
-
-<script>
-        //according to loftblog tut
-        $('.nav li:first').addClass('active');
-
-        var showSection = function showSection(section, isAnimate) {
-          var
-          direction = section.replace(/#/, ''),
-          reqSection = $('.section').filter('[data-section="' + direction + '"]'),
-          reqSectionPos = reqSection.offset().top - 0;
-
-          if (isAnimate) {
-            $('body, html').animate({
-              scrollTop: reqSectionPos },
-            800);
-          } else {
-            $('body, html').scrollTop(reqSectionPos);
-          }
-
-        };
-
-        var checkSection = function checkSection() {
-          $('.section').each(function () {
-            var
-            $this = $(this),
-            topEdge = $this.offset().top - 80,
-            bottomEdge = topEdge + $this.height(),
-            wScroll = $(window).scrollTop();
-            if (topEdge < wScroll && bottomEdge > wScroll) {
-              var
-              currentId = $this.data('section'),
-              reqLink = $('a').filter('[href*=\\#' + currentId + ']');
-              reqLink.closest('li').addClass('active').
-              siblings().removeClass('active');
-            }
-          });
-        };
-
-        $('.main-menu, .responsive-menu, .scroll-to-section').on('click', 'a', function (e) {
-          e.preventDefault();
-          showSection($(this).attr('href'), true);
-        });
-
-        $(window).scroll(function () {
-          checkSection();
-        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
-</body>
-
 
 </body>
 

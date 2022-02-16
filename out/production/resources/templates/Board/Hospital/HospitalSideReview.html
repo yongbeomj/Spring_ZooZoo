@@ -5,12 +5,9 @@
     <title>Title</title>
 </head>
 
-<body>
-
+<body style="width:100%; overflow-x:hidden; overflow-y:hidden;">
     <div class ="container" style="">
-
         <div class="mb-2">
-
             <div class="card-header bg-light">
                 <i class="fa fa-comment fa"></i> REPLY
                 <button type="button" class="btn btn-dark mt-3 d-flex justify-content-end" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -25,32 +22,43 @@
 
                     </li>
                     <!--답글 반복문 넣기 -->
-                    <div id ="replytable" class=" mt-2" th:each="replyEntities : ${replyEntities}">
-
+                    <div style="border: solid 1px #858383; border-radius: 20px;" id ="replytable" class=" mt-2" th:each="replyEntities : ${replyEntities}">
                         <div class="card-header p-2">
                             <table>
                                 <tr class="align-middle">
-                                    <td rowspan="2" class="pr-2"><i class="fa fa-user-o fa-2x"></i></td>
+                                    <!-- 계정 프로필 넣기 -->
+                                    <td rowspan="2" class="px-2"><i class="fa fa-user-o fa-2x"></i></td>
                                         <!-- 계정 이름 넣기 -->
-                                    <td class="ml" th:text ="${replyEntities.getMemberEntity().getMid()}"></td>
+                                    <td class="ml-1" th:text ="${replyEntities.getMemberEntity().getMid()}"></td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <font size="2" th:text ="${replyEntities.getUpdateDate()}"></font>
-                                        <span style="cursor:pointer" onClick="javascript:showDeleteReplyModal(176, 174);">
+                                        <font size="2" th:text="${#temporals.format( replyEntities.createdDate , 'yyyy-MM-dd HH:mm:ss')}"></font>
+                                        <!-- 댓글 삭제 버튼 (활성화 버튼 조건 맞추기)-->
+                                        <span th:if="${session.loginDTO != null} and ${session.loginDTO.mid == replyEntities.getMemberEntity().getMid()}" style="cursor:pointer" th:onclick="replydelete([[${replyEntities.getBno()}]])">
                                             <i class="fa fa-window-close fa" aria-hidden="true"></i>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        &nbsp;
+                                    </td>
+                                    <td class ="d-flex justify-content-end">
+                                        <span th:if="${session.loginDTO != null} and ${session.loginDTO.mid == replyEntities.getMemberEntity().getMid()}" style="cursor:pointer" data-bs-toggle="modal" data-bs-target="#exampleModal2" th:onclick="r_updateget([[${replyEntities.getBno()}]],[[${replyEntities.getBcontents()}]], [[${replyEntities.getBstar}]])">
+                                            <i class="fa fa-solid fa-pencil fa" aria-hidden="true"></i>
                                         </span>
                                     </td>
                                 </tr>
                             </table>
                         </div>
-                        <span class="star2" > ★★★★★
-                                  <span th:style="${'width:'+ replyEntities.getintbstar() +'%;'}">★★★★★</span>
-                                  <input type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10" disabled>
-                                </span>
-                        <div class="card-body">
+                        <div class = "container">
+                            <span class="star2" > ★★★★★
+                              <span th:style="${'width:'+ replyEntities.getintbstar() +'%;'}">★★★★★</span>
+                              <input type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10" disabled>
+                            </span>
+                        </div>
+                        <div class="card-body" style=" word-break:break-all;">
                             <!-- 답글 내용 -->
-                            <p class="card-text" th:text ="${replyEntities.getBcontents()}" ></p>
+                            <p style="font-size: 0.8rem;"class="" th:text ="${replyEntities.getBcontents()}" ></p>
                             <!--<span class="badge badge-dark" style="cursor:pointer"><a onClick="javascript:showReReplyArea(176,174);">답글</a></span>-->
                         </div>
                     </div>
@@ -60,7 +68,7 @@
         </div>
     </div>
 
-    <!--모달 수정 하기-->
+    <!--모달 리뷰 남기기-->
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false" >
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -88,5 +96,34 @@
         </div>
     </div>
 
+    <!--모달 리뷰 남기기-->
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false" >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel2">리뷰 수정하기</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div type ="hidden" id ="rupdateid" value="0"></div>
+                <div type ="hidden" id ="rupdatestar" value="0"></div>
+                <div class="modal-body">
+                    <textarea name ="rcontents" class="form-control" id="rcontents2" rows="3"></textarea>
+                    평점
+                    <span class="star" id="modalstar">
+                          ★★★★★
+                          <span>★★★★★</span>
+                          <input type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10">
+                    </span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn bg-gradient-secondary" th:onclick="replyupdate()">리뷰수정</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

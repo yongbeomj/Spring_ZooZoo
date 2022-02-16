@@ -1,5 +1,6 @@
 package ZooZoo.Service.Loss;
 
+import ZooZoo.Domain.DTO.Board.BoardDTO;
 import ZooZoo.Domain.DTO.Board.LossDTO;
 import ZooZoo.Domain.DTO.Pagination;
 import ZooZoo.Domain.Entity.Board.BoardEntity;
@@ -8,6 +9,7 @@ import ZooZoo.Domain.Entity.Category.CategoryEntity;
 import ZooZoo.Domain.Entity.Category.CategoryRepository;
 import ZooZoo.Domain.Entity.Member.MemberEntity;
 import ZooZoo.Domain.Entity.Member.MemberRepository;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
@@ -230,8 +232,6 @@ public class LossService {
                 } else if (((city == null && sex == null && kind == null) || (city.equals("total") && sex.equals("total") && kind.equals("total"))) && state != null && totLosslist.get(i).getSTATE_NM().contains(state)) {
                     getlist.add(totLosslist.get(i));
                 }
-
-
             }
             return getlist;
 
@@ -290,9 +290,6 @@ public class LossService {
     @Transactional
     public boolean replywrite(String apikey, int cano, String rcontents, int mno) {
 
-        // 해당 게시물 호출
-        ArrayList<LossDTO> lossDTOS = getlossboard(apikey);
-
         // 카테고리
         Optional<CategoryEntity> categoryEntity = categoryRepository.findById(cano);
         Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
@@ -337,9 +334,6 @@ public class LossService {
     public boolean replyupdate(int bno, String newcontents) {
         // 댓글 가져오기
         BoardEntity boardEntity = boardRepository.findById(bno).get();
-        System.out.println("bno : " + bno);
-        System.out.println("내용 : " + newcontents);
-        System.out.println(boardRepository.findById(bno).get());
         // 내용 수정
         boardEntity.setBcontents(newcontents);
         return true;

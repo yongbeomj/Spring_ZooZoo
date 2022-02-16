@@ -36,9 +36,7 @@ public class AnimalHospitalController {
         String keyword = request.getParameter("keyword");
         String search = request.getParameter("search");
         String status = request.getParameter("status");
-
         HttpSession session = request.getSession();
-
         if( keyword!=null || search!=null || status != null){
             session.setAttribute("keyword" , keyword);
             session.setAttribute("search" , search);
@@ -57,7 +55,6 @@ public class AnimalHospitalController {
             search =   (String) session.getAttribute("search");
             status =  (String) session.getAttribute("status");
         }
-
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
 
@@ -157,20 +154,34 @@ public class AnimalHospitalController {
         List<BoardEntity> replyEntities = animalHospitalService.getreplylist(encode, 3);
         double avg_s = avg * 10*2;
         model.addAttribute("avg_s", avg_s);
+        if (Double.isNaN(avg)) {
+                avg = 0.0;
+        }
         model.addAttribute("avg", avg);
         model.addAttribute("hospitalDto", hospitalDto);
         model.addAttribute("replyEntities", replyEntities);
         model.addAttribute("encode", encode);
         return "/Board/Hospital/HospitalSide";
     }
-
+    // hospital home 뿌리기
     @GetMapping("/getmapsidehome")
     public String getmapsidehome(Model model){
-        model.addAttribute("hospitalDto", hospitalDto);
+        if (hospitalDto.getLocplcfaclttelno() == null) {
+            hospitalDto.setLocplcfaclttelno("");
+        }
+        if (hospitalDto.getLocplcfaclttelno().length() == 8) {
+            hospitalDto.setLocplcfaclttelno(hospitalDto.getLocplcfaclttelno().replaceFirst("^([0-9]{4})([0-9]{4})$", "$1-$2"));
+        } else if (hospitalDto.getLocplcfaclttelno().length() == 12) {
+            hospitalDto.setLocplcfaclttelno(hospitalDto.getLocplcfaclttelno().replaceFirst("(^[0-9]{4})([0-9]{4})([0-9]{4})$", "$1-$2-$3"));
+        }else if(hospitalDto.getLocplcfaclttelno().length() == 7){
+            hospitalDto.setLocplcfaclttelno(hospitalDto.getLocplcfaclttelno().replaceFirst("^([0-9]{3})([0-9]{4})$", "$1-$2"));
+        }
+        hospitalDto.setLocplcfaclttelno(hospitalDto.getLocplcfaclttelno().replaceFirst("(^02|[0-9]{3})([0-9]{3,4})([0-9]{4})$", "$1-$2-$3"));
 
+        model.addAttribute("hospitalDto", hospitalDto);
         return "/Board/Hospital/HospitalSideHome";
     }
-
+     // hospital review 해결하기
     @GetMapping("/getmapsidereview")
     public String getmapsidereview(Model model){
         /*char ch = '최';
@@ -191,19 +202,18 @@ public class AnimalHospitalController {
 
         encode = encode + s_x + s_y;
 
-
         System.out.println(encode);
         // 해당 게시물 댓글 호출  /* 동물병원 카테고리 넘버 3*/
         List<BoardEntity> replyEntities = animalHospitalService.getreplylist(encode, 3);
 
        /* replyEntities.get(0).getBcontents()*/
-
         model.addAttribute("replyEntities", replyEntities);
         model.addAttribute("encode", encode);
         model.addAttribute("hospitalDto", hospitalDto);
         return "/Board/Hospital/HospitalSideReview";
     }
 
+    // hospitalboard ajax 뿌리기
     @GetMapping("/hospitaltable")
     public String gethospitaltable(Model model,
                                    @RequestParam(defaultValue = "1") int page){
@@ -265,6 +275,7 @@ public class AnimalHospitalController {
         return "/Board/Hospital/HospitalTable";
     }
 
+    // 병원 페이징하기
     @GetMapping("/hospitalpaging")
     public String gethospitalpaging(Model model,
                                    @RequestParam(defaultValue = "1") int page){
@@ -349,6 +360,34 @@ public class AnimalHospitalController {
         String avg_s = Double.toString(avg);
 
         return avg_s;
+    }
+    // 리뷰 삭제하기
+    @GetMapping("/reviewdelete")
+    @ResponseBody
+    public String reviewdelete(@RequestParam int bno){
+
+        boolean result = animalHospitalService.deletereply(bno);
+
+        if(result){
+            return "1";
+        }else{
+            return "2";
+        }
+    }
+    // 리뷰 업데이트
+    @GetMapping("/reviewupdate")
+    @ResponseBody
+    public String reviewupdate(@RequestParam int bno, @RequestParam String rcontents, @RequestParam String bstar){
+
+        System.out.println(bno);
+        boolean result = animalHospitalService.updatereply(bno, rcontents, bstar);
+
+        if(result){
+            return "1";
+        }else{
+            return "2";
+        }
+
     }
 
 }

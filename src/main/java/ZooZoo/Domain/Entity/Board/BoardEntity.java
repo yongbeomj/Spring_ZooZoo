@@ -1,5 +1,6 @@
 package ZooZoo.Domain.Entity.Board;
 
+import ZooZoo.Domain.Entity.BoardLike.BoardLikeEntity;
 import ZooZoo.Domain.Entity.Category.CategoryEntity;
 import ZooZoo.Domain.Entity.DateEntity;
 import ZooZoo.Domain.Entity.Member.MemberEntity;
@@ -60,4 +61,8 @@ public class BoardEntity extends DateEntity {
 
         return getint;
     }
+
+    //게시판 추천
+    @OneToMany(mappedBy="boardBLikeEntity", cascade = CascadeType.ALL)
+    private List<BoardLikeEntity> boardLikeEntities = new ArrayList<>();
 }

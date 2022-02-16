@@ -8,6 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="Template Mo">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <title>Education - List of Meetings</title>
 
@@ -31,7 +32,22 @@
 <body style="  background-color: #ff7f50;">
 
 <div th:replace="Header.html :: header"></div>
-
+<div class ="container">
+    <div class = "row">
+        <div class = "col-md-3">
+            <a th:href = "@{/LossBoardlist}"><h4 class = "text-center">유기</h4></a>
+        </div>
+        <div class = "col-md-3">
+            <a th:href = "@{/ShareBoardList}"><h4 class = "text-center">분양</h4></a>
+        </div>
+        <div class = "col-md-3">
+            <a th:href = "@{/hospitalboard}"><h4 class = "text-center">병원</h4></a>
+        </div>
+        <div class = "col-md-3">
+            <a th:href = "@{/freeboard}"><h4 class = "text-center">자유</h4></a>
+        </div>
+    </div>
+</div>
 <section class="heading-page header-text" id="top">
     <div class="container">
         <div class="row">
@@ -54,9 +70,9 @@
                                 <div class="price">
                                     <span th:text="${lossDTO.PBLANC_IDNTFY_NO}">공고번호</span>
                                 </div>
-<!--                                <div style="max-height:800px;">-->
-<!--                                    <img th:src="${lossDTO.IMAGE_COURS}">-->
-<!--                                </div>-->
+                                <!--                                <div style="max-height:800px;">-->
+                                <!--                                    <img th:src="${lossDTO.IMAGE_COURS}">-->
+                                <!--                                </div>-->
                                 <div class="image-box">
                                     <img class="image-thumbnail" th:src="${lossDTO.IMAGE_COURS}">
                                 </div>
@@ -153,60 +169,82 @@
                                     <hr>
                                     <br>
 
-                                    <div class="row">
-                                        <div class="col-md-10">
-                                            <input th:if="${session.loginDTO != null }" class="form-control" type="text"
-                                                   id="rcontents" name="rcontents">
-                                            <input type="text" id="cano" name="cano" value="1" style="display:none">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <button th:if="${session.loginDTO != null }" class="form-control"
-                                                    th:onclick="replywrite([[${lossDTO.ABDM_IDNTFY_NO}]])">댓글등록
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <table class="table" id="replytable">
-                                        <tr>
-                                            <th width="15%" style="text-align: center;">작성자(작성일)</th>
-                                            <th width="70%">내용</th>
-                                            <th width="13%"></th>
-                                        </tr>
-                                        <tr th:each="replyEntities : ${replyEntities}" height="50px;">
-                                            <td style="text-align: center;">
-                                                <div th:text="${replyEntities.getMemberEntity().getMid()}"></div>
-                                                <div th:text="${#temporals.format( replyEntities.createdDate , 'yyyy-MM-dd HH:mm:ss')}" style="font-size:14px;"></div>
-                                            </td>
-                                            <td th:id="tdbcontents+${replyEntities.getBno()}" name="tdbcontents"
-                                                th:text="${replyEntities.bcontents}" style="vertical-align:middle;">댓글
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <div class="d-flex justify-content-center">
-                                                    <div style="margin-right:8px;">
-                                                        <button th:if="${session.loginDTO != null} and ${session.loginDTO.mid == replyEntities.getMemberEntity().getMid()}"
-                                                                th:id="btnrupdate+${replyEntities.getBno()}"
-                                                                type="button"
-                                                                class="btn btn-outline-secondary"
-                                                                th:onclick="rupdate([[${replyEntities.getBno()}]])">수정
-                                                        </button>
-                                                    </div>
-                                                    <div style="margin-right:10px;">
-                                                        <button th:if="${session.loginDTO != null} and ${session.loginDTO.mid == replyEntities.getMemberEntity().getMid()}"
-                                                                th:id="btnrchange+${replyEntities.getBno()}"
-                                                                type="button"
-                                                                class="btn btn-outline-secondary" style="display:none;">
-                                                            확인
-                                                        </button>
+                                    <div class="row d-flex justify-content-between">
+                                        <!--댓글 시작-->
+                                        <div class="col-lg-12 mt-4">
+                                            <h5>댓글</h5>
+                                            <div class="row">
+                                                <div class="col-md-10">
+                                                    <input th:if="${session.loginDTO != null }" class="form-control" type="text"
+                                                           id="rcontents" name="rcontents">
+                                                    <input type="text" id="cano" name="cano" value="1" style="display:none">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <button th:if="${session.loginDTO != null }" class="form-control"
+                                                            th:onclick="replywrite([[${lossDTO.ABDM_IDNTFY_NO}]])">댓글등록
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <hr>
+                                            <!--댓글 테이블 시작-->
+                                            <div class="col-lg-12" id="replytable">
+                                                <div class="py-2 mb-4"
+                                                     style="word-break:break-all;
+                               border-bottom:1px solid #cccccc;"
+                                                     th:each="replyEntities : ${replyEntities}">
+
+                                                    <div class="row d-flex justify-content-between">
+                                                        <div class="col-md-5">
+                                <span th:text="${replyEntities.getMemberEntity().getMid()}"
+                                      style="font-weight:bold; font-size:1.000em;">
+                                </span>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <div class="d-flex justify-content-center"
+                                                                 th:if="${session.loginDTO != null} and ${session.loginDTO.mid == replyEntities.getMemberEntity().getMid()}">
+                                                                <div style="margin-right:8px;">
+                                                                    <a th:id="btnrupdate+${replyEntities.getBno()}"
+                                                                       th:onclick="rupdate([[${replyEntities.getBno()}]])"
+                                                                       class="ReplyBtns">
+                                                                        <i class="material-icons me-2"
+                                                                           aria-hidden="true"
+                                                                           style="cursor:pointer;">edit</i>
+                                                                    </a>
+                                                                </div>
+                                                                <div style="margin-right:10px;">
+                                                                    <a th:id="btnrchange+${replyEntities.getBno()}"
+                                                                       style="display:none;" class="ReplyBtns">
+                                                                        <i class="material-icons me-2"
+                                                                           aria-hidden="true"
+                                                                           style="cursor:pointer;">check_circle</i>
+                                                                    </a>
+                                                                </div>
+                                                                <div>
+                                                                    <a th:onclick="rdelete([[${replyEntities.getBno()}]])"
+                                                                       class="ReplyBtns">
+                                                                        <i class="material-icons me-2"
+                                                                           aria-hidden="true"
+                                                                           style="cursor:pointer;">delete</i>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div>
-                                                        <button th:if="${session.loginDTO != null} and ${session.loginDTO.mid == replyEntities.getMemberEntity().getMid()}"
-                                                                type="button" class="btn btn-outline-secondary"
-                                                                th:onclick="rdelete([[${replyEntities.getBno()}]])">삭제
-                                                        </button>
+                                                            <span th:text="${#temporals.format( replyEntities.createdDate , 'yyyy-MM-dd HH:mm:ss')}"
+                                                                  style="color:gray; font-size:0.750em;"></span>
                                                     </div>
+                                                    <div class="my-2">
+                                                            <span th:id="tdbcontents+${replyEntities.getBno()}" name="tdbcontents"
+                                                                  th:text="${replyEntities.bcontents}"></span>
+                                                    </div>
+
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                            </div>
+                                        </div>
+                                        <!--댓글 끝-->
+                                    </div>
                                 </div>
                             </div>
                         </div>

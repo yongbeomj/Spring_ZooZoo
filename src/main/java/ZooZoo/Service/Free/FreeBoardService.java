@@ -77,7 +77,7 @@ public class FreeBoardService {
 
 
     //자유게시판 쓰기
-    public String FreeBoardWrite(String btitle, String bcontents, List<MultipartFile> files) {
+    public String FreeBoardWrite(String btitle, String freebcontents2, List<MultipartFile> files) {
         //1. 게시판 엔티티에다가 카테고리, 멤버, 게시판 이미지 엔티티 주입 //저장을 해서 bno생성하고나서 bimg게시판 이미지 넣기
         BoardImgEntity boardImgEntity = new BoardImgEntity();
         HttpSession session = request.getSession();
@@ -90,7 +90,7 @@ public class FreeBoardService {
         Optional<CategoryEntity> categoryEntity = categoryRepository.findById(4);
 
         BoardEntity boardEntity = BoardEntity.builder()
-                .bcontents(bcontents)
+                .bcontents(freebcontents2)
                 .btitle(btitle)
                 .memberEntity(memberEntity.get())
                 .categoryEntity(categoryEntity.get())
@@ -129,10 +129,7 @@ public class FreeBoardService {
                     return "1";
                 } else {
                     uuidfile = uuid.toString() + "_" + temp.getOriginalFilename().replaceAll("_", "-");
-                    //String filepath = "C:\\FreeBoardIMG\\" + uuidfile;
-                    //String filepath = "C:\\Users\\JHD\\IdeaProjects\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\"+uuidfile;
-                    //String filepath = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\"+ uuidfile;
-                    String filepath = "C:\\Users\\505\\IdeaProjects\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + uuidfile;
+                    String filepath = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + uuidfile;
                     try {
                         temp.transferTo(new File(filepath));
                     } catch (Exception e) {
@@ -213,10 +210,7 @@ public class FreeBoardService {
                 String uuidfile = null;
                 UUID uuid = UUID.randomUUID();
                 uuidfile = uuid.toString() + "_" + temp.getOriginalFilename().replaceAll("_", "-");
-                //String filepath = "C:\\FreeBoardIMG\\" + uuidfile;
-                //String filepath = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\"+ uuidfile;
-                //String filepath = "C:\\Users\\JHD\\IdeaProjects\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + uuidfile;
-                String filepath = "C:\\Users\\505\\IdeaProjects\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + uuidfile;
+                String filepath = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + uuidfile;
                 try { temp.transferTo(new File(filepath));
                 } catch (Exception e) { System.out.println("파일 저장 실패함" + e); }
                      BoardImgEntity boardImgEntity = BoardImgEntity.builder()
@@ -242,8 +236,7 @@ public class FreeBoardService {
 
     //첨부파일 다운로드
     public void freeBoardFileDown(String bimg, HttpServletResponse response) {
-        //String path = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\"+ bimg;
-        String path = "C:\\Users\\505\\IdeaProjects\\Spring_ZooZoo\\src\\main\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + bimg;
+        String path = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + bimg;
 
         File file = new File(path);
         //파일 이미지가 있으면

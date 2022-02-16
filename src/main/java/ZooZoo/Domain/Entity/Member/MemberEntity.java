@@ -1,6 +1,7 @@
 package ZooZoo.Domain.Entity.Member;
 
 import ZooZoo.Domain.Entity.Board.BoardEntity;
+import ZooZoo.Domain.Entity.BoardLike.BoardLikeEntity;
 import ZooZoo.Domain.Entity.DateEntity;
 import ZooZoo.Domain.Entity.Reply.ReplyEntity;
 import lombok.*;
@@ -36,4 +37,7 @@ public class MemberEntity extends DateEntity {
     @OneToMany(mappedBy = "memberEntity2", cascade = CascadeType.ALL)
     private List<ReplyEntity> replyEntities = new ArrayList<>();
 
+    //게시판 추천
+    @OneToMany(mappedBy="memberBLikeEntity", cascade = CascadeType.ALL)
+    private List<BoardLikeEntity> boardLikeEntities = new ArrayList<>();
 }

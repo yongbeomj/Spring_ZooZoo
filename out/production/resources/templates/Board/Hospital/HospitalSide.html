@@ -4,46 +4,45 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body style="width:100%; overflow-x:hidden; overflow-y:hidden;">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
 <!--위도,경도, 병원이름, 병원주소, 병원상태, 병원 전화번호, 시 정보, 시 코드,-->
 <!--getLogt, getLat, getBizplcnm, getRefineroadnmaddr, getBsnstatenm, getLocplcfaclttelno, getSigunnm, getSiguncd-->
     <!--DB ID : 사업자명(병원이름 앞글자) - 인허가일자 - 위도+경도(소수점 제거)  -->
     <div type ="hidden" name="encoding" id="encoding" th:val="${encode}"></div>
-    <div class ="container">
-        <div>날씨 넣기</div>
+    <div  class ="container" >
         <div class = "d-flex justify-content-center" >
-            <h3 th:text= "${hospitalDto.getBizplcnm}"></h3>&nbsp;
-            <span class="" th:text="${hospitalDto.getBsnstatenm}"></span>
+            <p style = "font-size: 2.5em;"th:text= "${hospitalDto.getBizplcnm}"></p>&nbsp;
         </div>
-        <br>
         <div class ="d-flex justify-content-center">
-            <div id="starget" type ="hidden" th:value="${avg_s}"></div>
-            <span class="star2" >
+            <span class="star2">
                     ★★★★★
             <span th:style="${'width:'+ avg_s+'%'}">★★★★★</span>
               <input type="range" oninput="drawStar(this)" value="1" step="1" min="0" max="10" disabled>
-            </span>
-
-            *점 평균<div th:text ="${avg}"></div> &nbsp;&nbsp;리뷰개수<div th:text="${replyEntities.size()}"></div>
+        </span>
+        </div>
+        <div class ="d-flex justify-content-center">
+            <div id="starget" type ="hidden" th:value="${avg_s}"></div>
+            <i style = "color:#FF7F50" class="far fa-star mt-1 mx-1"></i>
+            <div th:with ="avg_n = ${#numbers.formatDecimal(avg,1,1)}" th:text ="${avg_n}"></div>/5 &nbsp;&nbsp; 방문자 리뷰&nbsp;<div th:text="${replyEntities.size()}"></div>
         </div>
         <br>
         <div class ="d-flex justify-content-center">
-            시 정보 : <span class="badge bg-success badge-sm" th:text="${hospitalDto.getSigunnm}"></span>
+           <span class="badge bg-warning badge-sm" th:text="${hospitalDto.getSigunnm}"></span>
         </div>
         <br>
         <div class ="container" style="">
-            <div class ="row" style="border:solid 1px black">
-                <div class="col-md-6" style="text-align: center">
-                    <button style="background-color: white; border: white;" onclick="homeclick()">
-                        <span style="font-weight: bold">홈</span>
+            <div class ="row mb-2">
+                <div  class="col-md-6 px-0 " style="text-align: center">
+                    <button id="ReviewHomebtn" class="col-md-12 btn btn-secondary mb-0" onclick="homeclick()">홈
                     </button>
                 </div>
-                <div class="col-md-6" style="text-align: center">
-                    <button style="background-color: white; border: white;" onclick="reviewclick()">
-                        <span style="font-weight: bold">리뷰</span>
+                <div class="col-md-6 px-0 " style="text-align: center">
+                    <button id="Reviewbtn"  class="col-md-12 btn btn-secondary mb-0" onclick="reviewclick()">
+                        리뷰
                     </button>
                 </div>
+
             </div>
         </div>
     </div>

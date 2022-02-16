@@ -22,7 +22,7 @@
 
 /* ----------------------------------------------------
  Sidebar Brand   /* 사이드바 상단 내용 */
----------------------------------------------------- */
+/*        */
 .sidebar-brand {
     display: block;
     width: 250px;
@@ -126,7 +126,7 @@
     width: 0;
     position: absolute;
     left: 0;
-    color: red;
+    color: #FF7F50;
     overflow: hidden;
     pointer-events: none;
 }
@@ -150,7 +150,7 @@
     width: 0;
     position: absolute;
     left: 0;
-    color: red;
+    color: #FF7F50;
     overflow: hidden;
     pointer-events: none;
 }
@@ -158,3 +158,43 @@
 .modal-backdrop{
     display:none;
 }
+/*HospitalSide 버튼 css 시작*/
+#ReviewHomebtn{
+    color: black;
+    background-color: #ffffff;
+}
+
+#ReviewHomebtn:hover{
+    color: white;
+    background-color: coral;
+}
+#ReviewHomebtn:focus{
+    box-shadow: none;
+    border: none;
+}
+#ReviewHomebtn:active {
+    box-shadow: none;
+    border: none;
+    opacity: 0.6;
+}
+
+#Reviewbtn{
+    color: black;
+    background-color: #ffffff;
+}
+
+#Reviewbtn:hover{
+    color: white;
+    background-color: coral;
+}
+
+#Reviewbtn:focus{
+    box-shadow: none;
+    border: none;
+}
+#Reviewbtn:active {
+    box-shadow: none;
+    border: none;
+    opacity: 0.6;
+}
+/*HospitalSide 버튼 css 끝*/

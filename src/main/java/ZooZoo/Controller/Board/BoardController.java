@@ -381,7 +381,6 @@ public class BoardController {
         String apikey = lossDTOS.get(0).getABDM_IDNTFY_NO();
         int cano = 1;
 
-        System.out.println(apikey + "," + cano);
         // 해당 게시물 댓글 호출
         List<BoardEntity> replyEntities = lossService.getreplylist(apikey, cano);
 
