@@ -106,8 +106,33 @@
   position: fixed;
   right: 400px;
   top: 0;
-   z-index: 2;
+  z-index: 2;
   background: coral;
+}
+
+.ReLabel {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    margin-top: 15px;
+}
+
+@media (max-width: 1000px) {
+  .side-panel { width: 300px;}
+}
+/* Width set to 100% for small screens. */
+@media (max-width: 760px) {
+  .side-panel { width: 100%;}
+}
+.side-panel1 {
+  height: 100vh;
+  display: none;
+  position: fixed;
+  right: 400px;
+  top: 0;
+  opacity: 95%;
+  z-index: 2;
+  background: #1C1C1C;
 }
 
 @media (max-width: 1000px) {
