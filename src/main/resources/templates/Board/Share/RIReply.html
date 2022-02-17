@@ -1,3 +1,4 @@
+<script th:src="@{/JS/Board/ShareBoard/SideBarJS.js}"></script>
 <div class = "container" id = "sideaside1">
     <label class = "form-control ReLabel" style="background-color: black; color: white; border: none; padding-top: 20px;">
         <div class = "row">
@@ -29,7 +30,8 @@
                             <input type = "text" class = "form-control" style="height: 40px; width: 100%;" id = "RIReplycontents">
                         </div>
                         <div class = "col-md-2 no-gutters">
-                            <button class = "btn btn-outline-light" style="height: 40px; width: 100%;">등록</button>
+                                <input type = "hidden"  id = "bno">
+                            <button class = "btn btn-outline-light" style="height: 40px; width: 100%;" th:onclick = "RIReplyWrite();">등록</button>
                         </div>
                     </div>
                 </details>

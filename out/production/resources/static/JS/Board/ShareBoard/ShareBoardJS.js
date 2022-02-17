@@ -20,7 +20,6 @@ function changeSelection(){
             url : "/ShareBoardListController",
             data : {"option" : optionVal},
             success : function(result) {
-            alert(result);
                 $("#pp").html("");
                 $("#cate").html(result);
             }

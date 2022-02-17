@@ -73,15 +73,24 @@ function setDetailsHeight(selector, wrapper = document) {
 /* Run it */
 setDetailsHeight("details");
 
-function RIReply() {
+function RIReplyWrite() {
+        alert("qweqwe");
     var bno = $("#bno").val();
+    alert(bno)
     var RIReply = $("#RIReplycontents").val();
     $.ajax({
         url: "/RIReply",
         data: {"bno" : bno, "RIReply" : RIReply},
         success: function(result) {
             if(result == 1) {
-                $("#sideaside1").load(location.href+ " #sideaside1");
+                $.ajax({
+                        url: "/RIReplyView",
+                        data: {"bno" : bno},
+                        success: function(result) {
+                                $("#sideaside1").html(result);
+//                                $("#sideaside1").load(location.href+ " #sideaside1");
+                        }
+                });
             } else {
                 alert("댓글 등록 불가 : 관리자에게 문의")
             }
@@ -89,6 +98,13 @@ function RIReply() {
     });
 }
 
-function RIReply() {
-    alert($("#bno").val())
+function RIReply(bno) {
+    $.ajax({
+        url: "/RIReplyView",
+        data: {"bno" : bno},
+        success: function(result) {
+            $("#sideaside1").html(result);
+            $("#bno").val(bno);
+        }
+    });
 }
