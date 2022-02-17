@@ -89,6 +89,12 @@ function RIReply() {
     });
 }
 
-function RIReply() {
-    alert($("#bno").val())
+function RIReply(bno) {
+    $.ajax({
+        url: "/RIReplyView",
+        data: {"bno" : bno},
+        success: function(result) {
+            $("#sideaside1").html(result);
+        }
+    });
 }

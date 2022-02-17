@@ -145,9 +145,10 @@
                                                                             <p class="card-text" th:text = "${review.bcontents}">contents</p>
                                                                         </div>
                                                                         <div class = "col-md-4">
+                                                                            <input type = "hidden" th:text = "${review.bno}" th:value = "${review.bno}" id = "reviewbno">
                                                                             <p class = "card-text text-center" th:text = "${review.bwriter}" style="color: gray; font-size: 8px;"></p>
                                                                             <p class = "card-text text-center" th:text = "${review.bcreateddate}" style = "color: gray; font-size: 8px;"></p>
-                                                                            <p class = "card-text text-center" style = "color: gray; font-size: 10px;"><a role="button" class="toggle-height1 button">답글</a></p>
+                                                                            <p class = "card-text text-center" style = "color: gray; font-size: 10px;"><a role="button" class="toggle-height1 button" th:onclick = "RIReply([[${review.bno}]]);">답글</a></p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -174,12 +175,12 @@
                                             </aside>
                                             <!-- 사이드바2 -->
                                             <!-- 대댓글사이드바 -->
-                                            <aside class="side-panel1 right" style="width: 700px;">
+                                            <aside class="side-panel1 right" style="width: 700px;" id = "RIRAside">
                                                 <div class = "container" id = "sideaside1">
                                                     <label class = "form-control ReLabel" style="background-color: black; color: white; border: none; padding-top: 20px;">
                                                         <div class = "row">
                                                             <div class = "col-md-4">
-                                                                <h5 style="color: white; margin: 0px;" id = "reviewID">아이디</h5>
+                                                                <h5 style="color: white; margin: 0px;" id = "reviewID">씨부레</h5>
                                                             </div>
                                                             <div class = "col-md-4 offset-md-4">
                                                                 <h5 style="color: white; margin: 0px; margin-right: 3px; float: right;" id = "reviewDate">날짜</h5>
@@ -206,15 +207,14 @@
                                                                             <input type = "text" class = "form-control" style="height: 40px; width: 100%;" id = "RIReplycontents">
                                                                         </div>
                                                                         <div class = "col-md-2 no-gutters">
-                                                                            <input type = "hidden" th:value = "${review.get(0).bno}" id = "bno">
-                                                                            <button class = "btn btn-outline-light" style="height: 40px; width: 100%;" onclick = "RIReply();">등록</button>
+                                                                            <button class = "btn btn-outline-light" style="height: 40px; width: 100%;">등록</button>
                                                                         </div>
                                                                     </div>
                                                                 </details>
                                                             </div>
                                                             <hr style="color: coral;">
 <!--                                                            <div th:if = "${RiReply} == null">첫 댓글을 달아주세요</div>-->
-                                                            <div class = "row" th:each = "RIReply : ${RIReply}" id = "RIReplyDIV">
+                                                            <div class = "row" th:each = "RIReply : ${RIR}" id = "RIReplyDIV">
                                                                 <div class = "col-md-2" style="margin-top: 20px; padding-left: 20px;">
                                                                     ㄴ>
                                                                 </div>

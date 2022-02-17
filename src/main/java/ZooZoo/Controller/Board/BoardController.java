@@ -301,12 +301,18 @@ public class BoardController {
         dto.setSharetel(tel);
 
         List<BoardDTO> review = shareService.ReviewView(addrx, addry, agreedate, code);
-        List<BoardDTO> RIReply = shareService.RIReplyView(review.get(0).getBno());
-        model.addAttribute("RIReply", RIReply);
         model.addAttribute("shareDTO", dto);
         model.addAttribute("review", review);
 
         return "Board/Share/ShareBoardView";
+    }
+
+    // 대댓글 출력
+    @GetMapping("/RIReplyView")
+    public String getRIReply(@RequestParam("bno")int bno, Model model) {
+        List<BoardDTO> RIRArr = shareService.RIReplyView(bno);
+        model.addAttribute("RIR", RIRArr);
+        return "Board/Share/RIReply";
     }
 
     // 분양 리뷰 쓰기
