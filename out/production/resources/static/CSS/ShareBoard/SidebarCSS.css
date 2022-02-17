@@ -173,41 +173,48 @@
 }
 
 /* 드랍다운 */
-.dropdown{
+[data-css-icon] {
+  --animdur: 0.3s;
+  --loading-animdur: 0.8s;
+  --animtf: ease-in;
+  --bdw: 2px;
+  --bdrs: 50%;
+  --bgc: transparent;
+  --c: currentcolor;
+  --dots-bgc: silver;
+  --dots-size: 0.5rem;
+  --icon-size: 1rem;
+  --size: 2.5rem;
+   align-items: center;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+  }
+  [data-css-icon] i {
+    align-items: center;
+    background-color: var(--bgc);
+    border-radius: var(--bdrs);
+    box-sizing: border-box;
+    display: inline-flex;
+    height: var(--size);
+    justify-content: center;
     position: relative;
-    margin: auto;
-    margin-top: 10px;
-    width: 300px;
-    height: 50px;
-}
-.dropdown::before{
-    content: '';
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border: 2px solid coral;
-    border-top: 2px solid black;
-    border-right: 2px solid black;
-    transform: rotate(-45deg);
-    right: 20px;
-    top: 15px;
-    z-index: 10000;
-    transition: 0.5s;
-    pointer-events: none;
-}
-.dropdown.active::before{
-    top: 22px;
-    transform: rotate(-225deg);
-}
+    transition: background-color var(--animdur) var(--animtf);
+    width: var(--size);
+  }
+  [data-css-icon] i::after,
+  [data-css-icon] i::before {
+    transform-origin: 50% 50%;
+    transition: all var(--animdur) var(--animtf);
+  }
 
-.dropdown .option{
-    position: absolute;
-    top: 60px;
-    width: 100%;
-    border-radius: 10px;
-    overflow: hidden;
-    display: none;
-}
-.dropdown.active .option{
-    display: block;
-}
+  [data-css-icon*="down"] i::after,
+  [data-css-icon*="down"] i::after {
+    border-width: 0 var(--bdw) var(--bdw) 0;
+    top: calc(0px - (var(--icon-size) / 4));
+    transform: rotate(45deg);
+  }
+  [open] > summary > [data-css-icon*="down"] i::after {
+    top: var(--bdw);
+    transform: rotate(45deg) scale(-1);
+  }

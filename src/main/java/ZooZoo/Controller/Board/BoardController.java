@@ -301,6 +301,8 @@ public class BoardController {
         dto.setSharetel(tel);
 
         List<BoardDTO> review = shareService.ReviewView(addrx, addry, agreedate, code);
+        List<BoardDTO> RIReply = shareService.RIReplyView(review.get(0).getBno());
+        model.addAttribute("RIReply", RIReply);
         model.addAttribute("shareDTO", dto);
         model.addAttribute("review", review);
 
@@ -322,6 +324,18 @@ public class BoardController {
             }
         } else {
             return "3";
+        }
+    }
+
+    // 분양 대댓글
+    @GetMapping("/RIReply")
+    @ResponseBody
+    public String RIReply(@RequestParam("bno")int bno, @RequestParam("RIReply")String RIReply) {
+        boolean result = shareService.RIReplyWrite(bno, RIReply);
+        if(result) {
+            return "1";
+        } else {
+            return "2";
         }
     }
 
@@ -369,7 +383,6 @@ public class BoardController {
         model.addAttribute("pagination", pagination);
         return "Board/Loss/LossBoardlist";
     }
-
 
     // 상세페이지로
     @GetMapping("/Board/Loss/LossBoardView/{ABDM_IDNTFY_NO}")

@@ -147,9 +147,7 @@
                                                                         <div class = "col-md-4">
                                                                             <p class = "card-text text-center" th:text = "${review.bwriter}" style="color: gray; font-size: 8px;"></p>
                                                                             <p class = "card-text text-center" th:text = "${review.bcreateddate}" style = "color: gray; font-size: 8px;"></p>
-                                                                                <a role="button" class="toggle-height1 button">
-                                                                                    <p class = "card-text text-center" style = "color: gray; font-size: 10px;">답글</p>
-                                                                                </a>
+                                                                            <p class = "card-text text-center" style = "color: gray; font-size: 10px;"><a role="button" class="toggle-height1 button">답글</a></p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -175,59 +173,68 @@
                                                 </div>
                                             </aside>
                                             <!-- 사이드바2 -->
-                                            <!-- 사이드바3 -->
-                                            <aside class="side-panel1 right" style="width: 700px;" id = "sideaside1">
-                                                <div class = "container">
+                                            <!-- 대댓글사이드바 -->
+                                            <aside class="side-panel1 right" style="width: 700px;">
+                                                <div class = "container" id = "sideaside1">
                                                     <label class = "form-control ReLabel" style="background-color: black; color: white; border: none; padding-top: 20px;">
                                                         <div class = "row">
                                                             <div class = "col-md-4">
-                                                                <h5 style="color: white; margin: 0px;">아이디</h5>
+                                                                <h5 style="color: white; margin: 0px;" id = "reviewID">아이디</h5>
                                                             </div>
                                                             <div class = "col-md-4 offset-md-4">
-                                                                <h5 style="color: white; margin: 0px; margin-right: 3px; float: right;">날짜</h5>
+                                                                <h5 style="color: white; margin: 0px; margin-right: 3px; float: right;" id = "reviewDate">날짜</h5>
                                                             </div>
                                                             <div class = "container">
-                                                                <hr>
+                                                                <div class = "container">
+                                                                    <hr>
+                                                                </div>
                                                             </div>
                                                             <div class = "col-md-12">
-                                                                <h6 style="color: white; margin: 0px;">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</h6>
+                                                                <h6 style="color: white; margin: 0px;" id = "reviewContents">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</h6>
                                                             </div>
-                                                            <div class = "container"><hr></div>
-                                                            <div class = "col-md-3">
-                                                                <h5 style="color: white; margin: 0px;">
-                                                                        <div class="dropdown">
-                                                                                <input type="button" class="btn" style="color: white; background-color: black;" value = "답글">
-                                                                                <div class="option">
-                                                                                        <div onclick="show('a')">aaaaaaa</div>
-                                                                                        <div onclick="show('b')">bbbbbb</div>
-                                                                                </div>
+                                                            <br><br>
+                                                            <!--<div class = "container"><hr><hr></div>-->
+                                                            <!-- 드랍다운 -->
+                                                            <div class = "col-md-12">
+                                                                <h6>답글</h6>
+                                                                <details>
+                                                                    <summary>
+                                                                        <span data-css-icon="down"><!--<i></i>--></span>
+                                                                    </summary>
+                                                                    <div class = "row no-gutters">
+                                                                        <div class = "col-md-10 no-gutters">
+                                                                            <input type = "text" class = "form-control" style="height: 40px; width: 100%;" id = "RIReplycontents">
                                                                         </div>
-                                                                </h5>
+                                                                        <div class = "col-md-2 no-gutters">
+                                                                            <input type = "hidden" th:value = "${review.get(0).bno}" id = "bno">
+                                                                            <button class = "btn btn-outline-light" style="height: 40px; width: 100%;" onclick = "RIReply();">등록</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </details>
+                                                            </div>
+                                                            <hr style="color: coral;">
+<!--                                                            <div th:if = "${RiReply} == null">첫 댓글을 달아주세요</div>-->
+                                                            <div class = "row" th:each = "RIReply : ${RIReply}" id = "RIReplyDIV">
+                                                                <div class = "col-md-2" style="margin-top: 20px; padding-left: 20px;">
+                                                                    ㄴ>
+                                                                </div>
+                                                                <div class = "col-md-10">
+                                                                    <table class = "table" style="margin-top: 0px; border: solid 0px black;">
+                                                                        <tr>
+                                                                            <td th:text = "${RIReply.bwriter}" style="color: white;">아이디</td><td th:text = "${RIReply.bcreateddate}" style="color: white; float: right;">작성날짜</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td colspan="2" th:text = "${RIReply.bcontents}" style="color: white;">내용</td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                                <hr>
                                                             </div>
                                                         </div>
                                                     </label>
                                                 </div>
                                             </aside>
-                                            <!-- 사이드바3 -->
-                                                <!-- 모달 -->
-                                                <div class="modal fade" id="RIRmodal" tabindex="-1" role="dialog" aria-hidden="false" data-bs-backdrop="static">
-                                                        <div class="modal-dialog" role="document">
-                                                                <div class="modal-content rounded-6 shadow">
-                                                                        <div class="modal-header border-bottom-0">
-                                                                                <h5 class="modal-title">Modal title</h5>
-                                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body py-0">
-                                                                                <p>This is a modal sheet, a variation of the modal that docs itself to the bottom of the viewport like the newer share sheets in iOS.</p>
-                                                                        </div>
-                                                                        <div class="modal-footer flex-column border-top-0">
-                                                                                <button type="button" class="btn btn-lg btn-primary w-100 mx-0 mb-2">Save changes</button>
-                                                                                <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>
-                                                                        </div>
-                                                                </div>
-                                                        </div>
-                                                </div>
-                                                <!-- 모달 -->
+                                            <!-- 대댓글사이드바 -->
                                         </div>
                                     </div>
                                 </div>

@@ -316,7 +316,7 @@ public class ShareService {
                         String change = Long.toString(hour).replace("-", "");
                         last = change + "시간 전";
                     }
-                } else if(hour > 24) {
+                } else {
                     int afterday1 = Integer.parseInt(date.replace("-", "")) - Integer.parseInt(sdf1.format(dd).replace("-", ""));
                     String aft = Integer.toString(afterday1);
                     afterday = Integer.parseInt(aft.replace("-", ""));
@@ -340,7 +340,6 @@ public class ShareService {
 
         List<BoardDTO> reviewView = new ArrayList<>();
         int j = review.size() - 1;
-        System.out.println(j);
         for(int i = 0; i < review.size(); i++) {
             reviewView.add(review.get(j));
 //            System.out.println("reviewView.get(i) : " + reviewView.get(j));
@@ -348,5 +347,72 @@ public class ShareService {
         }
 
         return reviewView;
+    }
+
+    // 대댓글 쓰기
+    public boolean RIReplyWrite(int bno, String RIReply) {
+        HttpSession session = request.getSession();
+        MemberDTO mno = (MemberDTO) session.getAttribute("loginDTO");
+        Optional<MemberEntity> memberEntity = memberRepository.findById(mno.getMno());
+        Optional<CategoryEntity> categoryEntity = categoryRepository.findById(2);
+        BoardEntity board = BoardEntity.builder()
+                .apikey(Integer.toString(bno))
+                .bcontents(RIReply)
+                .memberEntity(memberEntity.get())
+                .categoryEntity(categoryEntity.get())
+                .build();
+        boardRepository.save(board);
+        return true;
+    }
+
+    // 대댓글 출력
+    public List<BoardDTO> RIReplyView(int bno) {
+        List<BoardEntity> RIR = boardRepository.findAll();
+        List<BoardDTO> RIRDTO = new ArrayList<>();
+        for(BoardEntity boardEntity : RIR) {
+            if(boardEntity.getApikey() != null && boardEntity.getApikey().equals(Integer.toString(bno))) {
+                String date = boardEntity.getUpdateDate().toString().split("T")[0];
+                String time1 = boardEntity.getUpdateDate().toString().split("T")[1];
+                String time = time1.split("\\.")[0];
+                SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
+                Date dd = new Date(); Date getT = null; Date getD = null;
+
+                try {
+                    getT = sdf2.parse(time);
+                    getD = sdf2.parse(sdf2.format(dd));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                int afterday = 0; String last = null;
+
+                long second = (getD.getTime() - getT.getTime())/1000;
+                long minute = (getT.getTime() - getD.getTime())/(60 * 1000);
+                long hour = (getT.getTime() - getD.getTime())/(60 * 60 * 1000);
+                if(hour < 24 && Integer.parseInt(date.replace("-", "")) >= Integer.parseInt(sdf1.format(dd).replace("-", ""))) {
+                    if(Integer.parseInt(Long.toString(minute).replace("-", "")) < 60) {
+                        String change = Long.toString(minute).replace("-", "");
+                        last = change + "분 전";
+                    } else {
+                        String change = Long.toString(hour).replace("-", "");
+                        last = change + "시간 전";
+                    }
+                } else {
+                    int afterday1 = Integer.parseInt(date.replace("-", "")) - Integer.parseInt(sdf1.format(dd).replace("-", ""));
+                    String aft = Integer.toString(afterday1);
+                    afterday = Integer.parseInt(aft.replace("-", ""));
+                    last = afterday + "일 전";
+                }
+                BoardDTO boardDTO = new BoardDTO();
+                boardDTO.setBno(boardEntity.getBno());
+                boardDTO.setBcontents(boardEntity.getBcontents());
+                Optional<MemberEntity> mid = memberRepository.findById(boardEntity.getMemberEntity().getMno());
+                boardDTO.setBwriter(mid.get().getMid());
+                boardDTO.setBcreateddate(last);
+                RIRDTO.add(boardDTO);
+            }
+        }
+        return RIRDTO;
     }
 }
