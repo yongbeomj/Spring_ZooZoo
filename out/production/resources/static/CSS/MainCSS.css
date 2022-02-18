@@ -135,3 +135,11 @@ li { list-style:none; }
 .modal-backdrop{
     display:none;
 }
+
+.ticker {
+    width: 500px;
+    height: 40px;
+    overflow: hidden;
+    list-style: none;
+    border-radius: 5px;
+}
