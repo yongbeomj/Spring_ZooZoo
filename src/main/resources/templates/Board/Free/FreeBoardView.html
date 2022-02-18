@@ -31,9 +31,19 @@
   <link th:href="@{/CSS/CommonScrollBar.css}" rel="stylesheet" />
 </head>
 
-<body style="  background-color: #ff7f50;">
+<body style="background-color: #ff7f50; overflow-x: hidden;">
 
 <div th:replace="Header.html :: header"></div>
+<section class="heading-page header-text pb-4" id="top">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12 mt-0" style="color : white;">
+        <h2>자유 게시판</h2>
+        <h5>여러분의 자유로운 의견을 나눠주세요.</h5>
+      </div>
+    </div>
+  </div>
+</section>
 <!--버튼-->
 <section class="meetings-page" >
   <div class="container">

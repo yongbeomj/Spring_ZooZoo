@@ -1,4 +1,4 @@
-package ZooZoo.Service.Free;
+package ZooZoo.Service.Review;
 
 import ZooZoo.Domain.DTO.Member.MemberDTO;
 import ZooZoo.Domain.Entity.Board.BoardEntity;
@@ -27,10 +27,13 @@ import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
-public class FreeBoardService {
+public class ReviewBoardService {
 
     @Autowired
     MemberRepository memberRepository;
@@ -46,40 +49,23 @@ public class FreeBoardService {
     private HttpServletRequest request;
 
 
-    //자유게시판 (카테고리 넘버 4번) (리스트) 가져오기(페이징,검색 처리)
-    public Page<BoardEntity> GetAll(Pageable pageable, String keyword, String search) {
+    //후기게시판 (카테고리 넘버 5번) (리스트) 가져오기(페이징,검색 처리)
+    public Page<BoardEntity> GetAll(Pageable pageable) {
 
         int page =0;
-        int categoryNumber = 4;
+        int categoryNumber = 5;
         if(pageable.getPageNumber() == 0) {  page=0; }
         else {  page=pageable.getPageNumber()-1; }
         pageable = PageRequest.of(page,12, Sort.by(Sort.Direction.DESC,"bno"));
 
-        //작성자가 게시판 엔티티에 없기 때문에 bwriterno
-        int mno = 0;
-        String bwriter = "";
-        if(keyword != null && keyword.equals("bwriter")){
-            List<BoardEntity> boardEntities = boardRepository.findFreeBoardByCategory(categoryNumber);
-            for(int i=0; i<boardEntities.size(); i++){
-                //System.out.println("@@@@@@@@@@@@@@@@@@@@@ getMid() : " +boardEntities.get(i).getMemberEntity().getMid());
-                bwriter = boardEntities.get(i).getMemberEntity().getMid();
-                //System.out.println("@@@@@@@@@@@ search : " + search);
-                if(search.equals(bwriter)){
-                    mno = boardEntities.get(i).getMemberEntity().getMno();
-                    //System.out.println("--------------------------------------같음------------------------------------");
-                    return boardRepository.findAllMno(pageable, categoryNumber, mno);
-
-                }
-            }
-        }
-        if(keyword != null && keyword.equals("btitle")) return boardRepository.findAllTitles(pageable, categoryNumber, search);
+        
         return boardRepository.findAllBoard(pageable, categoryNumber);
 
     }
 
 
-    //자유게시판 쓰기
-    public String FreeBoardWrite(String btitle, String freebcontents2, List<MultipartFile> files) {
+    //후기게시판 쓰기
+    public String ReviewBoardWrite(String btitle, String freebcontents2, List<MultipartFile> files) {
         //1. 게시판 엔티티에다가 카테고리, 멤버, 게시판 이미지 엔티티 주입 //저장을 해서 bno생성하고나서 bimg게시판 이미지 넣기
         BoardImgEntity boardImgEntity = new BoardImgEntity();
         HttpSession session = request.getSession();
@@ -89,7 +75,7 @@ public class FreeBoardService {
         }
         int mno = memberDTO.getMno();
         Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
-        Optional<CategoryEntity> categoryEntity = categoryRepository.findById(4);
+        Optional<CategoryEntity> categoryEntity = categoryRepository.findById(5);
 
         BoardEntity boardEntity = BoardEntity.builder()
                 .bcontents(freebcontents2)
@@ -107,7 +93,7 @@ public class FreeBoardService {
         categoryEntity.get().getBoardEntities().add(boardEntity);
 
        /* //첨부파일 폴더 생성하기 위해서
-        String path = "C:\\FreeBoardIMG\\";
+        String path = "C:\\ReviewBoardIMG\\";
         File Folder = new File(path);
 
         // 해당 디렉토리가 없을경우 디렉토리를 생성합니다.
@@ -131,7 +117,7 @@ public class FreeBoardService {
                     return "1";
                 } else {
                     uuidfile = uuid.toString() + "_" + temp.getOriginalFilename().replaceAll("_", "-");
-                    String filepath = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + uuidfile;
+                    String filepath = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\ReviewBoardIMG\\" + uuidfile;
                     try {
                         temp.transferTo(new File(filepath));
                     } catch (Exception e) {
@@ -154,9 +140,9 @@ public class FreeBoardService {
         return "1";
     }
 
-    //자유게시판 상세페이지
+    //후기게시판 상세페이지
     @Transactional
-    public BoardEntity getFreeBoardView(int bno) {
+    public BoardEntity getReviewBoardView(int bno) {
         //Optional은 fk 못 가져옴
         Optional<BoardEntity> entityOptional = boardRepository.findById(bno);
         String date = entityOptional.get().getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy년 MMM dd일"));
@@ -171,7 +157,7 @@ public class FreeBoardService {
         return entityOptional.get();
     }
 
-    //자유게시판 삭제
+    //후기게시판 삭제
     public boolean deleteBoard(int bno) {
         Optional<BoardEntity> boardOpt = boardRepository.findById(bno);
         if(boardOpt.get() != null){
@@ -186,7 +172,7 @@ public class FreeBoardService {
         bimgRepository.delete( bimgRepository.findBybimg(bfile).get());
         return true;
     }
-    //자유게시판 수정
+    //후기게시판 수정
     @Transactional
     public String updateFreeBoard(String bcontents, String btitle, int bno, List<MultipartFile> file2) {
 
@@ -211,7 +197,7 @@ public class FreeBoardService {
                 String uuidfile = null;
                 UUID uuid = UUID.randomUUID();
                 uuidfile = uuid.toString() + "_" + temp.getOriginalFilename().replaceAll("_", "-");
-                String filepath = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + uuidfile;
+                String filepath = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\ReviewBoardIMG\\" + uuidfile;
                 try { temp.transferTo(new File(filepath));
                 } catch (Exception e) { System.out.println("파일 저장 실패함" + e); }
                      BoardImgEntity boardImgEntity = BoardImgEntity.builder()
@@ -237,7 +223,7 @@ public class FreeBoardService {
 
     //첨부파일 다운로드
     public void freeBoardFileDown(String bimg, HttpServletResponse response) {
-        String path = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\FreeBoardIMG\\" + bimg;
+        String path = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\ReviewBoardIMG\\" + bimg;
 
         File file = new File(path);
         //파일 이미지가 있으면

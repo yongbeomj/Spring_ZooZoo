@@ -33,7 +33,7 @@
     -->
 </head>
 
-<body style="background-color: #ff7f50;">
+<body style="background-color: #ff7f50; overflow-x: hidden;">
 <!--jquery ajax사용하기 위해서-->
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <div th:replace="Header.html :: header"></div>
@@ -76,7 +76,7 @@
                     <div class="col-lg-12">
                         <div class="row grid mt-3">
 
-                            <div th:each="boardEntities : ${boardEntities}" id="freeboardmainbox"  class="col-lg-4 templatemo-item-col all soon mt-3">
+                            <div th:each="boardEntities : ${boardEntities}" id="freeboardmainbox"  class="col-lg-3 templatemo-item-col all soon mt-3">
                                 <div class="meeting-item">
                                     <div class="thumb">
                                      <!--   <div class="price">
@@ -95,8 +95,8 @@
                                             <span class="mt-0" th:text="${#strings.substring(boardEntities.updateDate,8,10)}" style="font-size:0.8"></span>
                                         </div>
                                         <a th:href="@{'/Board/Free/FreeBoardView/'+${boardEntities.bno}}">
-                                            <h4  th:if="${boardEntities.btitle.length > 18}"  th:text="${#strings.substring(boardEntities.btitle,0,18)+'...'}" style="margin-bottom:9px;"></h4>
-                                            <h4 th:unless="${boardEntities.btitle.length > 18}"  th:text="${boardEntities.btitle}" style="margin-bottom:9px;"></h4>
+                                            <h4  th:if="${boardEntities.btitle.length > 15}"  th:text="${#strings.substring(boardEntities.btitle,0,15)+'...'}" style="margin-bottom:9px;"></h4>
+                                            <h4 th:unless="${boardEntities.btitle.length > 15}"  th:text="${boardEntities.btitle}" style="margin-bottom:9px;"></h4>
                                         </a>
                                         <br>
                                         <span th:text="${boardEntities.memberEntity.mid}"> </span>
@@ -116,8 +116,8 @@
                     <div class="col-lg-12">
                         <!--페이지-->
                         <div class="pagination"
-                             th:with="start=${ T(Math).floor( boardEntities.number/10 ) *10 +1  }   ,
-                            last =${ start + 9 < boardEntities.totalPages ?  start+9 : boardEntities.totalPages }">
+                             th:with="start=${ T(Math).floor( boardEntities.number/12 ) *12 +1  }   ,
+                            last =${ start + 12 < boardEntities.totalPages ?  start+12 : boardEntities.totalPages }">
                             <ul>
                                 <li>
                                     <a th:href="@{/freeboard/(page=1)}">

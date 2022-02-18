@@ -17,9 +17,9 @@ public class CategorySerivce {
             CategoryEntity categoryEntity = new CategoryEntity();
             System.out.println(categoryEntity.getCano());
             if(categoryEntity.getCano()==0){
-                int [] cano = {1, 2, 3, 4};
-                String [] caname = {"유기","분양","병원","자유"};
-                for(int i =0; i<4; i++){
+                int [] cano = {1, 2, 3, 4, 5};
+                String [] caname = {"유기","분양","병원","자유","후기"};
+                for(int i =0; i<5; i++){
                     categoryEntity = CategoryEntity.builder()
                             .cano(cano[i]).caname(caname[i]).build();
 
