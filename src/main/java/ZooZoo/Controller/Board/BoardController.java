@@ -299,12 +299,22 @@ public class BoardController {
         dto.setSharecode(code);
         dto.setShareagreedate(agreedate);
         dto.setSharetel(tel);
-
+        HttpSession session = request.getSession();
         List<BoardDTO> review = shareService.ReviewView(addrx, addry, agreedate, code);
-        model.addAttribute("shareDTO", dto);
-        model.addAttribute("review", review);
+        if(session.getAttribute("loginDTO") != null) {
+            MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginDTO");
+            System.out.println(memberDTO.getMno());
+            System.out.println(memberDTO.getMid());
 
-        return "Board/Share/ShareBoardView";
+            model.addAttribute("memberID", memberDTO.getMid());
+            model.addAttribute("shareDTO", dto);
+            model.addAttribute("review", review);
+            return "Board/Share/ShareBoardView";
+        } else {
+            model.addAttribute("shareDTO", dto);
+            model.addAttribute("review", review);
+            return "Board/Share/ShareBoardView";
+        }
     }
 
     // 대댓글 출력
@@ -330,6 +340,19 @@ public class BoardController {
             }
         } else {
             return "3";
+        }
+    }
+
+    // 댓글 수정
+    @GetMapping("/ReviewUpdate")
+    @ResponseBody
+    public String ReviewUpdate(@RequestParam("bno")int bno, @RequestParam("rTitle")String title, @RequestParam("rContents")String contents) {
+        System.out.println(bno + " : " + title + " : " + contents);
+        boolean result = shareService.Update(bno, title, contents);
+        if(result) {
+            return "1";
+        } else {
+            return "2";
         }
     }
 

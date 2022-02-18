@@ -1,8 +1,14 @@
 package ZooZoo.Controller.Member;
 
+import ZooZoo.Domain.DTO.Board.CrawllingDTO;
 import ZooZoo.Domain.DTO.Member.MemberDTO;
 import ZooZoo.Service.Category.CategorySerivce;
+import ZooZoo.Service.Crawlling.Share;
 import ZooZoo.Service.Member.MemberService;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class MemberController {
@@ -23,14 +34,20 @@ public class MemberController {
     HttpServletRequest request;
     @Autowired
     CategorySerivce categorySerivce;
+    @Autowired
+    Share shareNews;
 
     // 시작 - 메인화면
     @GetMapping("/")
-    public String goToMain(Model model) {
+    public String goToMain(Model model) throws Exception {
+        ArrayList<CrawllingDTO> sharenews = shareNews.getShareNews();
+        ArrayList<CrawllingDTO> hosnews = shareNews.getHospitalNews();
+        ArrayList<CrawllingDTO> lossnews = shareNews.getLossNews();
+        model.addAttribute("sharenews", sharenews);
+        model.addAttribute("hosnews", hosnews);
+        model.addAttribute("lossnews", lossnews);
         HttpSession session = request.getSession();
-        //카테고리 생성하기
-        categorySerivce.makeCategory();
-        if (session.getAttribute("loginDTO") != null || session.getAttribute("CMloginDTO") != null) {
+        if(session.getAttribute("loginDTO") != null || session.getAttribute("CMloginDTO") != null) {
             return "LogMain";
         } else {
             return "Main";

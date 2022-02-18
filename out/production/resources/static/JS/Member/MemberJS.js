@@ -128,5 +128,8 @@ function mpwupdate(mno){
 
 function tick(){
     $('#ticker_01 li:first').slideUp( function () { $(this).appendTo($('#ticker_01')).slideDown(); });
+    $('#ticker_02 li:first').slideUp( function () { $(this).appendTo($('#ticker_02')).slideDown(); });
+    $('#ticker_03 li:first').slideUp( function () { $(this).appendTo($('#ticker_03')).slideDown(); });
+    $('#ticker_04 li:first').slideUp( function () { $(this).appendTo($('#ticker_04')).slideDown(); });
 }
-setInterval(function(){ tick () }, 1200);
+setInterval(function(){ tick () }, 2000);

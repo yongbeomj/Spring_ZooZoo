@@ -29,16 +29,16 @@ function WriteReply(addrx, addry, agreedate, code) {
     });
 }
 function ReviewView(addrx, addry, agreedate) {
-    alert(addrx + " : " + addry + " : " + agreedate);
-    $.ajax({
-        url: "/ShareReviewView",
-        data: {"addrx" : addrx, "addry" : addry, "agreedate" : agreedate},
-        success: function(result) {
-            if(result == 1) {
-
-            }
-        }
-    });
+//    alert(addrx + " : " + addry + " : " + agreedate);
+//    $.ajax({
+//        url: "/ShareReviewView",
+//        data: {"addrx" : addrx, "addry" : addry, "agreedate" : agreedate},
+//        success: function(result) {
+//            if(result == 1) {
+//
+//            }
+//        }
+//    });
 }
 
 /* 드랍다운 */
@@ -73,10 +73,9 @@ function setDetailsHeight(selector, wrapper = document) {
 /* Run it */
 setDetailsHeight("details");
 
+// 댓글 등록
 function RIReplyWrite() {
-        alert("qweqwe");
     var bno = $("#bno").val();
-    alert(bno)
     var RIReply = $("#RIReplycontents").val();
     $.ajax({
         url: "/RIReply",
@@ -87,8 +86,7 @@ function RIReplyWrite() {
                         url: "/RIReplyView",
                         data: {"bno" : bno},
                         success: function(result) {
-                                $("#sideaside1").html(result);
-//                                $("#sideaside1").load(location.href+ " #sideaside1");
+                            $("#sideaside1").html(result);
                         }
                 });
             } else {
@@ -103,8 +101,36 @@ function RIReply(bno) {
         url: "/RIReplyView",
         data: {"bno" : bno},
         success: function(result) {
-            $("#sideaside1").html(result);
+//            $("#RIRAside").html("");
+            $("#RIRAside").html(result);
             $("#bno").val(bno);
+        }
+    });
+}
+
+// 댓글 수정
+function reviewUpdate(bno) {
+    var updatebox;
+    alert("rtttttttttttttttttt")
+    $("#updateBox" + bno).html("<div class = 'row'><div class = 'col-md-9'><input type = 'text' class = 'form-control' id = 'reviewUpdateTitle'><input type = 'text' class = 'form-control mt-1' id = 'reviewUpdateContents'></div><div class = 'col-md-3'><button class = 'btn' style = 'font-size: 10px; width: 100%;' onclick = 'ReUpdate(" + bno + ");'>확인</button><button class = 'btn' style = 'width: 100%; font-size: 10px;' onclick = 'writeCancel(" + bno + ")'>취소</button></div></div>");
+}
+// 수정 중 취소
+function writeCancel(bno) {
+    $("#updateBox" + bno).html("");
+}
+// 댓글 수정
+function ReUpdate(bno) {
+    var Retitle = $("#reviewUpdateTitle").val();
+    var Recontents = $("#reviewUpdateContents").val();
+    $.ajax({
+        url: "/ReviewUpdate",
+        data: {"bno" : bno, "rTitle" : Retitle, "rContents", Recontents},
+        success: function(result) {
+            if(result == 1) {
+                alert(result);
+            } else {
+                alert("Failed")
+            }
         }
     });
 }

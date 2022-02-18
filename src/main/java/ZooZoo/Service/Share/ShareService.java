@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -414,5 +415,14 @@ public class ShareService {
             }
         }
         return RIRDTO;
+    }
+
+    // 댓글 수정
+    @Transactional
+    public boolean Update(int bno, String title, String contents) {
+        Optional<BoardEntity> boardEntity = boardRepository.findById(bno);
+        boardEntity.get().setBtitle(title);
+        boardEntity.get().setBcontents(contents);
+        return true;
     }
 }

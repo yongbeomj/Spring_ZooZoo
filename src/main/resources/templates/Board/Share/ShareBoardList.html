@@ -21,12 +21,12 @@
         <link th:href="@{/assets/css/owl.css}" rel="stylesheet"/>
         <link th:href="@{/assets/css/lightbox.css}" rel="stylesheet"/>
 </head>
-<body style="background-color: #ff7f50;" id="cate">
+<body style="overflow-x: hidden; background-color: #ff7f50;" id="cate">
         <div th:replace="Header.html :: header"></div>
         <script th:src="@{/JS/Board/ShareBoard/ShareBoardJS.js}"></script>
         <div class="container">
                 <select id="selectBoxTest" onchange="changeSelection()">
-                        <option value="시/도">시/도</option>
+                        <option value="시/도" class = "option">시/도</option>
                         <div th:each=" select : ${select}">
                                 <option th:if="${session.option  ==  select} " selected th:text="${select}" th:value="${select}"
                                         th:name="sel" th:id="selectA"></option>
@@ -35,7 +35,7 @@
                         </div>
                 </select>
 
-                <table class="table" id="tab">
+                <table class="table" id="tab" style="background-color: white;">
                         <tr class="row">
                                 <th class="col-md-1 text-center">번호</th>
                                 <th class="col-md-5 text-center">가게명</th>

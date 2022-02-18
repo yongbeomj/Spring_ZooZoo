@@ -4,32 +4,79 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body class="sign-in-basic" style=" background: coral;" >
+<body class="sign-in-basic" style="overflow-x: hidden; background: coral;" >
     <div th:replace = "Header.html :: header"></div>
-    <div class = "container-fluid">
-
-        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img th:src="@{/IMG/11111.jpg}" class="d-block w-100" alt="..." style="max-height:70vh;">
-                </div>
-                <div class="carousel-item">
-                    <img th:src="@{/IMG/22222.jpg}" class="d-block w-100" alt="..." style="max-height:70vh;">
-                </div>
-                <div class="carousel-item">
-                    <img th:src="@{/IMG/33333.jpg}" class="d-block w-100" alt="..." style="max-height:70vh;">
+    <div class = "container">
+        <div class = "row">
+            <div class = "col-md-5">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img th:src="@{/IMG/11111.jpg}" class="d-block w-100" alt="..." style="max-height:60vh;">
+                        </div>
+                        <div class="carousel-item">
+                            <img th:src="@{/IMG/22222.jpg}" class="d-block w-100" alt="..." style="max-height:60vh;">
+                        </div>
+                        <div class="carousel-item">
+                            <img th:src="@{/IMG/33333.jpg}" class="d-block w-100" alt="..." style="max-height:60vh;">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
+            <div class = "col-md-5 offset-md-2">
+                <h1>유기동물차트</h1>
+            </div>
+        </div>
+        <br><br>
+        <div class = "row">
+            <div class = "col-md-5">
+                <div class = "row">
+                    <div class = "col-md-2">
+                        <h3>유기</h3>
+                    </div>
+                    <div class = "col-md-8">
+                        <ul id="ticker_02" class="ticker" style="text-align: center; margin-top: 0px;">
+                            <li class = "text-center" th:each = "lossnews : ${lossnews}"><a th:href="${lossnews.newslink}" style="text-decoration: none; font-size: 25px; color: white;" th:text = "${lossnews.newstitle}">개인정보처리방침1</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class = "col-md-2">
+                        <h3>분양</h3>
+                    </div>
+                    <div class = "col-md-8">
+                        <ul id="ticker_03" class="ticker" style="text-align: center;">
+                            <li class = "text-center" th:each = "sharenews : ${sharenews}"><a th:href="${sharenews.newslink}"  style="text-decoration: none; font-size: 25px; color: white;" th:text="${sharenews.newstitle}">개인정보처리방침1</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class = "col-md-2">
+                        <h3>병원</h3>
+                    </div>
+                    <div class = "col-md-8">
+                        <ul id="ticker_04" class="ticker" style="text-align: center;">
+                            <li class = "text-center" th:each = "hosnews : ${hosnews}"><a th:href="${hosnews.newslink}" style="text-decoration: none; font-size: 25px; color: white;" th:text="${hosnews.newstitle}">개인정보처리방침1</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class = "col-md-5 offset-md-2">
+                <h3>공고</h3>
+                <h3>공고</h3>
+                <h3>공고</h3>
+            </div>
         </div>
     </div>
+    <br>
     <div th:replace="Footer.html :: footer"></div>
 </body>
 </html>

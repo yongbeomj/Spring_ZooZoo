@@ -7,20 +7,16 @@
     <link th:href="@{/CSS/MainCSS.css}" rel="stylesheet">
 </head>
 <!-- 배경색 -->
-<body style="background-color: #ff7f50;">
-<!-- 배경 이미지 -->
-<div id="bgimg" style="background-image: url('./IMG/logofoot.svg');">
-    <!-- 내용 -->
-    <div id="header">
-        <div th:replace="Header.html :: header"></div>
+<body style="background-color: #ff7f50; overflow-x: hidden;">
+    <!-- 배경 이미지 -->
+    <div id="bgimg" style="background-image: url('./IMG/logofoot.svg');">
+        <!-- 내용 -->
+        <div id="header">
+            <div th:replace="Header.html :: header"></div>
+        </div>
+        <div id="footer" style="vertical-align: bottom; margin-top:8vh;">
+            <div th:replace="Footer.html :: footer"></div>
+        </div>
     </div>
-    <div id="footer" style="vertical-align: bottom; margin-top:17vh;">
-        <div th:replace="Footer.html :: footer"></div>
-    </div>
-</div>
-
-
-</div>
-
 </body>
 </html>
