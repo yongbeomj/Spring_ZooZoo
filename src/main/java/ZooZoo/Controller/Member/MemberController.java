@@ -1,6 +1,7 @@
 package ZooZoo.Controller.Member;
 
 import ZooZoo.Domain.DTO.Member.MemberDTO;
+import ZooZoo.Service.Category.CategorySerivce;
 import ZooZoo.Service.Member.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,12 +21,16 @@ public class MemberController {
     MemberService memberService;
     @Autowired
     HttpServletRequest request;
+    @Autowired
+    CategorySerivce categorySerivce;
 
     // 시작 - 메인화면
     @GetMapping("/")
     public String goToMain(Model model) {
         HttpSession session = request.getSession();
-        if (session.getAttribute("loginDTO") != null) {
+        //카테고리 생성하기
+        categorySerivce.makeCategory();
+        if (session.getAttribute("loginDTO") != null || session.getAttribute("CMloginDTO") != null) {
             return "LogMain";
         } else {
             return "Main";
@@ -36,6 +41,12 @@ public class MemberController {
     @GetMapping("/Member/Login")
     public String goToLogin() {
         return "Member/Login";
+    }
+
+    // 회사 로그인화면으로
+    @GetMapping("/Member/CompanyLogin")
+    public String goToCompanyLogin() {
+        return "Member/CompanyLogin";
     }
 
     // 일반 회원가입으로
@@ -56,15 +67,29 @@ public class MemberController {
         return "Member/FindId";
     }
 
+    // 기업 아이디 찾기로
+    @GetMapping("/Member/CompanyFindId")
+    public String goToCompanyFindId(){
+
+        return "Member/CompanyFindId";
+    }
+
     // 비밀번호 찾기로
     @GetMapping("/Member/FindPw")
     public String goToFindPw() {
         return "Member/FindPw";
     }
 
+    // 기업 비밀번호 찾기로
+    @GetMapping("/Member/CompanyFindPw")
+    public String goToCompanyFindPw() {
+        return "Member/CompanyFindPw";
+    }
+
     // 마이페이지로
     @GetMapping("/Member/Myinfo")
     public String goToMyinfo(Model model) {
+
         // 로그인 세션 호출
         HttpSession session = request.getSession();
         MemberDTO loginDTO = (MemberDTO) session.getAttribute("loginDTO");

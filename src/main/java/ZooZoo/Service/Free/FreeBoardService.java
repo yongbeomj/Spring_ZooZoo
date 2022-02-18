@@ -9,6 +9,7 @@ import ZooZoo.Domain.Entity.Category.CategoryEntity;
 import ZooZoo.Domain.Entity.Category.CategoryRepository;
 import ZooZoo.Domain.Entity.Member.MemberEntity;
 import ZooZoo.Domain.Entity.Member.MemberRepository;
+import ZooZoo.Service.BoardLike.BoardLikeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -40,6 +41,8 @@ public class FreeBoardService {
     @Autowired
     BoardImgRepository bimgRepository;
     @Autowired
+    BoardLikeService boardLikeService;
+    @Autowired
     private HttpServletRequest request;
 
 
@@ -70,7 +73,6 @@ public class FreeBoardService {
             }
         }
         if(keyword != null && keyword.equals("btitle")) return boardRepository.findAllTitles(pageable, categoryNumber, search);
-        if(keyword != null && keyword.equals("bcontents")) return boardRepository.findAllContents(pageable, categoryNumber, search);
         return boardRepository.findAllBoard(pageable, categoryNumber);
 
     }
@@ -164,14 +166,14 @@ public class FreeBoardService {
             session.setAttribute(String.valueOf(bno),1);
             session.setMaxInactiveInterval(60*60*24);
         }
-        System.out.println(entityOptional.get());
+
+
         return entityOptional.get();
     }
 
     //자유게시판 삭제
     public boolean deleteBoard(int bno) {
         Optional<BoardEntity> boardOpt = boardRepository.findById(bno);
-        System.out.println(boardOpt);
         if(boardOpt.get() != null){
             boardRepository.delete(boardOpt.get());
             return true;
@@ -191,7 +193,6 @@ public class FreeBoardService {
         BoardEntity boardEntity= boardRepository.findById(bno).get();
         int bsize = boardEntity.getBoardImgEntities().size();
         int file2size = file2.size();
-
         boardEntity.setBcontents(bcontents);
         boardEntity.setBtitle(btitle);
         //원래 첨부파일이 없고, 새로운 첨부파일도 없을때 1반환 (글쓰기 완료)

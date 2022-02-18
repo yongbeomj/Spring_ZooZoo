@@ -14,3 +14,20 @@ function Login() {
         }
     });
 }
+
+function CompanyLogin() {
+    var cmid = $("#cmloginid").val();
+    var cmpw = $("#cmloginpw").val();
+    $.ajax({
+        url: "/Member/CompanyLoginController",
+        data : {"cmid" : cmid, "cmpw" : cmpw},
+        success: function(result) {
+            if(result == 1) {
+                alert("메인페이지로 이동합니다.");
+                location.href = "/";
+            } else {
+                alert("로그인 실패.");
+            }
+        }
+    });
+}

@@ -24,21 +24,6 @@
 <!-- End Navbar -->
 <div clss ="container-fluid">
     <div class="container my-auto">
-        <div class = "row">
-            <div class = "col-md-3">
-                <a th:href = "@{/LossBoardlist}"><h4 class = "text-center">유기</h4></a>
-            </div>
-            <div class = "col-md-3">
-                <a th:href = "@{/ShareBoardList}"><h4 class = "text-center">분양</h4></a>
-            </div>
-            <div class = "col-md-3">
-                <a th:href = "@{/hospitalboard}"><h4 class = "text-center">병원</h4></a>
-            </div>
-            <div class = "col-md-3">
-                <a th:href = "@{/freeboard}"><h4 class = "text-center">자유</h4></a>
-            </div>
-        </div>
-        <hr><br>
         <div class ="col-md-2">
             <select id = "h_status" name="keyword" class="form-select" onchange="hospitalstatus()" >
                 <option th:selected= "${param.keyword}=='선택'" th:text="선택"> </option>

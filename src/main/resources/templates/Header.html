@@ -27,10 +27,10 @@
         </a>
     </div>
     <div class="p-2 text-end bd-highlight"><!--th:if="${session.loginDTO == null}"-->
-        <a th:if="${session.loginDTO == null}" id="headtag" th:href="@{/Member/Login}">
+        <a th:if="${session.loginDTO == null} and ${session.CMloginDTO == null}" id="headtag" th:href="@{/Member/Login}">
             로그인
         </a>
-        <a th:if="${session.loginDTO == null}" id="headtag" th:href="@{/Member/SignUp}">
+        <a th:if="${session.loginDTO == null} and ${session.CMloginDTO == null}" id="headtag" th:href="@{/Member/SignUp}">
             회원가입
         </a>
     </div>
@@ -44,8 +44,18 @@
             로그아웃
         </a>
     </div>
+    <!--기업 회원 헤드 분류-->
+    <div class="p-2 mb-3">
+        <span id="headtagname" th:if="${session.CMloginDTO != null}"
+              th:text="${'<<'+session.CMloginDTO.cmcompanyno}+'님 안녕하세요!>>'" disabled></span>
+
+        <a th:if="${session.CMloginDTO != null}" id="headtag" th:href="@{/Member/Logout}">
+            로그아웃
+        </a>
+    </div>
+    <!--기업 회원 헤드 분류 end-->
 </div>
-<div class="container" th:if="${session.loginDTO != null}">
+<div class="container" th:if="${session.loginDTO != null} or ${session.CMloginDTO != null}">
     <ul class="d-flex justify-content-between">
         <li>
             <a th:href="@{/LossBoardlist}" style="text-decoration: none;">
@@ -65,16 +75,6 @@
         <li>
             <a th:href="@{/freeboard}" style="text-decoration: none;">
                 <h4 id="menutag4" class="text-center">자유</h4>
-            </a>
-        </li>
-        <li>
-            <a th:href="@{/Chatting}" style="text-decoration: none;">
-                <h4 id="menutag4" class="text-center">채팅</h4>
-            </a>
-        </li>
-        <li>
-            <a th:href="@{/rooms}" style="text-decoration: none;">
-                <h4 id="menutag4" class="text-center">채팅(임시)</h4>
             </a>
         </li>
     </ul>

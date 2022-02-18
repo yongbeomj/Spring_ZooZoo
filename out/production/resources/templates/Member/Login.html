@@ -7,8 +7,8 @@
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <!-- Nucleo Icons -->
-    <link th:href="@{/CSS/nucleoicons.css}" rel="stylesheet" />
-    <link th:href="@{/CSS/nucleosvg.css}" rel="stylesheet" />
+    <link th:href="@{/CSS/nucleoicons.css}" rel="stylesheet"/>
+    <link th:href="@{/CSS/nucleosvg.css}" rel="stylesheet"/>
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <!-- Material Icons -->
@@ -27,7 +27,20 @@
                 <div class="card z-index-0 fadeIn3 fadeInBottom">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                            <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Login</h4>
+                            <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">MemberLogin</h4>
+                            <div class="mt-4 d-flex justify-content-evenly">
+                                <div>
+                                    <a class="btn bg-gradient-primary btn-lg px-3" style="border:2px solid white;" th:href="@{/Member/Login}">
+                                        일반회원
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class="btn bg-gradient-primary btn-lg px-3" style="border:2px solid white;" th:href="@{/Member/CompanyLogin}">
+                                        기업회원
+                                    </a>
+                                </div>
+                            </div>
+
                             <div class="row mt-3">
                                 <div class="col-2 text-center ms-auto">
                                     <a class="btn btn-link px-3" href="javascript:;">

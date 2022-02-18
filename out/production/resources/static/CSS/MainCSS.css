@@ -131,3 +131,7 @@ li { list-style:none; }
     height:100%;
     object-fit:cover;
 }
+
+.modal-backdrop{
+    display:none;
+}

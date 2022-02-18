@@ -9,6 +9,7 @@ import ZooZoo.Domain.Entity.Board.BoardRepository;
 import ZooZoo.Domain.Entity.Category.CategoryEntity;
 import ZooZoo.Domain.Entity.Reply.ReplyEntity;
 import ZooZoo.Domain.Entity.Reply.ReplyRepository;
+import ZooZoo.Service.BoardLike.BoardLikeService;
 import ZooZoo.Service.Free.FreeBoardService;
 import ZooZoo.Service.Reply.ReplyService;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -46,9 +47,14 @@ public class FreeBoardController {
     @Autowired
     FreeBoardService freeBoardService;
 
-
     @Autowired
     ReplyService replyService;
+
+    @Autowired
+    BoardLikeService boardLikeService;
+
+    @Autowired
+    BoardRepository boardRepository;
 
     // 자유게시판으로 (페이징, 검색)
     @GetMapping("/freeboard")
@@ -141,14 +147,25 @@ public class FreeBoardController {
                 bimglist.add(boardEntity.getBoardImgEntities().get(i).getBimg());
             }
             List<ReplyEntity> replyEntities = replyService.getAllReplys(bno, boardEntity.getCategoryEntity().getCano());
-            System.out.println("@@@@@@@@@@@@@@@@@@@@ service 갔다온 controller replyEntities : " + replyEntities);
             model.addAttribute("bimglist",bimglist);
             model.addAttribute("boardEntity", boardEntity);
             model.addAttribute("replyEntities",replyEntities);
-            System.out.println(replyEntities.size());
+            int likeCountNo = boardLikeService.likeCount(bno);
+            model.addAttribute("likeCountNo",likeCountNo);
         } catch(Exception e){
             System.out.println(e);
         }
+
+        //좋아요 되었는지??
+        Optional<BoardEntity> boardEntity2 =boardRepository.findById(bno);
+        if(memberDTO != null) {
+            System.out.println("@@@@@@@@@@@@@@@@@memberDTO.getMno() : " + memberDTO.getMno());
+            int rs = boardLikeService.likeCheck(bno, boardEntity2.get().getCategoryEntity().getCano(), memberDTO.getMno());
+            System.out.println("좋아요 되었습니까?? : " + rs);
+            model.addAttribute("rs",rs);
+        }
+
+
         model.addAttribute("memberDTO",memberDTO);
         return "Board/Free/FreeBoardView";
     }
