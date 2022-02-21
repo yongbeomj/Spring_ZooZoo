@@ -1,11 +1,11 @@
-<div class = "container" id = "sideaside2">
+<div class = "container" id = "sideaside1">
     <label class = "form-control ReLabel" style="background-color: black; color: white; border: none; padding-top: 20px;">
         <div class = "row">
             <div class = "col-md-4">
-                <h5 style="color: white; margin: 0px;">아이디</h5>
+                <h5 style="color: white; margin: 0px;" th:text = "${RIRIR.bwriter}">아이디</h5>
             </div>
             <div class = "col-md-4 offset-md-4">
-                <h5 style="color: white; margin: 0px; margin-right: 3px; float: right;" id = "reviewDate">날짜</h5>
+                <h5 style="color: white; margin: 0px; margin-right: 3px; float: right;" id = "reviewDate" th:text = "${RIRIR.bcreateddate}">날짜</h5>
             </div>
             <div class = "container">
                 <div class = "container">
@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div class = "col-md-12">
-                <h6 style="color: white; margin: 0px;" id = "reviewContents">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</h6>
+                <h6 style="color: white; margin: 0px;" id = "reviewContents" th:text = "${RIRIR.bcontents}">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</h6>
             </div>
             <br><br>
             <!--<div class = "container"><hr><hr></div>-->
@@ -29,7 +29,7 @@
                             <input type = "text" class = "form-control" style="height: 40px; width: 100%;" id = "RIReplycontents">
                         </div>
                         <div class = "col-md-2 no-gutters">
-                                <input type = "hidden"  id = "bno">
+                            <input type = "hidden"  id = "bno">
                             <button class = "btn btn-outline-light" style="height: 40px; width: 100%;" th:onclick = "RIReplyWrite();">등록</button>
                         </div>
                     </div>
@@ -44,7 +44,9 @@
                 <div class = "col-md-10">
                     <table class = "table" style="margin-top: 0px; border: solid 0px black;">
                         <tr>
-                            <td th:text = "${RIReply.bwriter}" style="color: white;">아이디</td><td th:text = "${RIReply.bcreateddate}" style="color: white; float: right;">작성날짜</td>
+                            <td th:if = "${RIReply.bwriter} == ${RIRIR.bwriter}" th:text = "${RIReply.bwriter} + '&nbsp;(작성자)'" style="color: white;">아이디</td>
+                            <td th:unless = "${RIReply.bwriter} == ${RIRIR.bwriter}" th:text = "${RIReply.bwriter}" style="color: white;">아이디</td>
+                            <td th:text = "${RIReply.bcreateddate}" style="color: white; float: right;">작성날짜</td>
                         </tr>
                         <tr>
                             <td colspan="2" th:text = "${RIReply.bcontents}" style="color: white;">내용</td>

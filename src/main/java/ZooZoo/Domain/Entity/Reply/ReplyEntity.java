@@ -21,6 +21,10 @@ public class ReplyEntity extends DateEntity {
     @Column(name="rcontents", length=1000)
     private String rcontents;
 
+    //댓글 대댓글 여부
+    @Column
+    private Integer rindex;
+
     //멤버 엔티티 매핑
     @ManyToOne
     @JoinColumn(name = "mno")

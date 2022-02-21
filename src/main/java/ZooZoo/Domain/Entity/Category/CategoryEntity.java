@@ -32,9 +32,10 @@ public class CategoryEntity {
     @OneToMany(mappedBy = "categoryEntity2", cascade = CascadeType.ALL)
     private List<ReplyEntity> replyEntities = new ArrayList<>();
 
-   /* @OneToMany(mappedBy = "categoryEntity2", cascade = CascadeType.ALL)
-    private List<BoardImgEntity> boardImgEntities = new ArrayList<>();*/
-   //게시판 추천
-   @OneToMany(mappedBy="categoryBLikeEntity", cascade = CascadeType.ALL)
-   private List<BoardLikeEntity> boardLikeEntities = new ArrayList<>();
+    /* @OneToMany(mappedBy = "categoryEntity2", cascade = CascadeType.ALL)
+     private List<BoardImgEntity> boardImgEntities = new ArrayList<>();*/
+    //게시판 추천
+    @OneToMany(mappedBy="categoryBLikeEntity", cascade = CascadeType.ALL)
+    private List<BoardLikeEntity> boardLikeEntities = new ArrayList<>();
+
 }

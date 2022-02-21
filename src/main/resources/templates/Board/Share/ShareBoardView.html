@@ -145,10 +145,10 @@
                                                                             <p class="card-text" th:text = "${review.bcontents}">contents</p>
                                                                             <div class = "row">
                                                                                 <div class = "col-md-3 offset-md-2">
-                                                                                    <p class="card-text text-left" th:if = "${memberID == null} and ${memberID} != ${review.bwriter}" style="color: gray; font-size: 10px;" th:onclick = "reviewUpdate([[${review.bno}]]);">수정</p>
+                                                                                    <p class="card-text text-left" th:if = "${memberID != null} and ${memberID} == ${review.bwriter}" style="color: gray; font-size: 10px;" th:onclick = "reviewUpdate([[${review.bno}]]);">수정</p>
                                                                                 </div>
                                                                                 <div class = "col-md-3">
-                                                                                    <p class="card-text text-left" th:if = "${memberID == null} and ${memberID} != ${review.bwriter}" style="color: gray; font-size: 10px;">삭제</p>
+                                                                                    <p class="card-text text-left" th:if = "${memberID != null} and ${memberID} == ${review.bwriter}" style="color: gray; font-size: 10px;" th:onclick = "RIReplyDelete([[${review.bno}]]);">삭제</p>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -188,9 +188,7 @@
                                             <!-- 사이드바2 -->
                                             <!-- 대댓글사이드바 -->
                                             <aside class="side-panel1 right" style="width: 700px;" id = "RIRAside">
-                                                <div class = "container" id = "sideaside1">
 
-                                                </div>
                                             </aside>
                                             <!-- 대댓글사이드바 -->
                                         </div>

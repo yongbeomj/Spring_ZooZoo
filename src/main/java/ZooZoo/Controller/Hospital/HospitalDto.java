@@ -18,4 +18,5 @@ public class HospitalDto {
     private String lat; // 경도
     private String sigunnm; // 시 정보
     private String siguncd; // 시 정보코드
+    private String licensg_de; // 동물 병원 인 허가 일자
 }

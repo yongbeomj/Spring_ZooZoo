@@ -60,6 +60,7 @@ public class AnimalHospitalController {
 
         ArrayList<HospitalDto> parses = new ArrayList<>();
         ArrayList<HospitalDto> parsePage = new ArrayList<>();
+        ArrayList<String> avgs = new ArrayList<>(); /*평균 데이터 값 뽑아낸 리스트*/
 
         int totalList = animalHospitalService.getapitotal(); // 총 토탈 게시물 개수
 
@@ -81,6 +82,43 @@ public class AnimalHospitalController {
         parsePage = animalHospitalService.parsenum(parses, page);
 
         Pagination pagination = new Pagination(parses.size(), page); // 전달 값을 토탈 개수를 전달해야됨
+        /*parsePage에 있는 인코드한 apikey 변환하기 */
+        for(int i = 0; i<parsePage.size(); i++){
+
+            char encoding = parsePage.get(i).getBizplcnm().charAt(0);
+            int code = (int)encoding;
+            String encode = Integer.toHexString(code);
+
+            String license = parsePage.get(i).getLicensg_de();
+
+            if(parsePage.get(i).getLogt() == null){
+                parsePage.get(i).setLogt("0");
+            }
+            if(parsePage.get(i).getLat() == null){
+                parsePage.get(i).setLat("0");
+            }
+            double x = Double.parseDouble(parsePage.get(i).getLogt());
+            int x_i = (int) x;
+            String s_x = Integer.toString(x_i);
+
+            double y = Double.parseDouble(parsePage.get(i).getLat());
+            int y_i = (int) y;
+            String s_y = Integer.toString(y_i);
+            encode = encode + license + s_x + s_y;
+
+            double avg = animalHospitalService.getreplyavg(encode, 3); /* 평점 평균 가져오기*/
+            if (Double.isNaN(avg)) {
+                avg = 0.0;
+            }
+
+            String avg_s = Double.toString(avg);
+
+            avgs.add(avg_s);
+        }
+
+        model.addAttribute("avgs", avgs); /*리스트 평점 평균값 모음*/
+        model.addAttribute("parses",parsePage);
+        model.addAttribute("pagination", pagination);
         model.addAttribute("parses",parsePage);
         model.addAttribute("pagination", pagination);
         return "Board/Hospital/HospitalBoard";
@@ -119,6 +157,8 @@ public class AnimalHospitalController {
         hospitalDto.setLocplcfaclttelno(hospitalDto2.getLocplcfaclttelno()); // 전화번호
         hospitalDto.setSigunnm(hospitalDto2.getSigunnm()); // 시 정보
         hospitalDto.setSiguncd(hospitalDto2.getSiguncd()); // 시 정보코드
+        hospitalDto.setLicensg_de(hospitalDto2.getLicensg_de()); // 동물병원 연산
+
         return "1";
     }
 
@@ -140,6 +180,8 @@ public class AnimalHospitalController {
         int code = (int)encoding;
         String encode = Integer.toHexString(code);
 
+        String license = hospitalDto.getLicensg_de();
+
         double x = Double.parseDouble(hospitalDto.getLogt());
         int x_i = (int) x;
         String s_x = Integer.toString(x_i);
@@ -148,15 +190,18 @@ public class AnimalHospitalController {
         int y_i = (int) y;
         String s_y = Integer.toString(y_i);
 
-        encode = encode + s_x + s_y;
+        encode = encode + license + s_x + s_y;
 
         double avg = animalHospitalService.getreplyavg(encode, 3);
         List<BoardEntity> replyEntities = animalHospitalService.getreplylist(encode, 3);
+
         double avg_s = avg * 10*2;
-        model.addAttribute("avg_s", avg_s);
+        model.addAttribute("avg_s", avg_s); /* % 계산 model 뿌리는 함수 */
+
         if (Double.isNaN(avg)) {
                 avg = 0.0;
         }
+
         model.addAttribute("avg", avg);
         model.addAttribute("hospitalDto", hospitalDto);
         model.addAttribute("replyEntities", replyEntities);
@@ -184,13 +229,12 @@ public class AnimalHospitalController {
      // hospital review 해결하기
     @GetMapping("/getmapsidereview")
     public String getmapsidereview(Model model){
-        /*char ch = '최';
-        int code = (int)ch;
-        String encode = Integer.toHexString(code);
-        System.out.println(encode);*/
+
         char encoding = hospitalDto.getBizplcnm().charAt(0);
         int code = (int)encoding;
         String encode = Integer.toHexString(code);
+
+        String license = hospitalDto.getLicensg_de();
 
         double x = Double.parseDouble(hospitalDto.getLogt());
         int x_i = (int) x;
@@ -200,11 +244,12 @@ public class AnimalHospitalController {
         int y_i = (int) y;
         String s_y = Integer.toString(y_i);
 
-        encode = encode + s_x + s_y;
+        encode = encode + license + s_x + s_y;
 
         System.out.println(encode);
         // 해당 게시물 댓글 호출  /* 동물병원 카테고리 넘버 3*/
         List<BoardEntity> replyEntities = animalHospitalService.getreplylist(encode, 3);
+
 
        /* replyEntities.get(0).getBcontents()*/
         model.addAttribute("replyEntities", replyEntities);
@@ -248,6 +293,7 @@ public class AnimalHospitalController {
 
         ArrayList<HospitalDto> parses = new ArrayList<>();
         ArrayList<HospitalDto> parsePage = new ArrayList<>();
+        ArrayList<String> avgs = new ArrayList<>(); /*평균 데이터 값 뽑아낸 리스트*/
 
         int totalList = animalHospitalService.getapitotal(); // 총 토탈 게시물 개수
 
@@ -269,6 +315,43 @@ public class AnimalHospitalController {
         parsePage = animalHospitalService.parsenum(parses, page);
 
         Pagination pagination = new Pagination(parses.size(), page); // 전달 값을 토탈 개수를 전달해야됨
+
+
+        /*parsePage에 있는 인코드한 apikey 변환하기 */
+        for(int i = 0; i<parsePage.size(); i++){
+
+            char encoding = parsePage.get(i).getBizplcnm().charAt(0);
+            int code = (int)encoding;
+            String encode = Integer.toHexString(code);
+
+            String license = parsePage.get(i).getLicensg_de();
+
+            if(parsePage.get(i).getLogt() == null){
+                parsePage.get(i).setLogt("0");
+            }
+            if(parsePage.get(i).getLat() == null){
+                parsePage.get(i).setLat("0");
+            }
+            double x = Double.parseDouble(parsePage.get(i).getLogt());
+            int x_i = (int) x;
+            String s_x = Integer.toString(x_i);
+
+            double y = Double.parseDouble(parsePage.get(i).getLat());
+            int y_i = (int) y;
+            String s_y = Integer.toString(y_i);
+            encode = encode + license + s_x + s_y;
+
+            double avg = animalHospitalService.getreplyavg(encode, 3); /* 평점 평균 가져오기*/
+            if (Double.isNaN(avg)) {
+                avg = 0.0;
+            }
+
+            String avg_s = Double.toString(avg);
+
+            avgs.add(avg_s);
+        }
+
+        model.addAttribute("avgs", avgs); /*리스트 평점 평균값 모음*/
         model.addAttribute("parses",parsePage);
         model.addAttribute("pagination", pagination);
 
@@ -279,7 +362,7 @@ public class AnimalHospitalController {
     @GetMapping("/hospitalpaging")
     public String gethospitalpaging(Model model,
                                    @RequestParam(defaultValue = "1") int page){
-        /* 검색 서비스 */
+         /*검색 서비스*/
         String keyword = request.getParameter("keyword");
         String search = request.getParameter("search");
         String status = request.getParameter("status");
@@ -301,6 +384,7 @@ public class AnimalHospitalController {
 
         ArrayList<HospitalDto> parses = new ArrayList<>();
         ArrayList<HospitalDto> parsePage = new ArrayList<>();
+        ArrayList<String> avgs = new ArrayList<>();
 
         int totalList = animalHospitalService.getapitotal(); // 총 토탈 게시물 개수
 
@@ -308,10 +392,44 @@ public class AnimalHospitalController {
         /// 검색 테스트 start ///
         parses = animalHospitalService.parseapisearch(jsonArray, keyword, search, status);
         /// 검색 테스트 end ///
-        /* parses = animalHospitalService.parseapi(jsonArray); // 모든 게시물 출력*/
+        parses = animalHospitalService.parseapi(jsonArray); // 모든 게시물 출력
         parsePage = animalHospitalService.parsenum(parses, page);
 
         Pagination pagination = new Pagination(parses.size(), page); // 전달 값을 토탈 개수를 전달해야됨
+
+        /*parsePage에 있는 인코드한 apikey 변환하기 */
+        for(int i = 0; i<parsePage.size(); i++){
+            char encoding = parsePage.get(i).getBizplcnm().charAt(0);
+            int code = (int)encoding;
+            String encode = Integer.toHexString(code);
+            String license = parsePage.get(i).getLicensg_de();
+
+            if(parsePage.get(i).getLogt() == null){
+                parsePage.get(i).setLogt("0");
+            }
+            if(parsePage.get(i).getLat() == null){
+                parsePage.get(i).setLat("0");
+            }
+
+            double x = Double.parseDouble(parsePage.get(i).getLogt());
+            int x_i = (int) x;
+            String s_x = Integer.toString(x_i);
+
+            double y = Double.parseDouble(parsePage.get(i).getLat());
+            int y_i = (int) y;
+            String s_y = Integer.toString(y_i);
+            encode = encode + license + s_x + s_y;
+
+            double avg = animalHospitalService.getreplyavg(encode, 3); /* 평점 평균 가져오기*/
+
+            if (Double.isNaN(avg)) {
+                avg = 0.0;
+            }
+
+            String avg_s = Double.toString(avg);
+            avgs.add(avg_s);
+        }
+        model.addAttribute("avgs", avgs); /*리스트 평점 평균값 모음*/
         model.addAttribute("parses",parsePage);
         model.addAttribute("pagination", pagination);
 
@@ -345,6 +463,8 @@ public class AnimalHospitalController {
         int code = (int)encoding;
         String encode = Integer.toHexString(code);
 
+        String license = hospitalDto.getLicensg_de();
+
         double x = Double.parseDouble(hospitalDto.getLogt());
         int x_i = (int) x;
         String s_x = Integer.toString(x_i);
@@ -353,9 +473,9 @@ public class AnimalHospitalController {
         int y_i = (int) y;
         String s_y = Integer.toString(y_i);
 
-        encode = encode + s_x + s_y;
+        encode = encode + license + s_x + s_y;
 
-        double avg = animalHospitalService.getreplyavg(encode, 3);
+        double avg = animalHospitalService.getreplyavg(encode, 3); /* 평점 평균 가져오기*/
         List<BoardEntity> replyEntities = animalHospitalService.getreplylist(encode, 3);
         String avg_s = Double.toString(avg);
 

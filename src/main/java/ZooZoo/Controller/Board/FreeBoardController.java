@@ -1,22 +1,15 @@
 package ZooZoo.Controller.Board;
 
-import ZooZoo.Domain.DTO.Board.BoardDTO;
-import ZooZoo.Domain.DTO.Category.CategoryDTO;
+import ZooZoo.Domain.DTO.Board.ReplyDTO;
 import ZooZoo.Domain.DTO.Member.MemberDTO;
 import ZooZoo.Domain.Entity.Board.BoardEntity;
-import ZooZoo.Domain.Entity.Board.BoardImgEntity;
 import ZooZoo.Domain.Entity.Board.BoardRepository;
-import ZooZoo.Domain.Entity.Category.CategoryEntity;
+import ZooZoo.Domain.Entity.Member.MemberEntity;
+import ZooZoo.Domain.Entity.Member.MemberRepository;
 import ZooZoo.Domain.Entity.Reply.ReplyEntity;
-import ZooZoo.Domain.Entity.Reply.ReplyRepository;
 import ZooZoo.Service.BoardLike.BoardLikeService;
 import ZooZoo.Service.Free.FreeBoardService;
 import ZooZoo.Service.Reply.ReplyService;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,12 +23,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.OutputStream;
-import java.lang.reflect.Member;
-import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Controller
@@ -55,6 +45,9 @@ public class FreeBoardController {
 
     @Autowired
     BoardRepository boardRepository;
+
+    @Autowired
+    MemberRepository memberRepository;
 
     // 자유게시판으로 (페이징, 검색)
     @GetMapping("/freeboard")
@@ -140,16 +133,48 @@ public class FreeBoardController {
     public String goToFreeBoardView(@PathVariable("bno") int bno, Model model) {
         HttpSession session =  request.getSession();
         MemberDTO memberDTO = (MemberDTO) session.getAttribute("loginDTO");
-        ArrayList<String> bimglist = new ArrayList<String>();
+
         try {
+            List<ReplyDTO> reReplyDTOList = new ArrayList<>();
             BoardEntity boardEntity = freeBoardService.getFreeBoardView(bno);
-            for(int i =0; i<boardEntity.getBoardImgEntities().size(); i++){
-                bimglist.add(boardEntity.getBoardImgEntities().get(i).getBimg());
-            }
-            List<ReplyEntity> replyEntities = replyService.getAllReplys(bno, boardEntity.getCategoryEntity().getCano());
-            model.addAttribute("bimglist",bimglist);
             model.addAttribute("boardEntity", boardEntity);
-            model.addAttribute("replyEntities",replyEntities);
+            List<ReplyEntity> replyEntities = replyService.getAllReplys(bno, boardEntity.getCategoryEntity().getCano());
+
+            //댓글이 있을때
+            if(!replyEntities.isEmpty()){
+                model.addAttribute("replyEntities",replyEntities);
+                for(int i=0; i<replyEntities.size(); i++) {
+                    if(replyEntities.get(i).getRindex() != null){
+                        //DTO에 담아서 뿌려주기
+                        List<MemberEntity> memberEntity = memberRepository.findAll();
+                        String mid = "";
+                        for(int j =0; j<memberEntity.size(); j++){
+                            if(memberEntity.get(j).getMno() != 0 &&memberEntity.get(j).getMno() == replyEntities.get(i).getMemberEntity2().getMno()){
+
+                                mid = memberEntity.get(j).getMid();
+                            }
+                        }
+                        String formatDate =replyEntities.get(i).getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd mm:ss"));
+                        System.out.println( formatDate);
+
+                        //DTO에 담아서 뿌려주기
+                        ReplyDTO replyDTO = new ReplyDTO();
+                        replyDTO.setRno(replyEntities.get(i).getRno());
+                        replyDTO.setRindex(replyEntities.get(i).getRindex());
+                        replyDTO.setBupdateDate(formatDate);
+                        replyDTO.setRcontents(replyEntities.get(i).getRcontents());
+                        replyDTO.setRwriter(mid);
+                        reReplyDTOList.add(replyDTO);
+                    }
+                }
+
+                model.addAttribute("reReplyDTOList", reReplyDTOList);
+            }else{
+                //댓글이 없을때 (front에서 size == 0일때로 if문 줘서 막음)
+                System.out.println("@@@@@@@@@@@@@@@@@@@ 없을때 : "+reReplyDTOList.size());
+                model.addAttribute("replyEntities",replyEntities);
+            }
+
             int likeCountNo = boardLikeService.likeCount(bno);
             model.addAttribute("likeCountNo",likeCountNo);
         } catch(Exception e){
@@ -164,7 +189,6 @@ public class FreeBoardController {
             System.out.println("좋아요 되었습니까?? : " + rs);
             model.addAttribute("rs",rs);
         }
-
 
         model.addAttribute("memberDTO",memberDTO);
         return "Board/Free/FreeBoardView";
@@ -292,6 +316,28 @@ public class FreeBoardController {
             return 3; //정상
         }else{
             return 4; //버그 비정상
+        }
+    }
+
+    //대댓글 작성하기
+    @ResponseBody
+    @GetMapping("/ReReply/ReReplyWrite")
+    public int ReReplyWrite(@RequestParam("rno") int rno,
+                            @RequestParam("bno") int bno,
+                            @RequestParam("mno") int mno,
+                            @RequestParam("cano") int cano,
+                            @RequestParam("reReplyContents") String reReplyContents,
+                            Model model){
+        if(rno == 0 || bno == 0 || mno == 0 || cano == 0 ){return 0;}
+        else if(reReplyContents.isEmpty() || reReplyContents == null ){return 1;}
+        else {
+            Integer rindex = 1;
+            boolean rs = replyService.ReReplyWrite(rno, bno, mno, cano, reReplyContents, rindex);
+            if (rs) {
+                return 2;
+            } else {
+                return 3;
+            }
         }
     }
 

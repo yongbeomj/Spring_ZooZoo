@@ -259,7 +259,7 @@ public class ReviewBoardController {
     }
 */
 
-    /*//후기게시판 댓글 달기
+    //후기게시판 댓글 달기
     @ResponseBody
     @GetMapping("/Board/Review/ReviewBoardReplyWrite")
     public int FreeBoardReplyWrite(@RequestParam("bno") int bno,
@@ -277,9 +277,9 @@ public class ReviewBoardController {
         }else{
             return 4; //버그 비정상
         }
-    }*/
+    }
 
- /*   //후기게시판 댓글 삭제
+   //후기게시판 댓글 삭제
     @ResponseBody
     @GetMapping("/Board/Review/ReviewBoardReplyDelete")
     public int FreeBoardReplyDelete(@RequestParam("rno") int rno){
@@ -289,16 +289,15 @@ public class ReviewBoardController {
         }else{
             return 2;
         }
+    }
 
-    }*/
-
-    /*// 댓글 수정
+    // 댓글 수정
     @GetMapping("/Board/Review/ReviewBoardReplyUpdate")
     @ResponseBody
     public String FreeBoardReplyUpdate(@RequestParam("bno") int bno, @RequestParam("newcontents") String newcontents){
         replyService.replyupdate(bno, newcontents);
         return "1";
-    }*/
+    }
 }
 
 

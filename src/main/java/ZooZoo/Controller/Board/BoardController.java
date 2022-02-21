@@ -5,6 +5,7 @@ import ZooZoo.Domain.DTO.Board.LossDTO;
 import ZooZoo.Domain.DTO.Board.ShareDTO;
 import ZooZoo.Domain.DTO.Member.MemberDTO;
 import ZooZoo.Domain.DTO.Pagination;
+import ZooZoo.Domain.DTO.Pagination1;
 import ZooZoo.Domain.Entity.Board.BoardEntity;
 import ZooZoo.Service.Free.FreeBoardService;
 import ZooZoo.Service.Loss.LossService;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -321,6 +323,8 @@ public class BoardController {
     @GetMapping("/RIReplyView")
     public String getRIReply(@RequestParam("bno")int bno, Model model) {
         List<BoardDTO> RIRArr = shareService.RIReplyView(bno);
+        BoardDTO boardDTO = shareService.getReply(bno);
+        model.addAttribute("RIRIR", boardDTO);
         model.addAttribute("RIR", RIRArr);
         return "Board/Share/RIReply";
     }
@@ -347,8 +351,18 @@ public class BoardController {
     @GetMapping("/ReviewUpdate")
     @ResponseBody
     public String ReviewUpdate(@RequestParam("bno")int bno, @RequestParam("rTitle")String title, @RequestParam("rContents")String contents) {
-        System.out.println(bno + " : " + title + " : " + contents);
         boolean result = shareService.Update(bno, title, contents);
+        if(result) {
+            return "1";
+        } else {
+            return "2";
+        }
+    }
+
+    // 대댓글 삭제
+    @GetMapping("/RIReplyDelete") @ResponseBody
+    public String DeleteRIR(@RequestParam("bno")int bno) {
+        boolean result = shareService.DeleteRIR(bno);
         if(result) {
             return "1";
         } else {
@@ -368,6 +382,51 @@ public class BoardController {
         }
     }
 
+    @GetMapping("/LossData")
+    @ResponseBody
+    public String LossData(){
+        StringBuilder sb = new StringBuilder();
+
+        // 전체값 받아오는 소스
+        ArrayList<LossDTO> parses = lossService.totlosslist();
+
+        // 저장 값 사용하기
+        ArrayList<String> current = new ArrayList<>();
+        ArrayList<BoardLossDto> testdto = new ArrayList<>();
+        BoardLossDto boardLossDto = new BoardLossDto();
+
+        // 날짜 중복 값 제거하기
+        for(int i = 0; i<parses.size(); i++){
+            if(!current.contains(parses.get(i).getRECEPT_DE())){
+                boardLossDto = new BoardLossDto(parses.get(i).getRECEPT_DE(),0);
+                testdto.add(boardLossDto);
+                current.add(parses.get(i).getRECEPT_DE());
+            }
+        }
+
+        // 날짜 중복데이터 카운팅하기
+        for(int j=0; j<testdto.size(); j++){
+            for(int i = 0; i<parses.size(); i++){
+                if(testdto.get(j).getDate().contains(parses.get(i).getRECEPT_DE())){
+                    testdto.get(j).setDatecount(testdto.get(j).getDatecount()+1);
+                }
+            }
+        }
+
+        // 값 정렬하기
+        testdto.sort(Comparator.comparing(BoardLossDto::getDate));
+
+        // 값 출력 체크하기
+        for(int i=0; i<testdto.size(); i++){
+            sb.append(testdto.get(i).date);
+            sb.append("_");
+            sb.append(testdto.get(i).datecount);
+            sb.append("_");
+        }
+
+        return sb.toString();
+    }
+
     // 분양 리뷰 출력
     @GetMapping("/ShareReviewView")
     public String ShareReviewView(Model model) {
@@ -381,13 +440,13 @@ public class BoardController {
     }
 
     // 유기게시판으로
-    @GetMapping("LossBoardlist")
+    @GetMapping("/LossBoardlist")
     public String goToLossBoardList(Model model, @RequestParam(defaultValue = "1") int page) {
 
         String sex = request.getParameter("sex"); // 성별
         String kind = request.getParameter("kind"); // 축종
         String city = request.getParameter("city"); // 시군구
-        String state = request.getParameter("state"); // 시군구
+        String state = request.getParameter("state"); // 상태
         HttpSession session = request.getSession();
 
         if (sex != null || kind != null || city != null || state != null) {
@@ -403,15 +462,57 @@ public class BoardController {
         }
 
 
+//        // API 총 데이터 (약 11000개)
+//        ArrayList<LossDTO> parses = lossService.gettot(); // 필터링 안됨
+//        ArrayList<LossDTO> parsesPage = lossService.parsenum(parses, page); // 페이징
+//        Pagination1 pagination = new Pagination1(parses.size(), page);
+
+        // API 1회 호출분 (1000개)
         ArrayList<LossDTO> parses = lossService.losslist(sex, kind, city, state); // 필터링 게시물
         ArrayList<LossDTO> parsesPage = lossService.parsenum(parses, page); // 페이징
-
-        Pagination pagination = new Pagination(parses.size(), page);
+        Pagination1 pagination = new Pagination1(parses.size(), page);
 
         model.addAttribute("parsesPage", parsesPage);
         model.addAttribute("pagination", pagination);
         return "Board/Loss/LossBoardlist";
     }
+
+    // 공지게시판으로
+    @GetMapping("/LossBoardNotice")
+    public String goToLossBoardNotice(Model model, @RequestParam(defaultValue = "1") int page) {
+
+        String sex = request.getParameter("sex"); // 성별
+        String kind = request.getParameter("kind"); // 축종
+        String city = request.getParameter("city"); // 시군구
+        String state = request.getParameter("state"); // 상태
+        HttpSession session = request.getSession();
+
+        if (sex != null || kind != null || city != null || state != null) {
+            session.setAttribute("sex", sex);
+            session.setAttribute("kind", kind);
+            session.setAttribute("city", city);
+            session.setAttribute("state", state);
+        } else {
+            sex = (String) session.getAttribute("sex");
+            kind = (String) session.getAttribute("kind");
+            city = (String) session.getAttribute("city");
+            state = (String) session.getAttribute("state");
+        }
+
+
+        ArrayList<LossDTO> parses = lossService.lossnoticelist(sex, kind, city, state); // 필터링 게시물
+        System.out.println(parses.toString());
+
+        ArrayList<LossDTO> parsesPage = lossService.parsenum(parses, page); // 페이징
+
+
+        Pagination1 pagination = new Pagination1(parses.size(), page);
+
+        model.addAttribute("parsesPage", parsesPage);
+        model.addAttribute("pagination", pagination);
+        return "Board/Loss/LossBoardNotice";
+    }
+
 
     // 상세페이지로
     @GetMapping("/Board/Loss/LossBoardView/{ABDM_IDNTFY_NO}")

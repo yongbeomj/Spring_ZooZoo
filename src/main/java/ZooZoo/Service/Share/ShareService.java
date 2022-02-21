@@ -417,6 +417,54 @@ public class ShareService {
         return RIRDTO;
     }
 
+    // 대댓글 창에 뿌려줄 댓글 내용
+    public BoardDTO getReply(int bno) {
+        BoardEntity boardEntity = boardRepository.findById(bno).get();
+        String date = boardEntity.getUpdateDate().toString().split("T")[0];
+        String time1 = boardEntity.getUpdateDate().toString().split("T")[1];
+        String time = time1.split("\\.")[0];
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm:ss");
+        Date dd = new Date(); Date getT = null; Date getD = null;
+
+        try {
+            getT = sdf2.parse(time);
+            getD = sdf2.parse(sdf2.format(dd));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        int afterday = 0; String last = null;
+
+        long second = (getD.getTime() - getT.getTime())/1000;
+        long minute = (getT.getTime() - getD.getTime())/(60 * 1000);
+        long hour = (getT.getTime() - getD.getTime())/(60 * 60 * 1000);
+        if(hour < 24 && Integer.parseInt(date.replace("-", "")) >= Integer.parseInt(sdf1.format(dd).replace("-", ""))) {
+            if(Integer.parseInt(Long.toString(minute).replace("-", "")) < 60) {
+                String change = Long.toString(minute).replace("-", "");
+                last = change + "분 전";
+            } else {
+                String change = Long.toString(hour).replace("-", "");
+                last = change + "시간 전";
+            }
+        } else {
+            int afterday1 = Integer.parseInt(date.replace("-", "")) - Integer.parseInt(sdf1.format(dd).replace("-", ""));
+            String aft = Integer.toString(afterday1);
+            afterday = Integer.parseInt(aft.replace("-", ""));
+            last = afterday + "일 전";
+        }
+        BoardDTO boardDTO = new BoardDTO();
+        boardDTO.setBno(boardEntity.getBno());
+        boardDTO.setBwriter(boardEntity.getMemberEntity().getMid());
+        boardDTO.setBcontents(boardEntity.getBcontents());
+        boardDTO.setBtitle(boardEntity.getBtitle());
+        boardDTO.setBcreateddate(last);
+
+        System.out.println("!@#!@!@#!@#!@#!#@!#@!@#" + boardDTO);
+
+        return boardDTO;
+    }
+
     // 댓글 수정
     @Transactional
     public boolean Update(int bno, String title, String contents) {
@@ -425,4 +473,16 @@ public class ShareService {
         boardEntity.get().setBcontents(contents);
         return true;
     }
+
+    // 대댓 삭제
+    public boolean DeleteRIR(int bno) {
+        BoardEntity boardEntity = boardRepository.findById(bno).get();
+        if(boardEntity != null) {
+            boardRepository.deleteById(bno);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
+

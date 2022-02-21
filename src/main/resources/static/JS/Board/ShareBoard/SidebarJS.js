@@ -77,16 +77,21 @@ setDetailsHeight("details");
 function RIReplyWrite() {
     var bno = $("#bno").val();
     var RIReply = $("#RIReplycontents").val();
+    alert(bno);
+
     $.ajax({
         url: "/RIReply",
         data: {"bno" : bno, "RIReply" : RIReply},
         success: function(result) {
+        alert(result)
             if(result == 1) {
                 $.ajax({
                         url: "/RIReplyView",
                         data: {"bno" : bno},
                         success: function(result) {
+                            $("#sideaside1").html("");
                             $("#sideaside1").html(result);
+                            $("#bno").val(bno);
                         }
                 });
             } else {
@@ -96,14 +101,15 @@ function RIReplyWrite() {
     });
 }
 
+// 답글 버튼 눌렀을 때
 function RIReply(bno) {
     $.ajax({
         url: "/RIReplyView",
         data: {"bno" : bno},
         success: function(result) {
-//            $("#RIRAside").html("");
             $("#RIRAside").html(result);
             $("#bno").val(bno);
+            $("#reviewbno").val(bno);
         }
     });
 }
@@ -111,7 +117,6 @@ function RIReply(bno) {
 // 댓글 수정
 function reviewUpdate(bno) {
     var updatebox;
-    alert("rtttttttttttttttttt")
     $("#updateBox" + bno).html("<div class = 'row'><div class = 'col-md-9'><input type = 'text' class = 'form-control' id = 'reviewUpdateTitle'><input type = 'text' class = 'form-control mt-1' id = 'reviewUpdateContents'></div><div class = 'col-md-3'><button class = 'btn' style = 'font-size: 10px; width: 100%;' onclick = 'ReUpdate(" + bno + ");'>확인</button><button class = 'btn' style = 'width: 100%; font-size: 10px;' onclick = 'writeCancel(" + bno + ")'>취소</button></div></div>");
 }
 // 수정 중 취소
@@ -124,13 +129,30 @@ function ReUpdate(bno) {
     var Recontents = $("#reviewUpdateContents").val();
     $.ajax({
         url: "/ReviewUpdate",
-        data: {"bno" : bno, "rTitle" : Retitle, "rContents", Recontents},
+        data: {"bno" : bno, "rTitle" : Retitle, "rContents" : Recontents},
         success: function(result) {
             if(result == 1) {
-                alert(result);
+//                $("#sideul").html("");
+//                $('#sideul').load(location.href+' #sideul');
+                $("#sideul").load(location.href+" #sideul li");
             } else {
                 alert("Failed")
             }
         }
     });
+}
+
+// 댓글 삭제
+function RIReplyDelete(bno) {
+    $.ajax({
+        url: "/RIReplyDelete",
+        data: {"bno" : bno},
+        success: function(result) {
+            if(result == 1) {
+                $("#sideul").load(location.href+ " #sideul");
+            } else {
+                alert("삭제 실패 관리자에게 문의")
+            }
+        }
+    })
 }

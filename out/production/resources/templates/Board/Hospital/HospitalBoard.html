@@ -24,14 +24,31 @@
 <!-- End Navbar -->
 <div clss ="container-fluid">
     <div class="container my-auto">
-        <div class ="col-md-2">
-            <select id = "h_status" name="keyword" class="form-select" onchange="hospitalstatus()" >
-                <option th:selected= "${param.keyword}=='선택'" th:text="선택"> </option>
-                <option th:selected= "${param.keyword}=='정상'" th:value="'정상'" th:text="정상"> </option>
-                <option th:selected= "${param.keyword}=='폐업'" th:value="'폐업'" th:text="폐업"> </option>
-            </select>
-        </div>
+        <div class ="row col-md-12">
+            <form class="col-md-8 input-group">
+                <div class ="col-md-1" style="margin-right: 10px">
+                    <select id = "h_status" name="keyword" class="form-select" onchange="hospitalstatus()" >
+                        <option th:selected= "${param.keyword}=='선택'" th:text="선택"> </option>
+                        <option th:selected= "${param.keyword}=='정상'" th:value="'정상'" th:text="정상"> </option>
+                        <option th:selected= "${param.keyword}=='폐업'" th:value="'폐업'" th:text="폐업"> </option>
+                    </select>
+                </div>
 
+                <div class="col-md-1">
+                    <select id ="h_keyword" name="keyword" class="form-select">
+                        <option value="병원"> 병원 </option>
+                        <option value="주소"> 주소 </option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <input id = "h_search" type="type" name="search" class="form-control" >
+                </div>
+                <div class="col-md-1">
+                    <input type="button" value="검색" class="form-control" onclick="keyevent()">
+                </div>
+
+            </form>
+        </div>
         <br>
         <section id ="research">
             <!-- 타임리프 파라미터 값 가져올수있음 <span th:text="${param.keyword}"></span>-->
@@ -44,40 +61,51 @@
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">주소</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">영업상태명</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">전화번호</th>
-                            <th class="text-secondary opacity-7"></th>
+                            <th class="text-secondary opacity-7">평점</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each = "parse:${parses}">
+                        <tr th:each = "parse, index:${parses}">
                             <td>
                                 <div class="d-flex px-2 py-1">
                                     <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-xs" th:text ="${parse.getBizplcnm()}"></h6>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <p class="text-xs font-weight-bold mb-0" th:text ="${parse.getRefineroadnmaddr()}"></p>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                                <span class="badge bg-success badge-sm" th:text ="${parse.getBsnstatenm()}"><!--Online--></span>
-                            </td>
-                            <td class="align-middle text-center">
-                                <span class="text-secondary text-xs font-weight-normal" th:text ="${parse.getLocplcfaclttelno()}"></span>
-                            </td>
-                            <td class="align-middle">
-
-                                <button type="button"  class="btn btn-warning btn-sm"
-                                        th:onclick ="getmap( [[${parse.getLogt()}]],
+                                        <a style="text-decoration-line : none;" href="#" class="mb-0 text-xs" th:text ="${parse.getBizplcnm()}" th:onclick ="getmap( [[${parse.getLogt()}]],
                                                                     [[${parse.getLat()}]],
                                                                     [[${parse.getBizplcnm()}]],
                                                                     [[${parse.getRefineroadnmaddr()}]],
                                                                     [[${parse.getBsnstatenm()}]],
                                                                     [[${parse.getLocplcfaclttelno()}]],
                                                                     [[${parse.getSigunnm}]],
-                                                                    [[${parse.getSiguncd}]]
-                                                                    )">지도</button>
+                                                                    [[${parse.getSiguncd}]],
+                                                                    [[${parse.getLicensg_de}]]
+                                                                    )"></a>
+                                    </div>
+                                </div>
                             </td>
+                            <td>
+                                <p class="text-xs font-weight-bold mb-0" th:text ="${parse.getRefineroadnmaddr()}"></p>
+                            </td>
+                            <td th:if="${parse.getBsnstatenm()}=='정상'" class="align-middle text-center text-sm">
+                                <span class="badge bg-success badge-sm" th:text ="${parse.getBsnstatenm()}"><!--Online--></span>
+                            </td>
+                            <td th:if="${parse.getBsnstatenm()}=='폐업'" class="align-middle text-center text-sm">
+                                <span class="badge bg-danger badge-sm" th:text ="${parse.getBsnstatenm()}"><!--Online--></span>
+                            </td>
+                            <td th:if="${parse.getBsnstatenm()}=='말소'" class="align-middle text-center text-sm">
+                                <span class="badge bg-black badge-sm" th:text ="${parse.getBsnstatenm()}"><!--Online--></span>
+                            </td>
+                            <td th:if="${parse.getBsnstatenm()}=='휴업'" class="align-middle text-center text-sm">
+                                <span class="badge bg-gradient-light badge-sm" th:text ="${parse.getBsnstatenm()}"><!--Online--></span>
+                            </td>
+                            <td class="align-middle text-center">
+                                <span class="text-secondary text-xs font-weight-normal" th:text ="${parse.getLocplcfaclttelno()}"></span>
+                            </td>
+
+                            <td class="align-middle" >
+                                <i class="fa fa-star" style = "color: coral"></i>
+                                <span th:with ="avg_n = ${#numbers.formatDecimal(avgs.get(index.index),1,1)}" th:text ="${avg_n}" class="badge bg-danger badge-circle"></span>
+                            </td>
+
                         </tr>
                         </tbody>
                     </table>
@@ -86,7 +114,7 @@
             <!-- 테이블 end -->
             <!--paging button-->
         </section>
-        <div clss ="container-fluid">
+        <!--<div clss ="container-fluid">
             <div class="container my-auto">
                 <form class="col-md-5 offset-4 input-group my-3 g-0">
                     <div class="col-md-1">
@@ -103,7 +131,7 @@
                     </div>
                 </form>
             </div>
-        </div>
+        </div>-->
     </div>
 </div>
 

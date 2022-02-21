@@ -1,5 +1,6 @@
 //댓글 쓰기
 function freeReplyWrite(bno){
+    alert(bno);
     var frcontents = $("#frcontents").val();
     $.ajax({
         url:"/Board/Review/ReviewBoardReplyWrite",
@@ -12,7 +13,8 @@ function freeReplyWrite(bno){
                alert("내용을 입력해주세요.");
            }else if(result == 3){
                alert("댓글 등록 완료");
-               location.reload();
+               document.getElementById("frcontents").value="";
+               $("#freeReplytable").load(location.href + ' #freeReplytable');
            }else {
                alert("버그 발생!!");
            }

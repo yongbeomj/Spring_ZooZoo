@@ -1,4 +1,4 @@
-function getmap(logt, lat, bizplcnm, refineroadnmaddr, bsnstatenm, locplcfaclttelno, sigunnm, siguncd ){
+function getmap(logt, lat, bizplcnm, refineroadnmaddr, bsnstatenm, locplcfaclttelno, sigunnm, siguncd, licensg_de ){
 
     var hospitalDto = {
         "logt" : logt,
@@ -8,7 +8,8 @@ function getmap(logt, lat, bizplcnm, refineroadnmaddr, bsnstatenm, locplcfacltte
         "bsnstatenm":bsnstatenm,
         "locplcfaclttelno":locplcfaclttelno,
         "sigunnm":sigunnm,
-        "siguncd":siguncd
+        "siguncd":siguncd,
+        "licensg_de" : licensg_de
     };
 
     $.ajax({

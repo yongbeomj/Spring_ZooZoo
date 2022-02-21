@@ -1,8 +1,10 @@
 package ZooZoo.Service.Member;
 
+import ZooZoo.Domain.DTO.Board.ReplyDTO;
 import ZooZoo.Domain.DTO.Member.MemberDTO;
 import ZooZoo.Domain.Entity.Board.BoardEntity;
 import ZooZoo.Domain.Entity.Board.BoardRepository;
+import ZooZoo.Domain.Entity.Category.CategoryRepository;
 import ZooZoo.Domain.Entity.Member.MemberEntity;
 import ZooZoo.Domain.Entity.Member.MemberRepository;
 import ZooZoo.Domain.Entity.Reply.ReplyEntity;
@@ -14,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -178,6 +181,64 @@ public class MemberService {
             }
         }
         return count;
+    }
+
+    // 내가 쓴 게시물 가져오기
+    public List<BoardEntity> getmyboard(int mno) {
+        List<BoardEntity> boardEntities = boardRepository.findAll();
+        List<BoardEntity> getboard = new ArrayList<>();
+        List<BoardEntity> totgetboard = new ArrayList<>();
+        for (int i = 0; i < boardEntities.size(); i++) {
+            if (boardEntities.get(i).getMemberEntity().getMno() == mno) {
+                getboard.add(boardEntities.get(i));
+            }
+        }
+        getboard.sort(Comparator.comparing(BoardEntity::getCreatedDate).reversed());
+        return getboard;
+    }
+
+    @Autowired
+    CategoryRepository categoryRepository;
+
+    // 댓글 가져오기
+    public List<ReplyDTO> getmyreply(int mno) {
+        List<BoardEntity> boardEntities = boardRepository.findAll();
+        List<ReplyEntity> replyEntities = replyRepository.findAll();
+
+        List<ReplyDTO> totalreply = new ArrayList<>();
+
+        System.out.println("확인 : " + boardEntities.get(1).getCreatedDate());
+
+        // 유기, 분양, 병원
+        for (int i = 0; i < boardEntities.size(); i++) {
+            if (boardEntities.get(i).getMemberEntity().getMno() == mno &&
+                    (boardEntities.get(i).getCategoryEntity().getCano() == 1 ||
+                            boardEntities.get(i).getCategoryEntity().getCano() == 2 ||
+                            boardEntities.get(i).getCategoryEntity().getCano() == 3)) {
+                ReplyDTO replyDTO = ReplyDTO.builder()
+                        .rcontents(boardEntities.get(i).getBcontents())
+                        .rcreatedDate(boardEntities.get(i).getCreatedDate())
+                        .build();
+                totalreply.add(replyDTO);
+            }
+        }
+
+        // 자유, 후기
+        for (int i = 0; i < replyEntities.size(); i++) {
+            if (replyEntities.get(i).getMemberEntity2().getMno() == mno &&
+                    (replyEntities.get(i).getCategoryEntity2().getCano() == 4 ||
+                            replyEntities.get(i).getCategoryEntity2().getCano() == 5)) {
+                ReplyDTO replyDTO = ReplyDTO.builder()
+                        .rcontents(replyEntities.get(i).getRcontents())
+                        .rcreatedDate(replyEntities.get(i).getCreatedDate())
+                        .build();
+                totalreply.add(replyDTO);
+            }
+        }
+
+        totalreply.sort(Comparator.comparing(ReplyDTO::getRcreatedDate).reversed());
+
+        return totalreply;
     }
 
 

@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+   <!-- <script src="https://code.highcharts.com/highcharts.js"></script>-->
 </head>
 <body class="sign-in-basic" style="overflow-x: hidden; background: coral;" >
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <div th:replace = "Header.html :: header"></div>
     <div class = "container">
         <div class = "row">
@@ -32,7 +34,9 @@
                 </div>
             </div>
             <div class = "col-md-5 offset-md-2">
-                <h1>유기동물차트</h1>
+
+                <canvas id="container2" style = "max-width:100%; max-height:300px;"></canvas>
+                <!--<div id="container2"></div>-->
             </div>
         </div>
         <br><br>
@@ -74,9 +78,11 @@
                 <h3>공고</h3>
                 <h3>공고</h3>
             </div>
+            <canvas id="container2" style = "max-width:100%; max-height:300px;"></canvas>
         </div>
     </div>
     <br>
     <div th:replace="Footer.html :: footer"></div>
+    <script th:src="@{/JS/Api/LogMainJS.js}"></script>
 </body>
 </html>

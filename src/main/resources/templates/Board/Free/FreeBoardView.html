@@ -77,9 +77,9 @@
                       <img th:if="${boardEntity.boardImgEntities.size() != 0}" th:src="@{'/IMG/Board/FreeBoardIMG/'+${boardEntity.boardImgEntities.get(0).bimg}}" class="d-block w-100" style="background-color:#cccccc; width:67.5vw; height:49.64994663820704vh; object-fit:contain;">
                       <img th:if="${boardEntity.boardImgEntities.size() == 0}" th:src="@{/IMG/logofoot.svg}" class="d-block w-100" style="background-color:#333333; width:67.5vw; height:49.64994663820704vh; object-fit:contain;">
                     </div>
-                    <div class="carousel-item" th:each="boardImg : ${boardEntity.boardImgEntities}">
-                      <img th:if="${#lists.size(boardImg)}!=0" th:src="@{'/IMG/Board/FreeBoardIMG/'+${boardImg.bimg}}" class="d-block w-100" style="background-color:#cccccc; width:67.5vw; height:49.64994663820704vh; object-fit:contain;">
-                      <img th:if="${#lists.size(boardImg)}==0" th:src="@{/IMG/logofoot.svg}" class="d-block w-100" style="background-color:#cccccc; width:67.5vw; height:49.64994663820704vh; object-fit:contain;">
+                    <div class="carousel-item " th:each="boardImg, num : ${boardEntity.boardImgEntities}" th:if="${#lists.size(boardImg)}!=0 and ${num.index} >= 1">
+                      <img th:src="@{'/IMG/Board/FreeBoardIMG/'+${boardImg.bimg}}" class="d-block w-100" style="background-color:#cccccc; width:67.5vw; height:49.64994663820704vh; object-fit:contain;">
+                      <img th:if="${#lists.size(boardImg)}==0"  th:src="@{/IMG/logofoot.svg}" class="d-block w-100" style="background-color:#cccccc; width:67.5vw; height:49.64994663820704vh; object-fit:contain;">
                     </div>
                   </div>
                   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -188,13 +188,15 @@
                         </div>
                         <br>
                         <hr>
-                        <!--댓글 테이블 시작-->
+                        <!--댓글 등록 div 시작-->
                         <div class="col-lg-12" id="freeReplytable">
                           <h3 th:if="${replyEntities.size() == 0}" class="text-center">첫 댓글을 달아주세요!</h3>
                           <div  class="py-2 mb-4"
                                style="word-break:break-all;
                                border-bottom:1px solid #cccccc;"
+                                th:if="${replyEntities.rindex == null}"
                                th:each="replyEntities:${replyEntities}">
+                            <input type="hidden" th:id="ii+${replyEntities.rno}" value="0">
 
                             <div class="row d-flex justify-content-between">
                               <div class="col-md-5" >
@@ -203,7 +205,7 @@
                                 </span>
                               </div>
                               <div class="col-md-1">
-                                <div class="d-flex justify-content-center" th:if="${memberDTO != null} and ${memberDTO.mid == replyEntities.memberEntity2.mid}">
+                                <div class="d-flex justify-content-center" th:if="${memberDTO != null} and ${memberDTO.mno == replyEntities.memberEntity2.mno}">
                                   <div style="margin-right:8px;">
                                     <a th:id="btnrupdate+${replyEntities.getRno()}"
                                        th:onclick="rupdate([[${replyEntities.getRno()}]])" class="ReplyBtns">
@@ -227,11 +229,79 @@
                               <span  th:text="${#temporals.format( replyEntities.updateDate , 'yyyy-MM-dd HH:mm')}" style="color:gray; font-size:0.750em;"></span>
                             </div>
                             <div class="my-2">
-                              <span th:id="tdbcontents+${replyEntities.getRno()}" th:text="${replyEntities.rcontents}" ></span>
+                              <span th:id="tdbcontents+${replyEntities.rno}" th:text="${replyEntities.rcontents}" ></span>
+                            </div>
+                            <div id="goToReReplybtn" th:if="${memberDTO != null}">
+                              <a th:id="RReplySpread+${replyEntities.rno}" th:onclick="reReplyWrite([[${replyEntities.rno}]], [[${boardEntity.bno}]], [[${memberDTO.mno}]], [[${boardEntity.categoryEntity.cano}]])">
+                                댓글
+                              </a>
                             </div>
 
+                            <!--대댓글 출력 div-->
+                            <div class="py-2 ml-2 mt-2 mb-1" style="padding-left:20px; border-top:1px solid #cccccc; "
+                                th:each="reReplyDTOList:${reReplyDTOList}"
+                                th:if="${reReplyDTOList.rindex} == ${replyEntities.rno}">
+                              <div>
+                                <div class="row d-flex justify-content-between">
+                                  <div class="col-md-5" >
+                                    <span>
+                                      <i class="material-icons" aria-hidden="true" >subdirectory_arrow_right</i>
+                                    </span>
+                                    <span th:text="${reReplyDTOList.rwriter}"
+                                           style="font-weight:bold; font-size:1.000em;">
+                                    </span>
+                                  </div>
+                                  <!--<div class="col-md-1">
+                                    <div class="d-flex justify-content-center" th:if="${memberDTO != null} and ${memberDTO.mno == replyEntities.memberEntity2.mno}">
+                                      <div style="margin-right:8px;">
+                                        <a th:id="btnrupdate+${replyEntities.getRno()}"
+                                           th:onclick="rupdate([[${replyEntities.getRno()}]])" class="ReplyBtns">
+                                          <i class="material-icons me-2" aria-hidden="true" style="cursor:pointer;">edit</i>
+                                        </a>
+                                      </div>
+                                      <div style="margin-right:10px;">
+                                        <a th:id="btnrchange+${replyEntities.getRno()}" style="display:none;" class="ReplyBtns">
+                                          <i class="material-icons me-2" aria-hidden="true" style="cursor:pointer;">check_circle</i>
+                                        </a>
+                                      </div>
+                                      <div>
+                                        <a th:onclick="freeReplyDelete([[${replyEntities.rno}]])" class="ReplyBtns">
+                                          <i class="material-icons me-2" aria-hidden="true" style="cursor:pointer;">delete</i>
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </div>-->
+                                </div>
+                                <div>
+                                  <span th:text="${reReplyDTOList.bupdateDate}" style="color:gray; font-size:0.750em; padding-left:28px;"></span>
+                                </div>
+                                <div class="my-2" style="padding-left:28px;">
+                                   <span class="pr-2" th:text="${replyEntities.memberEntity2.mid}"
+                                          style="color:#cccccc;"> <!--대댓글 아이디-->
+                                    </span >
+                                  <span th:id="tdbcontents+${replyEntities.rno}" th:text="${reReplyDTOList.rcontents}"></span> <!--대댓글 내용-->
+                                </div>
+                              </div>
+                            </div>
+                            <!--대댓글 출력 div 끝-->
+
+                            <!-- 대댓글 등록하기 div-->
+                            <div class="py-2 ml-2 mt-2 mb-1" th:id="reReplyInputBox+${replyEntities.rno}" style="display:none; ">
+                              <div class="row d-flex justify-content-between" >
+                                <div class="col-lg-11" style="padding:20px 20px 20px 50px;">
+                                  <textarea class="form-control" th:id="reReplyContents+${replyEntities.rno}" style="max-height:250px;" placeholder="댓글 내용을 입력해주세요."></textarea>
+                                  <textarea class="form-control" style="max-height:250px; display:none;"></textarea>
+                                </div>
+                                <div class="col-lg-1" style="padding:20px 30px 20px 0;">
+                                  <button class="form-control py-3" th:id="reReplyWbtn+${replyEntities.rno}">등록</button>
+                                  <button class="form-control" th:id="reReplyUbtn+${replyEntities.rno}" style="display:none;">등록2</button>
+                                </div>
+                              </div>
+                            </div>
+                            <!-- 대댓글 등록하기 div 끝-->
                           </div>
                         </div>
+                         <!--댓글 등록 div 끝-->
                       </div>
                       <!--댓글 끝-->
                     </div>

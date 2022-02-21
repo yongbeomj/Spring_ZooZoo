@@ -1,9 +1,13 @@
 package ZooZoo.Controller.Member;
 
 import ZooZoo.Domain.DTO.Board.CrawllingDTO;
+import ZooZoo.Domain.DTO.Board.LossDTO;
+import ZooZoo.Domain.DTO.Board.ReplyDTO;
 import ZooZoo.Domain.DTO.Member.MemberDTO;
+import ZooZoo.Domain.Entity.Board.BoardEntity;
 import ZooZoo.Service.Category.CategorySerivce;
 import ZooZoo.Service.Crawlling.Share;
+import ZooZoo.Service.Loss.LossService;
 import ZooZoo.Service.Member.MemberService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,10 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Controller
 public class MemberController {
@@ -36,6 +37,8 @@ public class MemberController {
     CategorySerivce categorySerivce;
     @Autowired
     Share shareNews;
+    @Autowired
+    LossService lossService;
 
     // 시작 - 메인화면
     @GetMapping("/")
@@ -43,13 +46,22 @@ public class MemberController {
         ArrayList<CrawllingDTO> sharenews = shareNews.getShareNews();
         ArrayList<CrawllingDTO> hosnews = shareNews.getHospitalNews();
         ArrayList<CrawllingDTO> lossnews = shareNews.getLossNews();
+        HttpSession session = request.getSession();
+        ArrayList<LossDTO> lossDTOS = lossService.totlossnotice();
+        ArrayList<LossDTO> getlist = new ArrayList<>();
+        Collections.shuffle(lossDTOS);
+        getlist.add(lossDTOS.get(0));
+        getlist.add(lossDTOS.get(1));
+        getlist.add(lossDTOS.get(2));
+
         model.addAttribute("sharenews", sharenews);
         model.addAttribute("hosnews", hosnews);
         model.addAttribute("lossnews", lossnews);
-        HttpSession session = request.getSession();
+
         if(session.getAttribute("loginDTO") != null || session.getAttribute("CMloginDTO") != null) {
             return "LogMain";
         } else {
+            model.addAttribute("lossDTOS",getlist);
             return "Main";
         }
     }
@@ -106,22 +118,31 @@ public class MemberController {
     // 마이페이지로
     @GetMapping("/Member/Myinfo")
     public String goToMyinfo(Model model) {
-
         // 로그인 세션 호출
         HttpSession session = request.getSession();
         MemberDTO loginDTO = (MemberDTO) session.getAttribute("loginDTO");
         // 회원정보 가져오기
         MemberDTO memberDTO = memberService.getmemberDto(loginDTO.getMno());
-        System.out.println("mno : " + loginDTO.getMno());
+
         // 게시물 수 가져오기
         int bcount = memberService.countboard(loginDTO.getMno());
         // 댓글 수 가져오기
         int rcount = memberService.countreply(loginDTO.getMno());
+
+        // 게시글 전체 가져오기
+        List<BoardEntity> boardEntities = memberService.getmyboard(loginDTO.getMno());
+
+        // 댓글 가져오기
+        List<ReplyDTO> totreply = memberService.getmyreply(loginDTO.getMno());
+
+
         // html로 전달
         model.addAttribute("loginDTO", loginDTO);
         model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("bcount", bcount);
         model.addAttribute("rcount", rcount);
+        model.addAttribute("boardEntities", boardEntities);
+        model.addAttribute("totreply", totreply);
 
         return "Member/Myinfo";
     }

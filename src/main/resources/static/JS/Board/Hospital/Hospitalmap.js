@@ -220,16 +220,35 @@ function replywrite(apikey){
     var rcontents = $("#rcontents").val();
     var cano = 3; // 동물 병원 카테고리 병원은 3번일까요?
 
-    // 리뷰내용 공백 시 알람
     if( rcontents == "" ){
-        alert("댓글 내용을 입력해주세요");
+        alert("리뷰 내용을 입력해주세요");
         return;
     }
+    if(bstar == 0 || bstar == null){
+        alert("리뷰 평점을 남겨주세요")
+        return
+    }
+
+    if(bstar == null || bstar == ""){
+        rupdatestar = rupdatestar;
+        alert(rupdatestar);
+    }else{
+        rupdatestar = bstar;
+        alert(rupdatestar);
+    }
+
+    if(rupdatestar == null || rupdatestar ==""){
+        alert("리뷰 별점에 오류가 생겼습니다.");
+        alert(rupdatestar);
+        return ;
+    }
+
     $.ajax({
         url: "/hospitalreply" ,
         data : { "apikey" : apikey , "cano" : cano, "rcontents" : rcontents, "bstar" : bstar },
         success: function(data) {
             if( data == 1 ){ // 만약 성공적으로 댓글이 달렸다면 값을 부여
+            bstar = 0;
                 $.ajax({
                     url: '/getmapside' ,
                     success: function(data) {
@@ -311,11 +330,17 @@ function replyupdate(){
         alert("리뷰 내용을 입력해주세요");
         return;
     }
+    if(bstar == 0 || bstar == null){
+        alert("리뷰 평점을 남겨주세요")
+        return
+    }
 
     if(bstar == null || bstar == ""){
         rupdatestar = rupdatestar;
+        alert(rupdatestar);
     }else{
         rupdatestar = bstar;
+        alert(rupdatestar);
     }
 
     if(rupdatestar == null || rupdatestar ==""){
@@ -338,6 +363,7 @@ function replyupdate(){
         data : {"bno":bno,"rcontents":rcontents2, "bstar":rupdatestar},
         success: function(data){
             if(data == "1"){
+
                 alert("리뷰가 수정되었습니다.");
                 $.ajax({
                     url: '/getmapsidereview' ,

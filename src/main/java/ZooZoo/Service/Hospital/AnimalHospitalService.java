@@ -43,7 +43,7 @@ public class AnimalHospitalService {
             String asd = jsonArray2.get(0).toString();
             asd2 = asd.split(":");
             test = asd2[1].split("}");
-            /*System.out.println("값나와요?");*/
+
             int total = Integer.parseInt(test[0]);
             return total;
         }catch(Exception e){
@@ -86,9 +86,6 @@ public class AnimalHospitalService {
         ArrayList<HospitalDto> parse2 = new ArrayList<>();
         String temp = "";
         try{
-            System.out.println(status);
-            System.out.println(search);
-            System.out.println(keyword);
             for(int i = 0; i<jsonArray.size(); i++){
                 jsonObject = (JSONObject)jsonArray.get(i);
                 HospitalDto hospitalDto = new HospitalDto(
@@ -99,15 +96,17 @@ public class AnimalHospitalService {
                         (String)jsonObject.get("REFINE_WGS84_LOGT"), // 위도
                         (String)jsonObject.get("REFINE_WGS84_LAT"), // 경도
                         (String)jsonObject.get("SIGUN_NM"), // 시 정보
-                        (String)jsonObject.get("SIGUN_CD") // 시 정보코드
+                        (String)jsonObject.get("SIGUN_CD"), // 시 정보코드
+                        (String)jsonObject.get("LICENSG_DE") // 동물병원 인 허가 일자
                 );
+
                 /*정규식을 통한 알고리즘 수정 전화번호 변경하기 */
                 if (hospitalDto.getLocplcfaclttelno() == null) {
                     hospitalDto.setLocplcfaclttelno("");
                 }
                 if (hospitalDto.getLocplcfaclttelno().length() == 8) {
                     hospitalDto.setLocplcfaclttelno(hospitalDto.getLocplcfaclttelno().replaceFirst("^([0-9]{4})([0-9]{4})$", "$1-$2"));
-                } else if (hospitalDto.getLocplcfaclttelno().length() == 12) {
+                }else if (hospitalDto.getLocplcfaclttelno().length() == 12) {
                     hospitalDto.setLocplcfaclttelno(hospitalDto.getLocplcfaclttelno().replaceFirst("(^[0-9]{4})([0-9]{4})([0-9]{4})$", "$1-$2-$3"));
                 }else if(hospitalDto.getLocplcfaclttelno().length() == 7){
                     hospitalDto.setLocplcfaclttelno(hospitalDto.getLocplcfaclttelno().replaceFirst("^([0-9]{3})([0-9]{4})$", "$1-$2"));
@@ -134,8 +133,10 @@ public class AnimalHospitalService {
                                     parse.get(i).getLogt(), // 위도
                                     parse.get(i).getLat(), // 경도
                                     parse.get(i).getSigunnm(), // 시 정보
-                                    parse.get(i).getSiguncd() // 시 정보코드
+                                    parse.get(i).getSiguncd(), // 시 정보코드
+                                    parse.get(i).getLicensg_de()
                             );
+                            System.out.println(parse.get(i).getLicensg_de());
                             parse2.add(hospitalDto);
                         }
                     }
@@ -146,10 +147,8 @@ public class AnimalHospitalService {
                     parse2.clear();
                     System.out.println(parse.size());
                     for (int i = 0; i < parse.size(); i++) { // 해당 크기만큼의 사이즈를 가지고와서
-                        System.out.println("전체 서칭"+i);
                         if (parse.get(i).getBizplcnm().matches("(.*)"+search+"(.*)")&&
                                 parse.get(i).getBsnstatenm().matches("(.*)"+status+"(.*)")) { // 값이 일치한다면
-                            System.out.println("서칭안함"+i);
                             HospitalDto hospitalDto = new HospitalDto(
                                     parse.get(i).getBizplcnm(), // 병원 이름
                                     parse.get(i).getRefineroadnmaddr(), // 주소
@@ -158,7 +157,8 @@ public class AnimalHospitalService {
                                     parse.get(i).getLogt(), // 위도
                                     parse.get(i).getLat(), // 경도
                                     parse.get(i).getSigunnm(), // 시 정보
-                                    parse.get(i).getSiguncd() // 시 정보코드
+                                    parse.get(i).getSiguncd(), // 시 정보코드
+                                    parse.get(i).getLicensg_de()
                             );
                             parse2.add(hospitalDto);
                         }
@@ -169,19 +169,11 @@ public class AnimalHospitalService {
                     parse2.clear();
                     System.out.println(parse.size());
                     for (int i = 0; i < parse.size(); i++) { // 해당 크기만큼의 사이즈를 가지고와서
-                        System.out.println("`````````````````````````````````````````" + search);
-                        System.out.println("전체 서칭"+i);
-                        System.out.println(parse.get(i).getRefineroadnmaddr());
                         if(parse.get(i).getRefineroadnmaddr() == null || parse.get(i).getRefineroadnmaddr().equals("")){
                             parse.get(i).setRefineroadnmaddr("");
                         }
-                        System.out.println(parse.get(i).getRefineroadnmaddr());
-                        System.out.println(parse.size());
                         if (parse.get(i).getRefineroadnmaddr().matches("(.*)"+search + "(.*)")&&
                                 parse.get(i).getBsnstatenm().matches("(.*)"+status+"(.*)")) { // 값이 일치한다면
-                            System.out.println(parse.get(i).getRefineroadnmaddr());
-
-                            System.out.println("중간"+i);
                             HospitalDto hospitalDto = new HospitalDto(
                                     parse.get(i).getBizplcnm(), // 병원 이름
                                     parse.get(i).getRefineroadnmaddr(), // 주소
@@ -190,7 +182,8 @@ public class AnimalHospitalService {
                                     parse.get(i).getLogt(), // 위도
                                     parse.get(i).getLat(), // 경도
                                     parse.get(i).getSigunnm(), // 시 정보
-                                    parse.get(i).getSiguncd() // 시 정보코드
+                                    parse.get(i).getSiguncd(), // 시 정보코드
+                                    parse.get(i).getLicensg_de() //동물병원 인허가 일자
                             );
                             parse2.add(hospitalDto);
                         }
@@ -212,7 +205,8 @@ public class AnimalHospitalService {
                                     parse.get(i).getLogt(), // 위도
                                     parse.get(i).getLat(), // 경도
                                     parse.get(i).getSigunnm(), // 시 정보
-                                    parse.get(i).getSiguncd() // 시 정보코드
+                                    parse.get(i).getSiguncd(), // 시 정보코드
+                                    parse.get(i).getLicensg_de() //동물병원 인허가 일자
                             );
                             parse2.add(hospitalDto);
                         }
@@ -222,13 +216,13 @@ public class AnimalHospitalService {
                 if (keyword.equals("주소") || keyword == "주소") {
                     parse2.clear();
                     for (int i = 0; i < parse.size(); i++) { // 해당 크기만큼의 사이즈를 가지고와서
-                        System.out.println("`````````````````````````````````````````" + search);
+
                         if(parse.get(i).getRefineroadnmaddr() == null || parse.get(i).getRefineroadnmaddr().equals("")){
                             parse.get(i).setRefineroadnmaddr("");
                         }
                         if (parse.get(i).getRefineroadnmaddr().matches( "(.*)"+search+"(.*)")&&
                                 parse.get(i).getBsnstatenm().matches("(.*)"+status+"(.*)")) { // 값이 일치한다면
-                            System.out.println(parse.get(i).getRefineroadnmaddr());
+
                             HospitalDto hospitalDto = new HospitalDto(
                                     parse.get(i).getBizplcnm(), // 병원 이름
                                     parse.get(i).getRefineroadnmaddr(), // 주소
@@ -237,7 +231,8 @@ public class AnimalHospitalService {
                                     parse.get(i).getLogt(), // 위도
                                     parse.get(i).getLat(), // 경도
                                     parse.get(i).getSigunnm(), // 시 정보
-                                    parse.get(i).getSiguncd() // 시 정보코드
+                                    parse.get(i).getSiguncd(), // 시 정보코드
+                                    parse.get(i).getLicensg_de() //동물병원 인허가 일자
                             );
                             parse2.add(hospitalDto);
                         }
@@ -258,7 +253,8 @@ public class AnimalHospitalService {
                                         parse.get(i).getLogt(), // 위도
                                         parse.get(i).getLat(), // 경도
                                         parse.get(i).getSigunnm(), // 시 정보
-                                        parse.get(i).getSiguncd() // 시 정보코드
+                                        parse.get(i).getSiguncd(), // 시 정보코드
+                                        parse.get(i).getLicensg_de() //동물병원 인허가 일자
                                 );
                                 parse2.add(hospitalDto);
                             }
@@ -271,9 +267,9 @@ public class AnimalHospitalService {
                             if(parse.get(i).getRefineroadnmaddr() == null || parse.get(i).getRefineroadnmaddr().equals("")){
                                 parse.get(i).setRefineroadnmaddr("");
                             }
-                            System.out.println("`````````````````````````````````````````" + search);
+
                             if (parse.get(i).getRefineroadnmaddr().matches( "(.*)"+search+"(.*)")) { // 값이 일치한다면
-                                System.out.println(parse.get(i).getRefineroadnmaddr());
+
                                 HospitalDto hospitalDto = new HospitalDto(
                                         parse.get(i).getBizplcnm(), // 병원 이름
                                         parse.get(i).getRefineroadnmaddr(), // 주소
@@ -282,7 +278,8 @@ public class AnimalHospitalService {
                                         parse.get(i).getLogt(), // 위도
                                         parse.get(i).getLat(), // 경도
                                         parse.get(i).getSigunnm(), // 시 정보
-                                        parse.get(i).getSiguncd() // 시 정보코드
+                                        parse.get(i).getSiguncd(), // 시 정보코드
+                                        parse.get(i).getLicensg_de() //동물병원 인허가 일자
                                 );
                                 parse2.add(hospitalDto);
                             }
@@ -297,7 +294,6 @@ public class AnimalHospitalService {
 
         } return parse2;
     }
-
 
     // 내가 원하는 값 파싱해서 다 가져오기
     public ArrayList<HospitalDto> parseapi(JSONArray jsonArray){
@@ -314,7 +310,8 @@ public class AnimalHospitalService {
                         (String)jsonObject.get("REFINE_WGS84_LOGT"), // 위도
                         (String)jsonObject.get("REFINE_WGS84_LAT"), // 경도
                         (String)jsonObject.get("SIGUN_NM"), // 시 정보
-                        (String)jsonObject.get("SIGUN_CD") // 시 정보코드
+                        (String)jsonObject.get("SIGUN_CD"), // 시 정보코드
+                        (String)jsonObject.get("LICENSG_DE") // 동물병원 인 허가 일자
                 );
                 parse.add(hospitalDto);
             }
@@ -397,13 +394,14 @@ public class AnimalHospitalService {
         List<BoardEntity> replyEntities = new ArrayList<>();
         double avg;
         double d_avg = 0;
+
         try {
             replyEntities = boardRepository.findAllReply(apikey, cano);
             for(int i=0; i<replyEntities.size(); i++){
                 String s_avg = replyEntities.get(i).getBstar();
                 d_avg = Double.parseDouble(s_avg) + d_avg;
+                System.out.println(i);
             }
-
             d_avg = d_avg/replyEntities.size();
             return d_avg;
         } catch (Exception e) {
@@ -441,5 +439,6 @@ public class AnimalHospitalService {
         return true;
     }
 
+    /*평점 계산하는 함수 짜기 */
 
 }

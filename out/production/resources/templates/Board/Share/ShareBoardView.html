@@ -43,7 +43,7 @@
     <link th:href="@{/assets/css/lightbox.css}" rel="stylesheet"/>
 </head>
 
-<body style="background-color: #ff7f50;">
+<body style="overflow-x: hidden; background-color: #ff7f50;" id = "body">
 <div th:replace="Header.html :: header"></div>
 
 <section class="meetings-page" id="meetings" style="height: 90vh;">
@@ -138,17 +138,29 @@
                                                                     <img th:src="@{/IMG/2.jpg}"
                                                                          style="width: 330px; height: 210px; border-top-left-radius: 10px; border-top-right-radius: 10px;">
                                                                 </div>
-                                                                <div class="card-body">
+                                                                <div class="card-body" style="max-width: 330px;">
                                                                     <div class = "row">
                                                                         <div class = "col-md-8">
                                                                             <h5 class="card-title" th:text = "${review.btitle}">title</h5>
                                                                             <p class="card-text" th:text = "${review.bcontents}">contents</p>
+                                                                            <div class = "row">
+                                                                                <div class = "col-md-3 offset-md-2">
+                                                                                    <p class="card-text text-left" th:if = "${memberID != null} and ${memberID} == ${review.bwriter}" style="color: gray; font-size: 10px;" th:onclick = "reviewUpdate([[${review.bno}]]);">수정</p>
+                                                                                </div>
+                                                                                <div class = "col-md-3">
+                                                                                    <p class="card-text text-left" th:if = "${memberID != null} and ${memberID} == ${review.bwriter}" style="color: gray; font-size: 10px;" th:onclick = "RIReplyDelete([[${review.bno}]]);">삭제</p>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                         <div class = "col-md-4">
-                                                                            <input type = "hidden" th:text = "${review.bno}" th:value = "${review.bno}" id = "reviewbno">
+                                                                            <input type = "hidden" th:value = "${review.bno}" id = "reviewbno">
                                                                             <p class = "card-text text-center" th:text = "${review.bwriter}" style="color: gray; font-size: 8px;"></p>
                                                                             <p class = "card-text text-center" th:text = "${review.bcreateddate}" style = "color: gray; font-size: 8px;"></p>
                                                                             <p class = "card-text text-center" style = "color: gray; font-size: 10px;"><a role="button" class="toggle-height1 button" th:onclick = "RIReply([[${review.bno}]]);">답글</a></p>
+                                                                        </div>
+                                                                        <br>
+                                                                        <div class = "row" th:id = "updateBox + ${review.bno}">
+
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -176,63 +188,7 @@
                                             <!-- 사이드바2 -->
                                             <!-- 대댓글사이드바 -->
                                             <aside class="side-panel1 right" style="width: 700px;" id = "RIRAside">
-                                                <div class = "container" id = "sideaside1">
-                                                    <label class = "form-control ReLabel" style="background-color: black; color: white; border: none; padding-top: 20px;">
-                                                        <div class = "row">
-                                                            <div class = "col-md-4">
-                                                                <h5 style="color: white; margin: 0px;" id = "reviewID">아이디</h5>
-                                                            </div>
-                                                            <div class = "col-md-4 offset-md-4">
-                                                                <h5 style="color: white; margin: 0px; margin-right: 3px; float: right;" id = "reviewDate">날짜</h5>
-                                                            </div>
-                                                            <div class = "container">
-                                                                <div class = "container">
-                                                                    <hr>
-                                                                </div>
-                                                            </div>
-                                                            <div class = "col-md-12">
-                                                                <h6 style="color: white; margin: 0px;" id = "reviewContents">내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용</h6>
-                                                            </div>
-                                                            <br><br>
-                                                            <!--<div class = "container"><hr><hr></div>-->
-                                                            <!-- 드랍다운 -->
-                                                            <div class = "col-md-12">
-                                                                <h6>답글</h6>
-                                                                <details>
-                                                                    <summary>
-                                                                        <span data-css-icon="down"><!--<i></i>--></span>
-                                                                    </summary>
-                                                                    <div class = "row no-gutters">
-                                                                        <div class = "col-md-10 no-gutters">
-                                                                            <input type = "text" class = "form-control" style="height: 40px; width: 100%;" id = "RIReplycontents">
-                                                                        </div>
-                                                                        <div class = "col-md-2 no-gutters">
-                                                                            <button class = "btn btn-outline-light" style="height: 40px; width: 100%;">등록</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </details>
-                                                            </div>
-                                                            <hr style="color: coral;">
-<!--                                                            <div th:if = "${RiReply} == null">첫 댓글을 달아주세요</div>-->
-                                                            <div class = "row" th:each = "RIReply : ${RIR}" id = "RIReplyDIV">
-                                                                <div class = "col-md-2" style="margin-top: 20px; padding-left: 20px;">
-                                                                    ㄴ>
-                                                                </div>
-                                                                <div class = "col-md-10">
-                                                                    <table class = "table" style="margin-top: 0px; border: solid 0px black;">
-                                                                        <tr>
-                                                                            <td th:text = "${RIReply.bwriter}" style="color: white;">아이디</td><td th:text = "${RIReply.bcreateddate}" style="color: white; float: right;">작성날짜</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td colspan="2" th:text = "${RIReply.bcontents}" style="color: white;">내용</td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </div>
-                                                                <hr>
-                                                            </div>
-                                                        </div>
-                                                    </label>
-                                                </div>
+
                                             </aside>
                                             <!-- 대댓글사이드바 -->
                                         </div>
