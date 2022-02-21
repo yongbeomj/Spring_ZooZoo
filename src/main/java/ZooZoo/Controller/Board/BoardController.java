@@ -1,12 +1,14 @@
 package ZooZoo.Controller.Board;
 
 import ZooZoo.Domain.DTO.Board.BoardDTO;
+import ZooZoo.Domain.DTO.Board.CrawllingDTO;
 import ZooZoo.Domain.DTO.Board.LossDTO;
 import ZooZoo.Domain.DTO.Board.ShareDTO;
 import ZooZoo.Domain.DTO.Member.MemberDTO;
 import ZooZoo.Domain.DTO.Pagination;
 import ZooZoo.Domain.DTO.Pagination1;
 import ZooZoo.Domain.Entity.Board.BoardEntity;
+import ZooZoo.Service.Crawlling.Share;
 import ZooZoo.Service.Free.FreeBoardService;
 import ZooZoo.Service.Loss.LossService;
 import ZooZoo.Service.Share.ShareService;
@@ -565,5 +567,24 @@ public class BoardController {
     public String replyupdate(@RequestParam("bno") int bno, @RequestParam("newcontents") String newcontents){
         lossService.replyupdate(bno, newcontents);
         return "1";
+    }
+
+    @Autowired
+    Share share;
+
+    @GetMapping("/newstable")
+    public String newstable(Model model) throws Exception{
+        ArrayList<CrawllingDTO> getShare = new ArrayList<>();
+        ArrayList<CrawllingDTO> getHospital = new ArrayList<>();
+        ArrayList<CrawllingDTO> getLoss = new ArrayList<>();
+
+        getShare = share.getShareNews();
+        getHospital = share.getHospitalNews();
+        getLoss = share.getLossNews();
+
+        model.addAttribute("getshares",getShare);
+        model.addAttribute("gethospitals", getHospital);
+        model.addAttribute("getlosss", getLoss);
+        return "News";
     }
 }

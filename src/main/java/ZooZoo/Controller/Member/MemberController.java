@@ -43,6 +43,7 @@ public class MemberController {
     // 시작 - 메인화면
     @GetMapping("/")
     public String goToMain(Model model) throws Exception {
+        categorySerivce.makeCategory();
         ArrayList<CrawllingDTO> sharenews = shareNews.getShareNews();
         ArrayList<CrawllingDTO> hosnews = shareNews.getHospitalNews();
         ArrayList<CrawllingDTO> lossnews = shareNews.getLossNews();
@@ -57,11 +58,11 @@ public class MemberController {
         model.addAttribute("sharenews", sharenews);
         model.addAttribute("hosnews", hosnews);
         model.addAttribute("lossnews", lossnews);
+        model.addAttribute("lossDTOS",getlist);
 
         if(session.getAttribute("loginDTO") != null || session.getAttribute("CMloginDTO") != null) {
             return "LogMain";
         } else {
-            model.addAttribute("lossDTOS",getlist);
             return "Main";
         }
     }

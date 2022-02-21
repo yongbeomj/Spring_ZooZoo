@@ -14,13 +14,13 @@
                 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img th:src="@{/IMG/11111.jpg}" class="d-block w-100" alt="..." style="max-height:60vh;">
+                            <img th:src="@{/IMG/11111.jpg}" class="d-block w-100" alt="..." style="height:350px;">
                         </div>
                         <div class="carousel-item">
-                            <img th:src="@{/IMG/22222.jpg}" class="d-block w-100" alt="..." style="max-height:60vh;">
+                            <img th:src="@{/IMG/22222.jpg}" class="d-block w-100" alt="..." style="height:350px;">
                         </div>
                         <div class="carousel-item">
-                            <img th:src="@{/IMG/33333.jpg}" class="d-block w-100" alt="..." style="max-height:60vh;">
+                            <img th:src="@{/IMG/33333.jpg}" class="d-block w-100" alt="..." style="height:350px;">
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
@@ -33,10 +33,9 @@
                     </button>
                 </div>
             </div>
-            <div class = "col-md-5 offset-md-2">
-
-                <canvas id="container2" style = "max-width:100%; max-height:300px;"></canvas>
-                <!--<div id="container2"></div>-->
+            <div class = "col-md-6 offset-md-1">
+                <h5>유기된 동물 일별통계</h5>
+                <canvas id="container2" style = "max-width:100%; height: 85%;"></canvas>
             </div>
         </div>
         <br><br>
@@ -72,16 +71,126 @@
                         </ul>
                     </div>
                 </div>
+                <div class="d-flex justify-content-end">
+                   <a th:href="@{/newstable}" style="margin-left:300px; text-decoration:none; color:#333333;">더보기</a>
+                </div>
             </div>
-            <div class = "col-md-5 offset-md-2">
-                <h3>공고</h3>
-                <h3>공고</h3>
-                <h3>공고</h3>
+            <div class="col-md-6 offset-md-1">
+                <!-- 유기동물공고 -->
+                <div class="animal board">
+                    <h1 style="display:none">유기동물공고영역</h1>
+                    <div class="boardTit d-flex justify-content-between mb-3">
+                        <div>
+                            <h3>유기동물 공고</h3>
+                        </div>
+                        <div>
+                            <a th:href="@{/LossBoardNotice}" class="moreBtn" title="유기동물공고 더 많이 보기" style="text-decoration: none;">유기동물공고 더 많이 보기</a>
+                        </div>
+                    </div>
+
+                    <div id="carouselExampleIndicators1" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active" style="height: 250px;">
+                                <div class="boardCon" th:each="lossDTO, i : ${lossDTOS}">
+                                    <div id="board-slider1" class="board-sliders2" th:if="${i.index == 0}">
+                                        <div class="slide1 d-flex">
+                                            <div class="photolist col-md-3">
+                                                <img class="photo" th:src="${lossDTO.IMAGE_COURS}" alt="">
+                                            </div>
+                                            <div class="col-md-9">
+                                                <table>
+                                                    <tr>
+                                                        <td width="30%" style="color: white;">발견장소</td>
+                                                        <td th:text="${lossDTO.DISCVRY_PLC_INFO}" style="color: white;"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="color: white;">공고</td>
+                                                        <td><span th:text="${lossDTO.newPBLANC_BEGIN_DE}" style="color: white;"></span> ~ <span
+                                                                th:text="${lossDTO.newPBLANC_END_DE}" style="color: white;"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="color: white;">특징</td>
+                                                        <td th:text="${lossDTO.SFETR_INFO}" style="color: white;"></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item" style="height: 250px;">
+                                <div class="boardCon" th:each="lossDTO, i : ${lossDTOS}">
+                                    <div id="board-slider2" class="board-sliders2" th:if="${i.index == 1}">
+                                        <div class="slide1 d-flex">
+                                            <div class="photolist col-md-3">
+                                                <img class="photo" th:src="${lossDTO.IMAGE_COURS}" alt="">
+                                            </div>
+                                            <div class="col-md-9">
+                                                <table>
+                                                    <tr>
+                                                        <td width="30%" style="color: white;">발견장소</td>
+                                                        <td th:text="${lossDTO.DISCVRY_PLC_INFO}" style="color: white;"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="color: white;">공고</td>
+                                                        <td><span th:text="${lossDTO.newPBLANC_BEGIN_DE}" style="color: white;"></span> ~ <span
+                                                                th:text="${lossDTO.newPBLANC_END_DE}" style="color: white;"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="color: white;">특징</td>
+                                                        <td th:text="${lossDTO.SFETR_INFO}" style="color: white;"></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item" style="height: 250px;">
+                                <div class="boardCon" th:each="lossDTO, i : ${lossDTOS}">
+                                    <div id="board-slider3" class="board-sliders3" th:if="${i.index == 2}">
+                                        <div class="slide1 d-flex">
+                                            <div class="photolist col-md-3">
+                                                <img class="photo" th:src="${lossDTO.IMAGE_COURS}" alt="">
+                                            </div>
+                                            <div class="col-md-9">
+                                                <table>
+                                                    <tr>
+                                                        <td width="30%" style="color: white;">발견장소</td>
+                                                        <td th:text="${lossDTO.DISCVRY_PLC_INFO}" style="color: white;"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>공고</td>
+                                                        <td><span th:text="${lossDTO.newPBLANC_BEGIN_DE}" style="color: white;"></span> ~ <span
+                                                                th:text="${lossDTO.newPBLANC_END_DE}" style="color: white;"></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="color: white;">특징</td>
+                                                        <td th:text="${lossDTO.SFETR_INFO}" style="color: white;"></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators1"
+                                    data-bs-slide="prev" style="height: 250px;">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators1"
+                                    data-bs-slide="next" style="height: 250px;">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- 유기동물공고 -->
             </div>
-            <canvas id="container2" style = "max-width:100%; max-height:300px;"></canvas>
         </div>
     </div>
-    <br>
     <div th:replace="Footer.html :: footer"></div>
     <script th:src="@{/JS/Api/LogMainJS.js}"></script>
 </body>

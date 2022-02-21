@@ -27,20 +27,21 @@
         </a>
     </div>
     <div class="row" style="width: 200px; height: 35px;"><!--th:if="${session.loginDTO == null}"-->
-        <a class = "col-md-6" style="text-align: right;" th:if="${session.loginDTO == null} and ${session.CMloginDTO == null}" id="headtag" th:href="@{/Member/Login}">
-            로그인
+        <span class = "col-md-6 offset-md-4"></span>
+        <a class = "col-md-6" style="text-align: right; text-decoration:none;" th:if="${session.loginDTO == null} and ${session.CMloginDTO == null}" th:href="@{/Member/Login}">
+            <span id="headtag">로그인</span>
         </a>
-        <a class = "col-md-6" style="text-align: right;" th:if="${session.loginDTO == null} and ${session.CMloginDTO == null}" id="headtag" th:href="@{/Member/SignUp}">
-            회원가입
+        <a class = "col-md-6" style="text-align: right; text-decoration:none;" th:if="${session.loginDTO == null} and ${session.CMloginDTO == null}" th:href="@{/Member/SignUp}">
+            <span id="headtag">회원가입</span>
         </a>
     </div>
     <div  class="row" style="width: 250px; height: 35px;" th:if="${session.loginDTO != null}">
         <span class = "col-md-6 offset-md-4" id=""></span>
-        <a class = "col-md-6" th:if="${session.loginDTO != null}" id="headtag" th:href="@{/Member/Myinfo/}">
-            마이페이지
+        <a class = "col-md-6" style="text-align: right; text-decoration:none;" th:if="${session.loginDTO != null}" th:href="@{/Member/Myinfo/}">
+            <span id="headtag">마이페이지</span>
         </a>
-        <a class = "col-md-6" th:if="${session.loginDTO != null}" id="headtag" th:href="@{/Member/Logout}">
-            로그아웃
+        <a class = "col-md-6" style="text-align: right; text-decoration:none;" th:if="${session.loginDTO != null}" th:href="@{/Member/Logout}">
+            <span id="headtag">로그아웃</span>
         </a>
     </div>
     <!--기업 회원 헤드 분류-->

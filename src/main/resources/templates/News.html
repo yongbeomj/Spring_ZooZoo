@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<body class="sign-in-basic" style="overflow-x: hidden; background: coral;" >
+    <div th:replace = "Header.html :: header"></div>
+    <div class ="container">
+        <div class ="row " >
+            <div class =" col-md-4" >
+                <div class="text-center">
+                    <p style ="font-size: 45px; color: white;" class="material-icons mt-1">
+                        volunteer_activism
+                    </p>
+                </div>
+                <h3 class ="text-center" style="color: white;">
+                    동물분양 이슈
+                </h3>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                            <tr>
+                                <th class="text-uppercase align-middle text-secondary text-xxs font-weight-bolder opacity-7" width="10%";>
+                                    No.
+                                </th>
+                                <th class="text-uppercase align-middle text-center text-xxs font-weight-bolder opacity-7 ps-2" width="90%">
+                                    제목
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each = "getshare,i :${getshares}">
+                                <td>
+                                    <div class="d-flex px-2">
+                                        <div class="my-auto">
+                                            <h6 class="mb-0 text-xs" th:text="${i.count}"></h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-normal mb-0" id="newsnews">
+                                        <a style="text-decoration: none; color:#333333;"    th:href="${getshare.newslink}"  th:text = "${getshare.newstitle}"></a>
+                                    </p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class =" col-md-4" >
+                <div class="text-center">
+                    <p style ="font-size: 45px; color: white;" class="material-icons mt-1">
+                        local_hospital
+                    </p>
+                </div>
+                <h3 class ="text-center" style="color: white;">동물병원 이슈</h3>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                            <tr>
+                                <th class="text-uppercase align-middle text-secondary text-xxs font-weight-bolder opacity-7" width="10%";>
+                                    No.
+                                </th>
+                                <th class="text-uppercase align-middle text-center text-xxs font-weight-bolder opacity-7 ps-2" width="90%">
+                                    제목
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each = "gethospital,i :${gethospitals}">
+                                <td>
+                                    <div class="d-flex px-2">
+                                        <div class="my-auto">
+                                            <h6 class="mb-0 text-xs" th:text="${i.count}"></h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-normal mb-0" id="newsnews">
+                                        <a style="text-decoration: none; color:#333333;"    th:href="${gethospital.newslink}"  th:text = "${gethospital.newstitle}"></a>
+                                    </p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class =" col-md-4" >
+                <div class="text-center">
+                    <p style ="font-size: 45px; color: white;" class="material-icons mt-1">
+                        pets
+                    </p>
+                </div>
+                <h3 class ="text-center" style="color: white;">유기동물 이슈</h3>
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                            <tr>
+                                <th class="text-uppercase align-middle text-secondary text-xxs font-weight-bolder opacity-7" width="10%";>
+                                    No.
+                                </th>
+                                <th class="text-uppercase align-middle text-center text-xxs font-weight-bolder opacity-7 ps-2" width="90%">
+                                    제목
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each = "getloss,i :${getlosss}">
+                                <td>
+                                    <div class="d-flex px-2">
+                                        <div class="my-auto">
+                                            <h6 class="mb-0 text-xs" th:text="${i.count}"></h6>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <p class="text-xs font-weight-normal mb-0" id="newsnews">
+                                        <a style="text-decoration: none; color:#333333;"   th:href="${getloss.newslink}"  th:text = "${getloss.newstitle}"></a>
+                                    </p>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
