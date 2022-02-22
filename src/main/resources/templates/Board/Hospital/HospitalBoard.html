@@ -15,8 +15,9 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
     <link id="pagestyle" th:href="@{/CSS/materialkit.css?v=3.0.0}" rel="stylesheet" />
+    <link th:href="@{/CSS/CommonScrollBar.css}" rel="stylesheet" />
 </head>
-<body style=" background: coral;">
+<body style=" background: coral; overflow-x:hidden;">
 <div th:replace = "Header.html :: header"></div>
 <script th:src = "@{/JS/Api/animalhospital.js}"></script>
 <!--개발자 js-->

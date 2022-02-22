@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style rel = "stylesheet">
+        #introLabel{
+            background: linear-gradient(to right, yellow, orange, coral);
+        }
+    </style>
+    <link th:href="@{/CSS/CommonScrollBar.css}" rel="stylesheet" />
+</head>
+<body style = "background-color: coral; overflow-x: hidden;">
+    <div th:replace = "Header.html :: header"></div>
+    <div class = "container">
+        <div class = "row">
+            <div class="text-center">
+                <img th:src="@{/IMG/logofoot.svg}" style="width:180px; height:180px;">
+            </div>
+            <table class = "col-md-8 offset-md-3">
+                <tr>
+                    <th>
+                        <img th:src="@{/IMG/dog2.jpg}"class = "card" style="border-radius: 70px 70px 70px 70px; width: 120px; height: 120px;">
+                        <div class = "card-head ml-2" style="margin-top: 20px; margin-left: 30px; position: relative; z-index: 9999;"></div>
+                        <div style="position: relative; z-index: -1;">
+                            <label id="introLabel" style="width: 600px; height: 60px; position: absolute; top: -110px; left: 70px; padding-left:55px; padding-top:20px;">
+                                1인 가구 증가로 반려동물 픽업 빈도의 증가
+                            </label>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <img th:src="@{/IMG/dog1.jpg}" class = "card" style="border-radius: 70px 70px 70px 70px; width: 120px; height: 120px; margin-top: 30px;">
+                            <div class = "card-head ml-2" style="margin-top: 20px; margin-left: 30px; position: relative; z-index: 9999;"></div>
+                            <div style="position: relative; z-index: -1;">
+                                <label id="introLabel" style="width: 600px; height: 60px; position: absolute; top: -110px; left: 70px; padding-left:52px; padding-top:20px;">
+                                    책임감 없이 반려동물을 데려오고 못키우겠어서 유기되는 동물의 수도 증가
+                                </label>
+                            </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <img th:src="@{/IMG/dog3.jpg}" class = "card" style="background-color: white; border-radius: 70px 70px 70px 70px; width: 120px; height: 120px; margin-top: 30px;">
+                            <div class = "card-head ml-2" style="margin-top: 20px; margin-left: 30px; position: relative; z-index: 9999;"></div>
+                            <div style="position: relative; z-index: -1;">
+                                <label id="introLabel" style="width: 600px; height: 60px;  position: absolute; top: -110px; left: 70px; font-size:0.8em; padding-left:50px; padding-top:24px;">
+                                    그에따라 건강한 반려동물 사회 구축에 이바지 할 수 있는 정보가 많이 공유 됐으면 하는 바람에 선정
+                                </label>
+                            </div>
+                    </th>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div th:replace = "Footer.html :: footer"></div>
+</body>
+</html>

@@ -18,13 +18,23 @@
         .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
         .info .link {color: #5085BB;}
         /*로드맵 구현 준비중 */
-        #container {overflow:hidden;height:85vh;position:relative;}
+        #container {overflow:hidden;height: 85vh;position:relative;}
         #btnRoadview,  #btnMap {position:absolute;top:5px;left:5px;padding:7px 12px;font-size:14px;border: 1px solid #dbdbdb;background-color: #fff;border-radius: 2px;box-shadow: 0 1px 1px rgba(0,0,0,.04);z-index:1;cursor:pointer;}
         #btnRoadview:hover,  #btnMap:hover{background-color: #fcfcfc;border: 1px solid #c1c1c1;}
         #container.view_map #mapWrapper {z-index: 10;}
         #container.view_map #btnMap {display: none;}
         #container.view_roadview #mapWrapper {z-index: 0;}
         #container.view_roadview #btnRoadview {display: none;}
+        *::-webkit-scrollbar {
+            width: 10px;
+        }
+        *::-webkit-scrollbar-thumb {
+            background-color: coral;
+            border-radius: 10px;
+        }
+        *::-webkit-scrollbar-track {
+            background-color: white;
+        }
     </style>
 
     <meta charset="utf-8" />
@@ -53,15 +63,27 @@
     <div type ="hidden" name = "logt" id = "logt" th:val ="${hospitalDto.getLogt()}"></div>
 
     <div id="container" class="view_map">
-        <div id="mapWrapper" style ="border: solid 1px black; height: 85vh">
+        <div id="mapWrapper" style="width:100%; height: 85vh; position:relative;">
             <div id="map" style="width:100%;height:100%"></div> <!-- 지도를 표시할 div 입니다 -->
             <input type="button" id="btnRoadview" onclick="toggleMap(false)" title="로드뷰 보기" value="로드뷰">
         </div>
-        <div id="rvWrapper" style ="border: solid 1px black; height: 85vh">
+        <div id="rvWrapper" style="width:100%;height: 85vh;position:absolute;top:0;left:0;">
             <div id="roadview" style="height:100%"></div> <!-- 로드뷰를 표시할 div 입니다 -->
             <input type="button" id="btnMap" onclick="toggleMap(true)" title="지도 보기" value="지도">
         </div>
     </div>
+    <!--로드뷰 테스트-->
+    <!--<div id="container" class="view_map">
+        <div id="mapWrapper" style ="border: solid 1px black; height: 85vh">
+            <div id="map" style="width:100%;height:100%"></div> &lt;!&ndash; 지도를 표시할 div 입니다 &ndash;&gt;
+            <input type="button" id="btnRoadview" onclick="toggleMap(false)" title="로드뷰 보기" value="로드뷰">
+        </div>
+        <div id="rvWrapper" style ="border: solid 1px black; height: 85vh">
+            <div id="roadview" style="height:100%"></div> &lt;!&ndash; 로드뷰를 표시할 div 입니다 &ndash;&gt;
+            <input type="button" id="btnMap" onclick="toggleMap(true)" title="지도 보기" value="지도">
+        </div>
+    </div>-->
+    <!--end-->
     <!--&lt;!&ndash;지도 구역 &ndash;&gt;
     <div id ="map" class ="" style ="border: solid 1px black; height: 85vh">
 

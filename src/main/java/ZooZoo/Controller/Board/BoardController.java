@@ -587,4 +587,9 @@ public class BoardController {
         model.addAttribute("getlosss", getLoss);
         return "News";
     }
+
+    @GetMapping("/Introduce")
+    public String goToIntroduce() {
+        return "Board/Introduce";
+    }
 }

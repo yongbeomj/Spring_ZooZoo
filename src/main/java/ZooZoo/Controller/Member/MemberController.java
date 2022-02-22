@@ -283,5 +283,20 @@ public class MemberController {
         return "redirect:/"; //로그아웃 성공시 메인페이지로 이동
     }
 
-
+    @GetMapping("/Agree")
+    public String goToAgree() {
+        return "Agree";
+    }
+    @GetMapping("/Protection")
+    public String goToProtection() {
+        return "Protection";
+    }
+    @GetMapping("/Private")
+    public String goToPrivate() {
+        return "Private";
+    }
+    @GetMapping("/Operation")
+    public String goToOperation() {
+        return "Operation";
+    }
 }

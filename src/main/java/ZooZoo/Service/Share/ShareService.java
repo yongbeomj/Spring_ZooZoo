@@ -277,6 +277,7 @@ public class ShareService {
             x1.add(addrx.split("\\.")[1]);
             y.add(addry.split("\\.")[0]);
             y1.add(addry.split("\\.")[1]);
+
             if ((Integer.parseInt(x1.get(0)) + Integer.parseInt(y1.get(0))) > 4) {
                 int plusxy = Integer.parseInt((x.get(0) + y.get(0)) + 1);
                 api = agreedate + (plusxy + "");

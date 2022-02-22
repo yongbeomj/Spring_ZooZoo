@@ -84,13 +84,13 @@
                             <h3>유기동물 공고</h3>
                         </div>
                         <div>
-                            <a th:href="@{/LossBoardNotice}" class="moreBtn" title="유기동물공고 더 많이 보기" style="text-decoration: none;">유기동물공고 더 많이 보기</a>
+                            <a th:href="@{/LossBoardNotice}" style="text-decoration: none; color: gray;">자세히보기</a>
                         </div>
                     </div>
 
                     <div id="carouselExampleIndicators1" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
-                            <div class="carousel-item active" style="height: 250px;">
+                            <div class="carousel-item active" style="height: 235px;">
                                 <div class="boardCon" th:each="lossDTO, i : ${lossDTOS}">
                                     <div id="board-slider1" class="board-sliders2" th:if="${i.index == 0}">
                                         <div class="slide1 d-flex">
@@ -98,7 +98,7 @@
                                                 <img class="photo" th:src="${lossDTO.IMAGE_COURS}" alt="">
                                             </div>
                                             <div class="col-md-9">
-                                                <table>
+                                                <table style="margin-left:20px;">
                                                     <tr>
                                                         <td width="30%" style="color: white;">발견장소</td>
                                                         <td th:text="${lossDTO.DISCVRY_PLC_INFO}" style="color: white;"></td>
@@ -109,8 +109,8 @@
                                                                 th:text="${lossDTO.newPBLANC_END_DE}" style="color: white;"></span></td>
                                                     </tr>
                                                     <tr>
-                                                        <td style="color: white;">특징</td>
-                                                        <td th:text="${lossDTO.SFETR_INFO}" style="color: white;"></td>
+                                                        <td style="color: white; ">특징</td>
+                                                        <td th:text="${lossDTO.SFETR_INFO}" style="color: white; font-size:0.9em;"></td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -118,7 +118,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="carousel-item" style="height: 250px;">
+                            <div class="carousel-item" style="height: 235px;">
                                 <div class="boardCon" th:each="lossDTO, i : ${lossDTOS}">
                                     <div id="board-slider2" class="board-sliders2" th:if="${i.index == 1}">
                                         <div class="slide1 d-flex">
@@ -126,7 +126,7 @@
                                                 <img class="photo" th:src="${lossDTO.IMAGE_COURS}" alt="">
                                             </div>
                                             <div class="col-md-9">
-                                                <table>
+                                                <table style="margin-left:20px;">
                                                     <tr>
                                                         <td width="30%" style="color: white;">발견장소</td>
                                                         <td th:text="${lossDTO.DISCVRY_PLC_INFO}" style="color: white;"></td>
@@ -138,7 +138,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td style="color: white;">특징</td>
-                                                        <td th:text="${lossDTO.SFETR_INFO}" style="color: white;"></td>
+                                                        <td th:text="${lossDTO.SFETR_INFO}" style="color: white; font-size:0.9em;"></td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -146,7 +146,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="carousel-item" style="height: 250px;">
+                            <div class="carousel-item" style="height: 235px;">
                                 <div class="boardCon" th:each="lossDTO, i : ${lossDTOS}">
                                     <div id="board-slider3" class="board-sliders3" th:if="${i.index == 2}">
                                         <div class="slide1 d-flex">
@@ -154,19 +154,19 @@
                                                 <img class="photo" th:src="${lossDTO.IMAGE_COURS}" alt="">
                                             </div>
                                             <div class="col-md-9">
-                                                <table>
+                                                <table style="margin-left:20px;">
                                                     <tr>
                                                         <td width="30%" style="color: white;">발견장소</td>
                                                         <td th:text="${lossDTO.DISCVRY_PLC_INFO}" style="color: white;"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td>공고</td>
+                                                        <td style="color: white;">공고</td>
                                                         <td><span th:text="${lossDTO.newPBLANC_BEGIN_DE}" style="color: white;"></span> ~ <span
                                                                 th:text="${lossDTO.newPBLANC_END_DE}" style="color: white;"></span></td>
                                                     </tr>
                                                     <tr>
                                                         <td style="color: white;">특징</td>
-                                                        <td th:text="${lossDTO.SFETR_INFO}" style="color: white;"></td>
+                                                        <td th:text="${lossDTO.SFETR_INFO}" style="color: white; font-size:0.9em;"></td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -175,12 +175,12 @@
                                 </div>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators1"
-                                    data-bs-slide="prev" style="height: 250px;">
+                                    data-bs-slide="prev" style="height: 235px;">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Previous</span>
                             </button>
                             <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators1"
-                                    data-bs-slide="next" style="height: 250px;">
+                                    data-bs-slide="next" style="height: 235px;">
                                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                 <span class="visually-hidden">Next</span>
                             </button>

@@ -10,8 +10,6 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-    <title>Education - List of Meetings</title>
-
     <!-- Bootstrap core CSS -->
     <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
 
@@ -20,6 +18,7 @@
     <link th:href="@{/assets/css/templatemo-edu-meeting.css}" rel="stylesheet"/>
     <link th:href="@{/assets/css/owl.css}" rel="stylesheet"/>
     <link th:href="@{/assets/css/lightbox.css}" rel="stylesheet"/>
+    <link th:href="@{/CSS/CommonScrollBar.css}" rel="stylesheet" />
     <!--
 
     TemplateMo 569 Edu Meeting
@@ -62,11 +61,6 @@
                             <div class="down-content">
                                 <h4 th:text="${lossDTO.details}">품종</h4>
                                 <p>상태 : <span th:text="${lossDTO.STATE_NM}"></span></p>
-                                <a th:href="@{/Lossapi}">
-                                    <button type="button" class="btn btn-info w-auto me-1 mb-0" th:onclick="lossapi([[${lossDTO.ABDM_IDNTFY_NO}]])">분양받기</button>
-                                </a>
-
-
                                 <table class="table" style="margin-bottom : 16px;">
                                     <tr>
                                         <td>공고번호</td>
