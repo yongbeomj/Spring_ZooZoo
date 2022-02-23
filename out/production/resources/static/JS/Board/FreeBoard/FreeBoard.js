@@ -11,12 +11,10 @@ $(document).ready(function() {
 
 //게시판 지우기
 function freeboardDelete(bno){
-    alert("삭제버튼 눌렀을때  bno 나옴? : "+ bno);
     $.ajax({
         url: "/Board/Free/FreeBoardDelete",
         data:{"bno":bno},
         success: function(result){
-            alert(result);
             if(result == 1){
                 location.href = "/freeboard";
             }else{

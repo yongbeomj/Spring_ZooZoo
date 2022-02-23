@@ -6,7 +6,6 @@
 function changeSelection(){
     var selectedElement = document.getElementById("selectBoxTest"); // 선택한 option의 value, 텍스트
     var optionVal = selectedElement.options[selectedElement.selectedIndex].value;
-    alert(optionVal);
 //    location.href="/ShareBoardList?option="+optionVal;
     if(optionVal == "시도") {
         $.ajax({

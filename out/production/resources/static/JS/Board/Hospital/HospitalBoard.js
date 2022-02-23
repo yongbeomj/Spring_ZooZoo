@@ -28,8 +28,6 @@ function getmap(logt, lat, bizplcnm, refineroadnmaddr, bsnstatenm, locplcfacltte
 function getmap2(){
     lat = $("#lat").val();
     logt = $("#logt").val();
-    alert(lat)
-    alert(logt)
 }
 $(document).ready(function (callback){
     hospitalstatus();

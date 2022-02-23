@@ -11,12 +11,10 @@ $(document).ready(function() {
 
 //게시판 지우기
 function reviewboardDelete(bno){
-    alert("삭제버튼 눌렀을때  bno 나옴? : "+ bno);
     $.ajax({
         url: "/Board/Review/ReviewBoardDelete",
         data:{"bno":bno},
         success: function(result){
-            alert(result);
             if(result == 1){
                 location.href = "/ReviewBoardList";
             }else{
@@ -75,7 +73,6 @@ $(document).ready(function(){
     $(document).on("click", "#ReviewUpdateSavebtn", function(){
 
         var bno = $("#bno").val();
-        alert(bno);
         var formData = new FormData($("#fileForm")[0]);
         if(fileList.length > 0){
             fileList.forEach(function(f){

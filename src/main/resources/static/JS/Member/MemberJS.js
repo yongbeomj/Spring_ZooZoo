@@ -27,8 +27,6 @@ function findid(){
 function cmfindid(){
     var cmname = $("#cmname").val();
     var cmemail = $("#cmemail").val();
-    alert(cmname);
-    alert(cmemail);
     $.ajax({
         url:"/Member/CompanyFindIdController",
         method: "post",

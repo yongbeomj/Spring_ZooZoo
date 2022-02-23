@@ -382,12 +382,13 @@ function replyupdate(){
     var rcontents2 = document.getElementById("rcontents2").value;
     var bno = $('div[id=rupdateid]').attr('value');
     var rupdatestar = $('div[id=rupdatestar]').attr('value');
-    alert(rupdatestar);
+
     // 리뷰내용 공백 시
     if( rcontents2 == "" ){
         alert("리뷰 내용을 입력해주세요");
         return;
     }
+
     if(bstar == 0 || bstar == null){
         alert("리뷰 평점을 남겨주세요")
         return
@@ -419,8 +420,16 @@ function replyupdate(){
         data : {"bno":bno,"rcontents":rcontents2, "bstar":rupdatestar},
         success: function(data){
             if(data == "1"){
-
                 alert("리뷰가 수정되었습니다.");
+                $.ajax({
+                        url: '/getmapside' ,
+                        success: function(data) {
+                            $("#addrget").text("");
+                            $("#contents").html("");
+                            $("#addrget").text(getaddr);
+                            $("#contents").html(data);
+                        }
+                });
                 $.ajax({
                     url: '/getmapsidereview' ,
                     success: function(data) {
@@ -429,9 +438,12 @@ function replyupdate(){
                         $("#review").html(data);
                     }
                 });
+                bstar = 0;
+
             }else{
                 alert("리뷰 수정 오류 [관리자 문의]")
             }
+
         }
     });
 

@@ -37,6 +37,7 @@ public class AnimalHospitalController {
         String search = request.getParameter("search");
         String status = request.getParameter("status");
         HttpSession session = request.getSession();
+
         if( keyword!=null || search!=null || status != null){
             session.setAttribute("keyword" , keyword);
             session.setAttribute("search" , search);
@@ -370,13 +371,20 @@ public class AnimalHospitalController {
         HttpSession session = request.getSession();
 
         if( keyword!=null || search!=null || status != null){
+            System.out.println("1111111111111111111111111111111111111111111111");
             session.setAttribute("keyword" , keyword);
             session.setAttribute("search" , search);
             session.setAttribute("status" , status);
+//            System.out.println("keyword : " + session.getAttribute("keyword"));
+//            System.out.println("search : " + session.getAttribute("search"));
+//            System.out.println("status : " + session.getAttribute("status"));
+
         }else{
+            System.out.println("22222222222222222222222222222222222222222222");
             keyword =  (String) session.getAttribute("keyword");
             search =   (String)  session.getAttribute("search");
             status =  (String)  session.getAttribute("status");
+            System.out.println(keyword+search+status + "값을 찾습니다.");
         }
 
         JSONArray jsonArray = new JSONArray();
@@ -392,7 +400,7 @@ public class AnimalHospitalController {
         /// 검색 테스트 start ///
         parses = animalHospitalService.parseapisearch(jsonArray, keyword, search, status);
         /// 검색 테스트 end ///
-        parses = animalHospitalService.parseapi(jsonArray); // 모든 게시물 출력
+
         parsePage = animalHospitalService.parsenum(parses, page);
 
         Pagination pagination = new Pagination(parses.size(), page); // 전달 값을 토탈 개수를 전달해야됨
@@ -481,6 +489,7 @@ public class AnimalHospitalController {
 
         return avg_s;
     }
+
     // 리뷰 삭제하기
     @GetMapping("/reviewdelete")
     @ResponseBody
@@ -499,7 +508,6 @@ public class AnimalHospitalController {
     @ResponseBody
     public String reviewupdate(@RequestParam int bno, @RequestParam String rcontents, @RequestParam String bstar){
 
-        System.out.println(bno);
         boolean result = animalHospitalService.updatereply(bno, rcontents, bstar);
 
         if(result){

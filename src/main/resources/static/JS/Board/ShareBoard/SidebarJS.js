@@ -77,13 +77,11 @@ setDetailsHeight("details");
 function RIReplyWrite() {
     var bno = $("#bno").val();
     var RIReply = $("#RIReplycontents").val();
-    alert(bno);
 
     $.ajax({
         url: "/RIReply",
         data: {"bno" : bno, "RIReply" : RIReply},
         success: function(result) {
-        alert(result)
             if(result == 1) {
                 $.ajax({
                         url: "/RIReplyView",

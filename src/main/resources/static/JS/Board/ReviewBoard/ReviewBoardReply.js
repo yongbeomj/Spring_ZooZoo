@@ -1,6 +1,5 @@
 //댓글 쓰기
 function freeReplyWrite(bno){
-    alert(bno);
     var frcontents = $("#frcontents").val();
     $.ajax({
         url:"/Board/Review/ReviewBoardReplyWrite",
@@ -24,7 +23,6 @@ function freeReplyWrite(bno){
 
 //후기게시판 댓글 삭제
 function freeReplyDelete(rno){
-    alert(rno);
     $.ajax({
         url:"/Board/Review/ReviewBoardReplyDelete",
         data:{"rno":rno},

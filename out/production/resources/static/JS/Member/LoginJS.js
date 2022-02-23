@@ -23,7 +23,6 @@ function CompanyLogin() {
         data : {"cmid" : cmid, "cmpw" : cmpw},
         success: function(result) {
             if(result == 1) {
-                alert("메인페이지로 이동합니다.");
                 location.href = "/";
             } else {
                 alert("로그인 실패.");

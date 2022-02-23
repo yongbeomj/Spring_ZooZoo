@@ -66,8 +66,6 @@ function CompanySignup() {
     var cmemail = $("#cmemail").val();
     var cmphone = $("#cmphone").val();
     var cmaddress = $("#sample4_postcode").val() + "," + $("#sample4_roadAddress").val() + "," + $("#sample4_jibunAddress").val() + "," + $("#sample4_extraAddress").val() + "," + $("#sample4_detailAddress").val();
-    alert("gㅎㅇ")
-    alert(cmaddress)
     $.ajax({
         url: "/Member/CompanySignUpController",
         method: "post",

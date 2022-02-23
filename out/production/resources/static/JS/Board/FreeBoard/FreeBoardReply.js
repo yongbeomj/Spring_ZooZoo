@@ -23,7 +23,6 @@ function freeReplyWrite(bno){
 
 //자유게시판 댓글 삭제
 function freeReplyDelete(rno){
-    alert(rno);
     $.ajax({
         url:"/Board/Free/FreeBoardReplyDelete",
         data:{"rno":rno},
@@ -40,7 +39,6 @@ function freeReplyDelete(rno){
 
 //자유게시판 댓글 수정
 function rupdate(bno){
-    alert(bno);
     document.getElementById("tdbcontents"+bno).innerHTML = "<input class='form-control' type='text' id='newcontents' name='newcontents' style='white-space: nowrap;'>";
     document.getElementById("btnrupdate"+bno).style = "display:none"; // 수정버튼 감추기
     document.getElementById("btnrchange"+bno).style = "display:block"; // 확인버튼 보이기
@@ -71,7 +69,6 @@ function reReplyWrite(rno, bno, mno, cano){
          document.getElementById("ii"+rno).value = "1";
          $("#reReplyWbtn"+rno).click(function(){
              var reReplyContents = document.getElementById("reReplyContents"+rno).value;
-             alert(rno+"번째 댓글의 대댓글 내용 : " +reReplyContents);
              $.ajax({
                  url:"/ReReply/ReReplyWrite",
                  data:{"rno":rno, "bno":bno, "mno":mno, "cano":cano, "reReplyContents":reReplyContents},
@@ -99,9 +96,8 @@ function reReplyWrite(rno, bno, mno, cano){
         element.style = "display:none";
 
         document.getElementById("ii"+rno).value = "0";
-        alert("한번 더 누르고 나서 ii : "+document.getElementById("ii"+rno).value);
     }else{
-        alert("몰루");
+        alert("1");
     }
 }
 //자유게시판 대댓글 등록 끝

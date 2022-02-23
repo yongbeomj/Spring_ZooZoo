@@ -117,7 +117,7 @@ public class ReviewBoardService {
                     return "1";
                 } else {
                     uuidfile = uuid.toString() + "_" + temp.getOriginalFilename().replaceAll("_", "-");
-                    String filepath = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\ReviewBoardIMG\\" + uuidfile;
+                    String filepath = "C:\\Users\\505\\IdeaProjects\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\ReviewBoardIMG\\" + uuidfile;
                     try {
                         temp.transferTo(new File(filepath));
                     } catch (Exception e) {
@@ -197,7 +197,7 @@ public class ReviewBoardService {
                 String uuidfile = null;
                 UUID uuid = UUID.randomUUID();
                 uuidfile = uuid.toString() + "_" + temp.getOriginalFilename().replaceAll("_", "-");
-                String filepath = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\ReviewBoardIMG\\" + uuidfile;
+                String filepath = "C:\\Users\\505\\IdeaProjects\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\ReviewBoardIMG\\" + uuidfile;
                 try { temp.transferTo(new File(filepath));
                 } catch (Exception e) { System.out.println("파일 저장 실패함" + e); }
                      BoardImgEntity boardImgEntity = BoardImgEntity.builder()
@@ -223,7 +223,7 @@ public class ReviewBoardService {
 
     //첨부파일 다운로드
     public void freeBoardFileDown(String bimg, HttpServletResponse response) {
-        String path = "C:\\Users\\504\\Desktop\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\ReviewBoardIMG\\" + bimg;
+        String path = "C:\\Users\\505\\IdeaProjects\\Spring_ZooZoo\\out\\production\\resources\\static\\IMG\\Board\\ReviewBoardIMG\\" + bimg;
 
         File file = new File(path);
         //파일 이미지가 있으면
