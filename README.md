@@ -90,9 +90,10 @@
 </details>
 
 ## 7. 메인기능 상세설명
-### 7.1 옵션 및 키워드 검색 (동물병원 게시판)
+
+### 7.1 Open API 호출
 <details>
-<summary>여기를 눌러주세요</summary>
+<summary>JSON (여기를 눌러주세요)</summary>
 <div markdown="1">       
 
 ![image](https://user-images.githubusercontent.com/87436495/155255446-7c91f924-3985-4846-8546-76f2a9f20ace.png)
@@ -100,13 +101,21 @@
 </div>
 </details>
 
-### 7.2 파일 첨부 Drag & Drop
+<details>
+<summary>XML (여기를 눌러주세요)</summary>
+<div markdown="1">       
+
+![image](https://user-images.githubusercontent.com/87436495/155255446-7c91f924-3985-4846-8546-76f2a9f20ace.png)
+  
+</div>
+</details>
+
+### 7.2 옵션 및 키워드 검색 (동물병원 게시판)
 <details>
 <summary>여기를 눌러주세요</summary>
 <div markdown="1">       
 
-![image](https://user-images.githubusercontent.com/87436495/155256084-faf0a671-92b0-487e-b546-7836fb296ba2.png)
-![image](https://user-images.githubusercontent.com/87436495/155256138-1413a73b-9dab-45ab-be01-f5112ee55983.png)
+![image](https://user-images.githubusercontent.com/87436495/155255446-7c91f924-3985-4846-8546-76f2a9f20ace.png)
   
 </div>
 </details>
