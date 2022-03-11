@@ -89,7 +89,7 @@
 </div>
 </details>
 
-## 7. 메인기능 상세설명
+## 7. 주요 코드
 
 ### 7.1 Open API 호출
 <details>
