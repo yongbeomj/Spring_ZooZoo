@@ -96,7 +96,7 @@
 <summary>JSON (여기를 눌러주세요)</summary>
 <div markdown="1">       
 
-![image](https://user-images.githubusercontent.com/87436495/155255446-7c91f924-3985-4846-8546-76f2a9f20ace.png)
+![image](https://user-images.githubusercontent.com/87436495/157838586-aaefadb1-31bd-4b58-a41c-5cb7ab708f93.png)
   
 </div>
 </details>
@@ -105,18 +105,18 @@
 <summary>XML (여기를 눌러주세요)</summary>
 <div markdown="1">       
 
-![image](https://user-images.githubusercontent.com/87436495/155255446-7c91f924-3985-4846-8546-76f2a9f20ace.png)
+![untitled@1 25x](https://user-images.githubusercontent.com/87436495/157838240-66cb1168-d369-4d8d-bda2-ff88ceaaf623.png)
   
 </div>
 </details>
 
-### 7.2 옵션 및 키워드 검색 (동물병원 게시판)
+### 7.2 다중옵션 검색 (유기동물 게시판)
 <details>
 <summary>여기를 눌러주세요</summary>
 <div markdown="1">       
 
-![image](https://user-images.githubusercontent.com/87436495/155255446-7c91f924-3985-4846-8546-76f2a9f20ace.png)
-  
+![untitled@1 25x (1)](https://user-images.githubusercontent.com/87436495/157842026-72179089-f699-4295-90d2-62539c15eaa4.png)  
+	
 </div>
 </details>
 
