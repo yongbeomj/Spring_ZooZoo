@@ -17,7 +17,7 @@
 
 ### 1.3 개발환경
 - 운영체제 : Windows10
-- Front-end : html, CSS, Bootstrap
+- Front-end : HTML, CSS, JavaScript, Bootstrap
 - Back-end : JDK 11, Spring Framework
 - Database : MySQL
 - Server : Tomcat
@@ -25,7 +25,7 @@
 
 ## 2. 개발일정
 
-- 기간 : 2022.01.21 ~ 2022.02.21
+- 기간 : 2022.01.21 ~ 2022.02.21 (총 32일)
 - History  
 
 |날짜|내용|
