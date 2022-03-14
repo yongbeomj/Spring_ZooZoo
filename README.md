@@ -92,6 +92,16 @@
 ## 7. 주요 코드
 
 ### 7.1 Open API 호출
+
+<details>
+<summary>XML (여기를 눌러주세요)</summary>
+<div markdown="1">       
+
+![untitled (2)](https://user-images.githubusercontent.com/87436495/158093663-979682da-889c-4245-9ca9-418db6da08a8.png)
+	
+</div>
+</details>
+
 <details>
 <summary>JSON (여기를 눌러주세요)</summary>
 <div markdown="1">       
@@ -101,21 +111,12 @@
 </div>
 </details>
 
-<details>
-<summary>XML (여기를 눌러주세요)</summary>
-<div markdown="1">       
-
-![untitled@1 25x](https://user-images.githubusercontent.com/87436495/157838240-66cb1168-d369-4d8d-bda2-ff88ceaaf623.png)
-  
-</div>
-</details>
-
 ### 7.2 다중옵션 검색 (유기동물 게시판)
 <details>
 <summary>여기를 눌러주세요</summary>
 <div markdown="1">       
 
-![untitled@1 25x (1)](https://user-images.githubusercontent.com/87436495/157842026-72179089-f699-4295-90d2-62539c15eaa4.png)  
+![untitled (1)](https://user-images.githubusercontent.com/87436495/158093849-ef7b6fc0-f301-4ed9-bec3-cf5da79bd276.png)
 	
 </div>
 </details>
