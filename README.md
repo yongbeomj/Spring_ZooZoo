@@ -17,8 +17,8 @@
 
 ### 1.3 개발환경
 - 운영체제 : Windows10
-- Front-end : HTML, CSS, JavaScript, Bootstrap
-- Back-end : JDK 11, Spring Framework
+- Front-end : HTML, CSS, JavaScript, Bootstrap, Thymeleaf
+- Back-end : JDK 11, Spring Boot 2.6.2
 - Database : MySQL
 - Server : Tomcat
 - Version Control : Git
